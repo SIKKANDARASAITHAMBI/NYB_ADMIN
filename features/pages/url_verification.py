@@ -20,6 +20,6 @@ class UrlVerification(BasePage):
     def create_inbound_inventory_url(self):
         time.sleep(2)
         actual_url = self.get_page_url()
-        expected_url = ConfigReader.urls("URL", "CREATE_INBOUND_INVENTORY")
+        expected_url = ConfigReader.urls("URL", "CREATE_INBOUND_INVENTORY_URL")
         assert expected_url == actual_url
         return True

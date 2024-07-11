@@ -1,5 +1,6 @@
 from behave import *
 
+from features.pages.create_inbound_inventory import CreateVendorPackingSlip
 from features.pages.inventory import HeaderNavigators
 from features.pages.login import Login
 from features.pages.url_verification import UrlVerification
@@ -7,7 +8,7 @@ from features.utilities import ConfigReader
 
 
 @given(u'I visit the Chote Kisan website and log in as a user with create, edit, and view access,')
-def step_impl(context):
+def login(context):
     context.driver.implicitly_wait(20)
     context.driver.get(ConfigReader.urls("URL", "BASE_URL"))
     context.ln = Login(context.driver)
@@ -15,30 +16,31 @@ def step_impl(context):
 
 
 @then(u'I verify the orders module URL,')
-def step_impl(context):
+def verify_create_order_url(context):
     context.driver.implicitly_wait(20)
     context.url = UrlVerification(context.driver)
     context.url.create_order_url()
 
 
 @then(u'I navigate to the Inventory module,')
-def step_impl(context):
+def inventory_nav(context):
     context.driver.implicitly_wait(20)
     context.hn = HeaderNavigators(context.driver)
     context.hn.inventory()
 
 
 @then(u'I verify the inventory module URL,')
-def step_impl(context):
+def verify_create_inbound_inventory_url(context):
     context.driver.implicitly_wait(20)
+    context.url = UrlVerification(context.driver)
     context.url.create_inbound_inventory_url()
 
 
 @then(u'I choose the document type as "vendor packing slip",')
 def step_impl(context):
-    pass
-
-
+    context.driver.implicitly_wait(20)
+    context.cvp = CreateVendorPackingSlip(context.driver)
+    context.cvp.create_vendor_packingslip()
 @then(u'I select the warehouse,')
 def step_impl(context):
     pass

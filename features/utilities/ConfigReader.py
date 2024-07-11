@@ -31,3 +31,11 @@ def urls(category, key):
         return config.get(category, key)
     except:
         print("****************************File not found****************************")
+
+def create_inbound_inventory(category, key):
+    try:
+        config = ConfigParser()
+        config.read("features/configurations/create_inbound_inventory.ini")
+        return config.get(category, key)
+    except:
+        print("****************************File not found****************************")
