@@ -11,11 +11,11 @@ class Login(BasePage):
     password_id = "id_password"
     login_btn_xpath = "//*[@value='Log in']"
 
-    def login_form(self):
+    def login_form(self, category, username, password):
         self.send_value_to_element(
             "username_id", self.username_id, ConfigReader.login(
-                "SIGNIN VALID INPUT", "USER_NAME"))
+                category, username))
         self.send_value_to_element(
             "password_id", self.password_id, ConfigReader.login(
-                "SIGNIN VALID INPUT", "PASSWORD"))
+                category, password))
         self.click_element("submit_btn_xpath", self.login_btn_xpath)

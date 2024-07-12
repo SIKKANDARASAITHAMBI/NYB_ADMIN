@@ -12,7 +12,8 @@ def login(context):
     context.driver.implicitly_wait(20)
     context.driver.get(ConfigReader.urls("URL", "BASE_URL"))
     context.ln = Login(context.driver)
-    context.ln.login_form()
+    context.ln.login_form(
+        "SIGNIN VALID INPUT", "USER_NAME", "PASSWORD")
 
 
 @then(u'I verify the orders module URL,')
