@@ -24,6 +24,8 @@ class CreateVendorPackingSlip(BasePage):
     purchase_order_date_id = "purchase_order_date"
     packing_slip_upload = "packing_slip_upload"
     add_product_field_id = "select2-product_id-container"
+    inward_qty_xpath = "(//table//tbody//td//input[@class='form-control order_quantity'])[1]"
+    damaged_qty_xpath = "(//table//tbody//td//input[@class='form-control damaged_quantity'])[1]"
     batch_no_xpath = "(//table//tbody//td//input[@class='form-control batch_number'])[1]"
     expiry_date_xpath = "(//table//tbody//td//input[@class='form-control expiry_date'])[1]"
     submit_btn_id = "submitbutton"
@@ -87,12 +89,22 @@ class CreateVendorPackingSlip(BasePage):
 
     def upload_packing_slip(self):
         file_input = self.driver.find_element(By.ID, 'packing_slip_upload')
-        file_path = "C:/Users/Dell/Downloads/packing-slip-2x (1).png"
+        file_path = "C:/Users/sikku/Downloads/images.png"
         file_input.send_keys(file_path)
 
     def add_products(self, category, product):
         self.click_element("add_product_field_id", self.add_product_field_id)
         self.search(category, product)
+
+    def inward_quantity(self, category, inward_quantity):
+        self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath
+                                   , ConfigReader.create_inbound_inventory(category, inward_quantity))
+
+    def damaged_quantity(self, category, damaged_quantity):
+        self.click_element("damaged_qty_xpath", self.damaged_qty_xpath)
+        self.clear_element("damaged_qty_xpath", self.damaged_qty_xpath)
+        self.send_value_to_element("damaged_qty_xpath", self.damaged_qty_xpath
+                                   , ConfigReader.create_inbound_inventory(category, damaged_quantity))
 
     def batch_number(self, category, batch_no):
         self.send_value_to_element(
@@ -106,29 +118,3 @@ class CreateVendorPackingSlip(BasePage):
 
     def submit(self):
         self.click_element("submit_btn_id", self.submit_btn_id)
-
-    def create_vendor_packingslip(self):
-        time.sleep(5)
-        self.document_type("VALID INPUTS", "SOURCE_TYPE01")
-        time.sleep(5)
-        self.warehouse("VALID INPUTS", "WAREHOUSE")
-        time.sleep(5)
-        self.vendors("VALID INPUTS", "VENDORS")
-        time.sleep(5)
-        self.no("VALID INPUTS", "NO")
-        time.sleep(5)
-        self.date("VALID INPUTS", "PACKING_SLIP_DATE")
-        time.sleep(5)
-        self.received_date("VALID INPUTS", "PACKING_SLIP_RECEIVED_DATE")
-        time.sleep(5)
-        self.purchase_order_no("VALID INPUTS", "PURCHASE_ORDER_NO")
-        time.sleep(5)
-        self.purchase_order_date("VALID INPUTS", "PURCHASE_ORDER_DATE")
-        time.sleep(5)
-        self.upload_packing_slip()
-        time.sleep(5)
-        self.add_products("VALID INPUTS", "PRODUCT_NAME")
-        time.sleep(5)
-        self.batch_number("VALID INPUTS", "BATCH_NO")
-        time.sleep(5)
-        self.expiry_date("VALID INPUTS", "EXPIRY_DATE")

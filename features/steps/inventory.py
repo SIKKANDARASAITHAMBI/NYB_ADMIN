@@ -41,52 +41,62 @@ def verify_create_inbound_inventory_url(context):
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp = CreateVendorPackingSlip(context.driver)
-    context.cvp.create_vendor_packingslip()
+    context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE01")
+
+
 @then(u'I select the warehouse,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
 
 
 @then(u'I select the vendor,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.vendors("VALID INPUTS", "VENDORS")
 
 
 @then(u'I enter a valid packing slip number,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.no("VALID INPUTS", "NO")
 
 
 @then(u'I upload the packing slip,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.upload_packing_slip()
 
 
 @then(u'I add products,')
 def step_impl(context):
-    pass
+    context.cvp.add_products("VALID INPUTS", "PRODUCT_NAME")
 
 
 @then(u'I enter a valid inward quantity,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY01")
 
 
 @then(u'I enter a valid damaged quantity,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY05")
 
 
 @then(u'I enter the unit price,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
 
 
 @then(u'I enter the batch number,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.batch_number("VALID INPUTS", "BATCH_NO")
 
 
 @then(u'I enter the expiry date.')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.expiry_date("VALID INPUTS", "EXPIRY_DATE")
