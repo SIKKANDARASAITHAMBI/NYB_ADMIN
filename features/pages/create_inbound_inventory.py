@@ -3,6 +3,8 @@ import time
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common import actions
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 from features.pages.base_page import BasePage
 from features.utilities import ConfigReader
@@ -24,16 +26,16 @@ class CreateVendorPackingSlip(BasePage):
     purchase_order_date_id = "purchase_order_date"
     packing_slip_upload = "packing_slip_upload"
     add_product_field_id = "select2-product_id-container"
-    inward_qty_xpath = "(//table//tbody//td//input[@class='form-control order_quantity'])[1]"
-    damaged_qty_xpath = "(//table//tbody//td//input[@class='form-control damaged_quantity'])[1]"
-    batch_no_xpath = "(//table//tbody//td//input[@class='form-control batch_number'])[1]"
-    expiry_date_xpath = "(//table//tbody//td//input[@class='form-control expiry_date'])[1]"
+    inward_qty_xpath = "(//table//tbody//td//input)[8]"
+    damaged_qty_xpath = "(//table//tbody//td//input)[9]"
+    batch_no_xpath = "(//table//tbody//td//input)[14]"
+    expiry_date_xpath = "(//table//tbody//td//input)[15]"
     submit_btn_id = "submitbutton"
     click_random_xpath = "(//*[@class='form-row'])"
 
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
-        time.sleep(2)
+        time.sleep(1)
         actions = ActionChains(self.driver)
         actions.send_keys_to_element(search, ConfigReader.create_inbound_inventory(
             category, key))
@@ -97,11 +99,17 @@ class CreateVendorPackingSlip(BasePage):
         self.search(category, product)
 
     def inward_quantity(self, category, inward_quantity):
+        inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", inward_qty)
+        # time.sleep(2)
+        # WebDriverWait(self.driver, 10).until(
+        #     EC.presence_of_element_located((By.XPATH, "(//table//tbody//td//input)[8]")))
+        # WebDriverWait(self.driver, 10).until(
+        #     EC.element_to_be_clickable((By.XPATH, "(//table//tbody//td//input)[8]")))
         self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath
                                    , ConfigReader.create_inbound_inventory(category, inward_quantity))
 
     def damaged_quantity(self, category, damaged_quantity):
-        self.click_element("damaged_qty_xpath", self.damaged_qty_xpath)
         self.clear_element("damaged_qty_xpath", self.damaged_qty_xpath)
         self.send_value_to_element("damaged_qty_xpath", self.damaged_qty_xpath
                                    , ConfigReader.create_inbound_inventory(category, damaged_quantity))

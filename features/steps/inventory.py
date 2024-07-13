@@ -7,7 +7,7 @@ from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
 
 
-@given(u'I visit the Chote Kisan website and log in as a user with create, edit, and view access,')
+@given(u'I visit the NYB admin website and log in as a user with create, edit, and view access,')
 def login(context):
     context.driver.implicitly_wait(20)
     context.driver.get(ConfigReader.urls("URL", "BASE_URL"))
@@ -73,17 +73,66 @@ def step_impl(context):
     context.cvp.add_products("VALID INPUTS", "PRODUCT_NAME")
 
 
-@then(u'I enter a valid inward quantity,')
-def step_impl(context):
+@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY01),')
+def inwardquantity_td01(context):
     context.driver.implicitly_wait(20)
     context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY01")
 
+@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY02),')
+def inwardquantity_td02(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY02")
 
-@then(u'I enter a valid damaged quantity,')
+@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY03),')
+def inwardquantity_td03(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY03")
+
+@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY04),')
+def inwardquantity_td04(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY04")
+
+@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY05),')
+def inwardquantity_td05(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY05")
+
+@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY06),,')
+def inwardquantity_td06(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY06")
+
+
+@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY01),')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY01")
+
+@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY02),')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY02")
+
+@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY03),')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY03")
+
+@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY04),')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY04")
+
+@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY05),')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY05")
 
+@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY06),')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY06")
 
 @then(u'I enter the unit price,')
 def step_impl(context):
