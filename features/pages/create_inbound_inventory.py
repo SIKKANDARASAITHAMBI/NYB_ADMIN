@@ -28,9 +28,10 @@ class CreateVendorPackingSlip(BasePage):
     add_product_field_id = "select2-product_id-container"
     inward_qty_xpath = "(//table//tbody//td//input)[8]"
     damaged_qty_xpath = "(//table//tbody//td//input)[9]"
+    unit_price_xpath = "(//table//tbody//td//input)[11]"
     batch_no_xpath = "(//table//tbody//td//input)[14]"
     expiry_date_xpath = "(//table//tbody//td//input)[15]"
-    submit_btn_id = "submitbutton"
+    submit_btn_xpath = "//*[text()='Submit']"
     click_random_xpath = "(//*[@class='form-row'])"
 
     def search(self, category, key):
@@ -101,11 +102,6 @@ class CreateVendorPackingSlip(BasePage):
     def inward_quantity(self, category, inward_quantity):
         inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", inward_qty)
-        # time.sleep(2)
-        # WebDriverWait(self.driver, 10).until(
-        #     EC.presence_of_element_located((By.XPATH, "(//table//tbody//td//input)[8]")))
-        # WebDriverWait(self.driver, 10).until(
-        #     EC.element_to_be_clickable((By.XPATH, "(//table//tbody//td//input)[8]")))
         self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath
                                    , ConfigReader.create_inbound_inventory(category, inward_quantity))
 
@@ -113,6 +109,16 @@ class CreateVendorPackingSlip(BasePage):
         self.clear_element("damaged_qty_xpath", self.damaged_qty_xpath)
         self.send_value_to_element("damaged_qty_xpath", self.damaged_qty_xpath
                                    , ConfigReader.create_inbound_inventory(category, damaged_quantity))
+
+    def unit_price(self, category, unit_price):
+        actual_text = self.get_element_text("unit_price_xpath", self.unit_price_xpath)
+        print("actual_text:", actual_text)
+        if actual_text == "":
+            self.clear_element("unit_price_xpath", self.unit_price_xpath)
+            self.send_value_to_element("unit_price_xpath", self.unit_price_xpath
+                                       , ConfigReader.create_inbound_inventory(category, unit_price))
+        else:
+            pass
 
     def batch_number(self, category, batch_no):
         self.send_value_to_element(
@@ -125,4 +131,4 @@ class CreateVendorPackingSlip(BasePage):
                 category, expiry_date))
 
     def submit(self):
-        self.click_element("submit_btn_id", self.submit_btn_id)
+        self.click_element("submit_btn_xpath", self.submit_btn_xpath)
