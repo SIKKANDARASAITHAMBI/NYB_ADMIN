@@ -31,7 +31,7 @@ class CreateVendorPackingSlip(BasePage):
     unit_price_xpath = "(//table//tbody//td//input)[11]"
     batch_no_xpath = "(//table//tbody//td//input)[14]"
     expiry_date_xpath = "(//table//tbody//td//input)[15]"
-    submit_btn_xpath = "//*[text()='Submit']"
+    submit_btn_xpath = "//button[text()='Submit']"
     click_random_xpath = "(//*[@class='form-row'])"
 
     def search(self, category, key):
@@ -92,7 +92,7 @@ class CreateVendorPackingSlip(BasePage):
 
     def upload_packing_slip(self):
         file_input = self.driver.find_element(By.ID, 'packing_slip_upload')
-        file_path = "C:/Users/sikku/Downloads/images.png"
+        file_path = " C:/Users/Dell/Downloads/packing-slip-2x (1).png"
         file_input.send_keys(file_path)
 
     def add_products(self, category, product):
@@ -131,4 +131,9 @@ class CreateVendorPackingSlip(BasePage):
                 category, expiry_date))
 
     def submit(self):
-        self.click_element("submit_btn_xpath", self.submit_btn_xpath)
+
+        submit_btn = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Submit']"))
+        )
+        actions = ActionChains(self.driver)
+        actions.move_to_element(submit_btn).click().perform()

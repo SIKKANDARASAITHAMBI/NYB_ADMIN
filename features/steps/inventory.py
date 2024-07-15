@@ -205,8 +205,5 @@ def expiry_date(context):
 
 @then(u'I click submit button.')
 def submit(context):
-    time.sleep(3)
     context.driver.implicitly_wait(20)
-    context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.submit()
-    time.sleep(3)
