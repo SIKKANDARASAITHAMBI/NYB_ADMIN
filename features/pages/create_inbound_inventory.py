@@ -26,6 +26,12 @@ class CreateVendorPackingSlip(BasePage):
     purchase_order_date_id = "purchase_order_date"
     packing_slip_upload = "packing_slip_upload"
     add_product_field_id = "select2-product_id-container"
+    add_sample_product_field_id = "select2-product_dropdown-container"
+    sample_product_check_box_xpath = "//table//tbody//td//input[@type='checkbox']"
+    sample_product_name_xpath = "//table//tbody//td//input[@placeholder='Enter Product Name']'"
+    sample_flavor_name_xpath = "//table//tbody//td//input[@placeholder='Enter Flavor Name']"
+    sample_size_weight_variant_name_xpath = "//table//tbody//td//input[@placeholder='Enter Size/Weight']"
+    sample_product_price_field_xpath = "//table//tbody//td//input[@placeholder='Enter Price']"
     inward_qty_xpath = "(//table//tbody//td//input)[8]"
     damaged_qty_xpath = "(//table//tbody//td//input)[9]"
     unit_price_xpath = "(//table//tbody//td//input)[11]"
@@ -97,7 +103,30 @@ class CreateVendorPackingSlip(BasePage):
 
     def add_products(self, category, product):
         self.click_element("add_product_field_id", self.add_product_field_id)
-        self.search(category, product)
+        expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "ADD_PRODUCT_OPTION")
+        if product != expected:
+            self.search(category, product)
+        else:
+            self.search(category, product)
+
+    def add_sample_products(self, category, sample_product):
+        self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
+        expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "SAMPLE_PRODUCT")
+        if sample_product != expected:
+            self.search(category, sample_product)
+        else:
+            self.search(category, sample_product)
+
+    def is_sample_product(self):
+        self.click_element(
+            "sample_product_check_box_xpath", self.sample_product_check_box_xpath)
+
+#NEED TO WORK HERE#
+    def sample_product(self,category, sample_product_name):
+        self.send_value_to_element(
+            "sample_product_name_xpath", self.sample_product_name_xpath,
+            ConfigReader.create_inbound_inventory(category, sample_product_name))
+
 
     def inward_quantity(self, category, inward_quantity):
         inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
