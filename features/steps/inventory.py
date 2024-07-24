@@ -113,23 +113,37 @@ def step_impl(context):
 
 @then(u'I add new sample product,')
 def step_impl(context):
-    context.cvp.add_sample_products("VALID INPUTS", "NEW_SAMPLE_PRODUCT_NAME")
+    context.cvp.add_sample_products("VALID INPUTS", "NEW_SAMPLE_PRODUCT_OPTION")
+
+
+@then(u'I click is sample product,')
+def step_impl(context):
+    context.cvp.is_sample_product()
+
 
 @then(u'I enter a valid product name,')
 def step_impl(context):
-    pass
+    context.cvp.sample_product_name("VALID INPUTS", "NEW_SAMPLE_PRODUCT_NAME")
+
 
 @then(u'I enter a valid flavor name,')
 def step_impl(context):
-    pass
+    context.cvp.sample_products_flavor_name("VALID INPUTS", "NEW_SAMPLE_PRODUCTS_FLAVOR_NAME")
+
 
 @then(u'I enter a valid size/weight variant,')
 def step_impl(context):
-    pass
-
+    context.cvp.sample_product_flavors_size_weight_variant_name("VALID INPUTS",
+                                                                "NEW_SAMPLE_PRODUCTS_FLAVORS_SIZE_WEIGHT_VARIANT_NAME")
 @then(u'I enter a valid price,')
 def step_impl(context):
     pass
+
+
+@then(u'I click confirm button,')
+def step_impl(context):
+    context.cvp.confirm()
+
 
 @then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY01),')
 def inwardquantity_td01(context):

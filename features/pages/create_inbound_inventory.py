@@ -4,6 +4,7 @@ from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common import actions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from features.pages.base_page import BasePage
@@ -28,17 +29,19 @@ class CreateVendorPackingSlip(BasePage):
     add_product_field_id = "select2-product_id-container"
     add_sample_product_field_id = "select2-product_dropdown-container"
     sample_product_check_box_xpath = "//table//tbody//td//input[@type='checkbox']"
-    sample_product_name_xpath = "//table//tbody//td//input[@placeholder='Enter Product Name']'"
+    sample_product_name_xpath = "//table//tbody//td//input[@placeholder='Enter Product Name']"
     sample_flavor_name_xpath = "//table//tbody//td//input[@placeholder='Enter Flavor Name']"
     sample_size_weight_variant_name_xpath = "//table//tbody//td//input[@placeholder='Enter Size/Weight']"
     sample_product_price_field_xpath = "//table//tbody//td//input[@placeholder='Enter Price']"
-    inward_qty_xpath = "(//table//tbody//td//input)[8]"
-    damaged_qty_xpath = "(//table//tbody//td//input)[9]"
-    unit_price_xpath = "(//table//tbody//td//input)[11]"
-    batch_no_xpath = "(//table//tbody//td//input)[14]"
-    expiry_date_xpath = "(//table//tbody//td//input)[15]"
+    confirm_btn_id = "confirmButton"
+    inward_qty_xpath = "(//table//tbody//td//input)[13]"
+    damaged_qty_xpath = "(//table//tbody//td//input)[14]"
+    unit_price_xpath = "(//table//tbody//td//input)[16]"
+    batch_no_xpath = "(//table//tbody//td//input)[19]"
+    expiry_date_xpath = "(//table//tbody//td//input)[20]"
     submit_btn_xpath = "//button[text()='Submit']"
     click_random_xpath = "(//*[@class='form-row'])"
+    add_product_xpath = "(//*[text()='Add New Product'])[2]"
 
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
@@ -111,22 +114,36 @@ class CreateVendorPackingSlip(BasePage):
 
     def add_sample_products(self, category, sample_product):
         self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-        expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "SAMPLE_PRODUCT")
-        if sample_product != expected:
-            self.search(category, sample_product)
-        else:
-            self.search(category, sample_product)
+        # expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "SAMPLE_PRODUCT")
+        # if sample_product != expected:
+        #     self.search(category, sample_product)
+        # else:
+        #     self.search(category, sample_product)
+
+        self.click_element("add_product_xpath", self.add_product_xpath)
 
     def is_sample_product(self):
         self.click_element(
             "sample_product_check_box_xpath", self.sample_product_check_box_xpath)
 
-#NEED TO WORK HERE#
-    def sample_product(self,category, sample_product_name):
+    #NEED TO WORK HERE#
+    def sample_product_name(self, category, sample_product_name):
         self.send_value_to_element(
             "sample_product_name_xpath", self.sample_product_name_xpath,
             ConfigReader.create_inbound_inventory(category, sample_product_name))
 
+    def sample_products_flavor_name(self, category, sample_product_flavor_name):
+        self.send_value_to_element(
+            "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
+            ConfigReader.create_inbound_inventory(category, sample_product_flavor_name))
+
+    def sample_product_flavors_size_weight_variant_name(self, category, sample_product_flavors_size_weight_variant_name):
+        self.send_value_to_element(
+            "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
+            ConfigReader.create_inbound_inventory(category, sample_product_flavors_size_weight_variant_name))
+
+    def confirm(self):
+        self.click_element("confirm_btn_id", self.confirm_btn_id)
 
     def inward_quantity(self, category, inward_quantity):
         inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
@@ -160,6 +177,10 @@ class CreateVendorPackingSlip(BasePage):
                 category, expiry_date))
 
     def submit(self):
+
+        WebDriverWait(self.driver, 20).until(
+            EC.visibility_of_element_located((By.XPATH, "//button[text()='Submit']"))
+        )
 
         submit_btn = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, "//button[text()='Submit']"))
