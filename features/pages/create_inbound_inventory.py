@@ -34,11 +34,12 @@ class CreateVendorPackingSlip(BasePage):
     sample_size_weight_variant_name_xpath = "//table//tbody//td//input[@placeholder='Enter Size/Weight']"
     sample_product_price_field_xpath = "//table//tbody//td//input[@placeholder='Enter Price']"
     confirm_btn_id = "confirmButton"
-    inward_qty_xpath = "(//table//tbody//td//input)[13]"
-    damaged_qty_xpath = "(//table//tbody//td//input)[14]"
-    unit_price_xpath = "(//table//tbody//td//input)[16]"
-    batch_no_xpath = "(//table//tbody//td//input)[19]"
-    expiry_date_xpath = "(//table//tbody//td//input)[20]"
+    added_products_table_xpath = "//table[@id='tblpackingslip']//tbody[@id='packingtbody']//tr"
+    inward_qty_xpath = "td"
+    damaged_qty_xpath = "td"
+    unit_price_xpath = "td"
+    batch_no_xpath = "td"
+    expiry_date_xpath = "td"
     submit_btn_xpath = "//button[text()='Submit']"
     click_random_xpath = "(//*[@class='form-row'])"
     add_product_xpath = "(//*[text()='Add New Product'])[2]"
@@ -137,7 +138,8 @@ class CreateVendorPackingSlip(BasePage):
             "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
             ConfigReader.create_inbound_inventory(category, sample_product_flavor_name))
 
-    def sample_product_flavors_size_weight_variant_name(self, category, sample_product_flavors_size_weight_variant_name):
+    def sample_product_flavors_size_weight_variant_name(self, category,
+                                                        sample_product_flavors_size_weight_variant_name):
         self.send_value_to_element(
             "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
             ConfigReader.create_inbound_inventory(category, sample_product_flavors_size_weight_variant_name))
@@ -145,7 +147,24 @@ class CreateVendorPackingSlip(BasePage):
     def confirm(self):
         self.click_element("confirm_btn_id", self.confirm_btn_id)
 
+    def table_rows(self):
+
+        rows = self.mul_elememts(
+            "added_products_table_xpath", self.added_products_table_xpath)
+        table_row = self.locate_element(
+            "added_products_table_xpath", self.added_products_table_xpath)
+
+        element_count = []
+        for row in rows:
+            element_count.append(row)
+
+        element_counts = len(element_count)
+
+        for index in range(element_counts):
+            tbl_row = table_row[index]
+
     def inward_quantity(self, category, inward_quantity):
+        self.table_rows()
         inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", inward_qty)
         self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath

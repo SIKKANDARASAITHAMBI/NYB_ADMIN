@@ -1,6 +1,7 @@
 Feature: Verify the inventory module is working as expected
 
 #Create vendor packing slip with valid dates
+  @vendor_packing_slip
   Scenario: Verify whether can able to create a vendor packing slip with valid inputs as a user with create access
 
 #Vendor Packing Slip -- @Valid = {Numeric, Alphabat, special character, alphanumeric and speciial char}
