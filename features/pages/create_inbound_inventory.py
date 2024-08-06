@@ -147,28 +147,12 @@ class CreateVendorPackingSlip(BasePage):
     def confirm(self):
         self.click_element("confirm_btn_id", self.confirm_btn_id)
 
-    def table_rows(self):
-
-        rows = self.mul_elememts(
-            "added_products_table_xpath", self.added_products_table_xpath)
-        table_row = self.locate_element(
-            "added_products_table_xpath", self.added_products_table_xpath)
-
-        element_count = []
-        for row in rows:
-            element_count.append(row)
-
-        element_counts = len(element_count)
-
-        for index in range(element_counts):
-            tbl_row = table_row[index]
-
     def inward_quantity(self, category, inward_quantity):
         self.table_rows()
-        inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
-        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", inward_qty)
-        self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath
-                                   , ConfigReader.create_inbound_inventory(category, inward_quantity))
+        # inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
+        # self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", inward_qty)
+        # self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath
+        #                            , ConfigReader.create_inbound_inventory(category, inward_quantity))
 
     def damaged_quantity(self, category, damaged_quantity):
         self.clear_element("damaged_qty_xpath", self.damaged_qty_xpath)
@@ -194,6 +178,18 @@ class CreateVendorPackingSlip(BasePage):
         self.send_value_to_element(
             "expiry_date_xpath", self.expiry_date_xpath, ConfigReader.create_inbound_inventory(
                 category, expiry_date))
+
+    def table_rows(self):
+
+        rows = self.mul_elememts(
+            "added_products_table_xpath", self.added_products_table_xpath)
+        element_count = len(rows)
+        for index in range(element_count):
+            inward_qty_cell = rows[index].find_elements(By.TAG_NAME, 'td')[4]
+            print(inward_qty_cell)
+            inward_qty_input = inward_qty_cell.find_element(By.TAG_NAME, 'input')
+            inward_qty_input.clear()
+            inward_qty_input.send_keys('100')
 
     def submit(self):
 
