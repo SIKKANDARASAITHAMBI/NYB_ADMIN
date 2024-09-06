@@ -2,6 +2,7 @@ import time
 
 from behave import *
 
+from Dummy import test
 from features.pages.create_inbound_inventory import CreateVendorPackingSlip
 from features.pages.inventory import HeaderNavigators
 from features.pages.login import Login
@@ -103,7 +104,9 @@ def step_impl(context):
 
 @then(u'I add products,')
 def step_impl(context):
-    context.cvp.add_products("VALID INPUTS", "PRODUCT_NAME")
+    products = ["PRODUCT_NAME01", "PRODUCT_NAME02",
+                "PRODUCT_NAME03", "PRODUCT_NAME04", "PRODUCT_NAME05", "PRODUCT_NAME06"]
+    context.cvp.add_products("VALID INPUTS", products)
 
 
 @then(u'I click add sample product option,')
@@ -144,126 +147,26 @@ def step_impl(context):
 def step_impl(context):
     context.cvp.confirm()
 
-
-@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY01),')
+@then(u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
 def inwardquantity_td01(context):
     context.driver.implicitly_wait(20)
-    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY01")
+    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02","INWARD_QTY03",
+                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06" ]
 
+    damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
+                          "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
 
-@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY02),')
-def inwardquantity_td02(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY02")
+    unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
+                   "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
 
+    batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
+                 "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
 
-@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY03),')
-def inwardquantity_td03(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY03")
+    expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
+                    "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
 
-
-@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY04),')
-def inwardquantity_td04(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY04")
-
-
-@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY05),')
-def inwardquantity_td05(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY05")
-
-
-@then(u'I enter a valid inward quantity (#Inward Quantity -- INWARD_QTY06),')
-def inwardquantity_td06(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.inward_quantity("VALID INPUTS", "INWARD_QTY06")
-
-
-@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY01),')
-def damagedquantity_td01(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY01")
-
-
-@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY02),')
-def damagedquantity_td02(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY02")
-
-
-@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY03),')
-def damagedquantity_td03(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY03")
-
-
-@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY04),')
-def damagedquantity_td04(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY04")
-
-
-@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY05),')
-def damagedquantity_td05(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY05")
-
-
-@then(u'I enter a valid damaged quantity (#Damaged Quantity -- DAMAGED_QTY06),')
-def damagedquantity_td06(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.damaged_quantity("VALID INPUTS", "DAMAGED_QTY06")
-
-
-@then(u'I enter the unit price (#Unit Price -- UNIT_PRICE01),')
-def unitprice_td01(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.unit_price("VALID INPUTS", "UNIT_PRICE01")
-
-
-@then(u'I enter the unit price (#Unit Price -- UNIT_PRICE02),')
-def unitprice_td02(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.unit_price("VALID INPUTS", "UNIT_PRICE02")
-
-
-@then(u'I enter the unit price (#Unit Price -- UNIT_PRICE03),')
-def unitprice_td03(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.unit_price("VALID INPUTS", "UNIT_PRICE03")
-
-
-@then(u'I enter the unit price (#Unit Price -- UNIT_PRICE04),')
-def unitprice_td04(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.unit_price("VALID INPUTS", "UNIT_PRICE04")
-
-
-@then(u'I enter the unit price (#Unit Price -- UNIT_PRICE05),')
-def unitprice_td05(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.unit_price("VALID INPUTS", "UNIT_PRICE05")
-
-
-@then(u'I enter the unit price (#Unit Price -- UNIT_PRICE06),')
-def unitprice_td06(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.unit_price("VALID INPUTS", "UNIT_PRICE06")
-
-
-@then(u'I enter the batch number,')
-def batch_no(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.batch_number("VALID INPUTS", "BATCH_NO")
-
-
-@then(u'I enter the expiry date,')
-def expiry_date(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.expiry_date("VALID INPUTS", "EXPIRY_DATE")
-
+    context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
+                                          unit_prices, batch_nos, expiry_dates)
 
 @then(u'I click submit button.')
 def submit(context):

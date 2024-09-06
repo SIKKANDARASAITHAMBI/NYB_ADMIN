@@ -106,12 +106,14 @@ class CreateVendorPackingSlip(BasePage):
         file_input.send_keys(file_path)
 
     def add_products(self, category, product):
-        self.click_element("add_product_field_id", self.add_product_field_id)
-        expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "ADD_PRODUCT_OPTION")
-        if product != expected:
-            self.search(category, product)
-        else:
-            self.search(category, product)
+        product_count = 6
+        for index in range(product_count):
+            self.click_element("add_product_field_id", self.add_product_field_id)
+            expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "ADD_PRODUCT_OPTION")
+            if product != expected:
+                self.search(category, product[index])
+            else:
+                self.search(category, product[index])
 
     def add_sample_products(self, category, sample_product):
         self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
@@ -147,49 +149,79 @@ class CreateVendorPackingSlip(BasePage):
     def confirm(self):
         self.click_element("confirm_btn_id", self.confirm_btn_id)
 
-    def inward_quantity(self, category, inward_quantity):
-        self.table_rows()
-        # inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
-        # self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", inward_qty)
-        # self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath
-        #                            , ConfigReader.create_inbound_inventory(category, inward_quantity))
+#Static Code.
 
-    def damaged_quantity(self, category, damaged_quantity):
-        self.clear_element("damaged_qty_xpath", self.damaged_qty_xpath)
-        self.send_value_to_element("damaged_qty_xpath", self.damaged_qty_xpath
-                                   , ConfigReader.create_inbound_inventory(category, damaged_quantity))
+    # def inward_quantity(self, category, inward_quantity):
+    #     inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
+    #     self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'})", inward_qty)
+    #     self.send_value_to_element("inward_qty_xpath", self.inward_qty_xpath
+    #                                , ConfigReader.create_inbound_inventory(category, inward_quantity))
+    #
+    # def damaged_quantity(self, category, damaged_quantity):
+    #     self.clear_element("damaged_qty_xpath", self.damaged_qty_xpath)
+    #     self.send_value_to_element("damaged_qty_xpath", self.damaged_qty_xpath
+    #                                , ConfigReader.create_inbound_inventory(category, damaged_quantity))
+    #
+    # def unit_price(self, category, unit_price):
+    #     actual_text = self.get_element_text("unit_price_xpath", self.unit_price_xpath)
+    #     print("actual_text:", actual_text)
+    #     if actual_text == "":
+    #         #self.clear_element("unit_price_xpath", self.unit_price_xpath)
+    #         self.send_value_to_element("unit_price_xpath", self.unit_price_xpath
+    #                                    , ConfigReader.create_inbound_inventory(category, unit_price))
+    #     else:
+    #         pass
+    #
+    # def batch_number(self, category, batch_no):
+    #     self.send_value_to_element(
+    #         "batch_no_xpath", self.batch_no_xpath, ConfigReader.create_inbound_inventory(
+    #             category, batch_no))
+    #
+    # def expiry_date(self, category, expiry_date):
+    #     self.send_value_to_element(
+    #         "expiry_date_xpath", self.expiry_date_xpath, ConfigReader.create_inbound_inventory(
+    #             category, expiry_date))
 
-    def unit_price(self, category, unit_price):
-        actual_text = self.get_element_text("unit_price_xpath", self.unit_price_xpath)
-        print("actual_text:", actual_text)
-        if actual_text == "":
-            self.clear_element("unit_price_xpath", self.unit_price_xpath)
-            self.send_value_to_element("unit_price_xpath", self.unit_price_xpath
-                                       , ConfigReader.create_inbound_inventory(category, unit_price))
-        else:
-            pass
-
-    def batch_number(self, category, batch_no):
-        self.send_value_to_element(
-            "batch_no_xpath", self.batch_no_xpath, ConfigReader.create_inbound_inventory(
-                category, batch_no))
-
-    def expiry_date(self, category, expiry_date):
-        self.send_value_to_element(
-            "expiry_date_xpath", self.expiry_date_xpath, ConfigReader.create_inbound_inventory(
-                category, expiry_date))
-
-    def table_rows(self):
-
+# Dynamic Code.
+    def vendor_packing_slip_table(self, category, inward_quantity, damaged_quantity, unit_price, batch_number, expiry_date):
         rows = self.mul_elememts(
             "added_products_table_xpath", self.added_products_table_xpath)
         element_count = len(rows)
+        print(element_count)
         for index in range(element_count):
-            inward_qty_cell = rows[index].find_elements(By.TAG_NAME, 'td')[4]
-            print(inward_qty_cell)
+            time.sleep(1)
+            # Inward quantity.
+            inward_qty = 4
+            inward_qty_cell = rows[index].find_elements(By.TAG_NAME, 'td')[inward_qty]
             inward_qty_input = inward_qty_cell.find_element(By.TAG_NAME, 'input')
             inward_qty_input.clear()
-            inward_qty_input.send_keys('100')
+            inward_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, inward_quantity[index]))
+
+            # Damaged quantity.
+            damaged_qty = 5
+            damaged_qty_cell = rows[index].find_elements(By.TAG_NAME, 'td')[damaged_qty]
+            print(damaged_qty_cell)
+            damaged_qty_input = damaged_qty_cell.find_element(By.TAG_NAME, 'input')
+            damaged_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, damaged_quantity[index]))
+
+            # Unit price. --> In vendor packing slip no price will be available.
+            # unit_price_index = 7
+            # unit_price_cell = rows[index].find_elements(By.TAG_NAME, 'td')[unit_price_index]
+            # unit_price_input = unit_price_cell.find_element(By.TAG_NAME, 'input')
+            # time.sleep(5)
+            # unit_price_input.send_keys(ConfigReader.create_inbound_inventory(category, unit_price[index]))
+
+            # Batch number.
+            batch_number_index = 8
+            batch_number_cell = rows[index].find_elements(By.TAG_NAME, 'td')[batch_number_index]
+            batch_number_input = batch_number_cell.find_element(By.TAG_NAME, 'input')
+            batch_number_input.send_keys(ConfigReader.create_inbound_inventory(category, batch_number[index]))
+
+            # Expiry date.
+            expiry_date_index = 9
+            expiry_date_cell = rows[index].find_elements(By.TAG_NAME, 'td')[expiry_date_index]
+            expiry_date_cell_input = expiry_date_cell.find_element(By.TAG_NAME, 'input')
+            expiry_date_cell_input.send_keys(ConfigReader.create_inbound_inventory(category, expiry_date[index]))
 
     def submit(self):
 
