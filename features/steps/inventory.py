@@ -106,7 +106,8 @@ def step_impl(context):
 def step_impl(context):
     products = ["PRODUCT_NAME01", "PRODUCT_NAME02",
                 "PRODUCT_NAME03", "PRODUCT_NAME04", "PRODUCT_NAME05", "PRODUCT_NAME06"]
-    context.cvp.add_products("VALID INPUTS", products)
+    category = "VALID INPUTS"
+    context.cvp.add_products(category, products)
 
 
 @then(u'I click add sample product option,')

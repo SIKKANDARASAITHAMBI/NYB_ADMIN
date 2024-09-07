@@ -11,7 +11,6 @@ Feature: Vendor packing slip
     #Unit Price -- UNIT_PRICE01, UNIT_PRICE02, UNIT_PRICE03, UNIT_PRICE04, UNIT_PRICE05, UNIT_PRICE06
 
   @Add_products
-  @vendor_packing_slip
   Scenario: To verify whether a user with create access can create a vendor
   packing slip with valid inputs, by taking products as inward
     Given I visit the NYB admin website and log in as a user with create, edit, and view access,
