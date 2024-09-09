@@ -23,3 +23,10 @@ class UrlVerification(BasePage):
         expected_url = ConfigReader.urls("URL", "CREATE_INBOUND_INVENTORY_URL")
         assert expected_url == actual_url
         return True
+
+    def invoice_and_packing_slip(self):
+        time.sleep(2)
+        actual_url = self.get_page_url()
+        expected_url = ConfigReader.urls("URL", "INVOICE_AND_PACKING_SLIP_URL")
+        assert expected_url == actual_url
+        return True

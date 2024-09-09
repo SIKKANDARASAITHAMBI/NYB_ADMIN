@@ -105,24 +105,18 @@ class CreateVendorPackingSlip(BasePage):
         file_path = " C:/Users/Dell/Downloads/packing-slip-2x (1).png"
         file_input.send_keys(file_path)
 
-    def add_products(self, category, product):
-        product_count = 6
+    def add_products(self, *args):
+        product_count = len(args[1])
         for index in range(product_count):
+            category = args[0]
+            product = args[1][index]
             self.click_element("add_product_field_id", self.add_product_field_id)
-            expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "ADD_PRODUCT_OPTION")
-            if product != expected:
-                self.search(category, product[index])
-            else:
-                self.search(category, product[index])
+            self.search(category, product)
 
     def add_sample_products(self, category, sample_product):
-        self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-        # expected = ConfigReader.expected_outcome("EXPECTED OUTCOME", "SAMPLE_PRODUCT")
-        # if sample_product != expected:
-        #     self.search(category, sample_product)
-        # else:
-        #     self.search(category, sample_product)
 
+        #It is statically written, due to search issues for time being this is structured like this.
+        self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
         self.click_element("add_product_xpath", self.add_product_xpath)
 
     def is_sample_product(self):
@@ -149,7 +143,7 @@ class CreateVendorPackingSlip(BasePage):
     def confirm(self):
         self.click_element("confirm_btn_id", self.confirm_btn_id)
 
-#Static Code.
+    #Static Code.
 
     # def inward_quantity(self, category, inward_quantity):
     #     inward_qty = self.locate_element("inward_qty_xpath", self.inward_qty_xpath)
@@ -182,8 +176,9 @@ class CreateVendorPackingSlip(BasePage):
     #         "expiry_date_xpath", self.expiry_date_xpath, ConfigReader.create_inbound_inventory(
     #             category, expiry_date))
 
-# Dynamic Code.
-    def vendor_packing_slip_table(self, category, inward_quantity, damaged_quantity, unit_price, batch_number, expiry_date):
+    # Dynamic Code.
+    def vendor_packing_slip_table(self, category, inward_quantity, damaged_quantity, unit_price, batch_number,
+                                  expiry_date):
         rows = self.mul_elememts(
             "added_products_table_xpath", self.added_products_table_xpath)
         element_count = len(rows)
@@ -224,7 +219,6 @@ class CreateVendorPackingSlip(BasePage):
             expiry_date_cell_input.send_keys(ConfigReader.create_inbound_inventory(category, expiry_date[index]))
 
     def submit(self):
-
         WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, "//button[text()='Submit']"))
         )

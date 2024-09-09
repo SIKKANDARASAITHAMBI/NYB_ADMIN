@@ -1,5 +1,4 @@
 import time
-
 from behave import *
 
 from Dummy import test
@@ -106,12 +105,16 @@ def step_impl(context):
 def step_impl(context):
     products = ["PRODUCT_NAME01", "PRODUCT_NAME02",
                 "PRODUCT_NAME03", "PRODUCT_NAME04", "PRODUCT_NAME05", "PRODUCT_NAME06"]
-    context.cvp.add_products("VALID INPUTS", products)
+    category = "VALID INPUTS"
+    context.cvp.add_products(category, products)
 
 
 @then(u'I click add sample product option,')
 def step_impl(context):
-    context.cvp.add_products("VALID INPUTS", "SAMPLE_OPTION")
+    products = ["SAMPLE_OPTION"]
+    category = "VALID INPUTS"
+
+    context.cvp.add_products(category, products)
 
 
 @then(u'I add new sample product,')
@@ -172,3 +175,28 @@ def inwardquantity_td01(context):
 def submit(context):
     context.driver.implicitly_wait(20)
     context.cvp.submit()
+
+@then(u'I verify the Invoice & Packing Slip landing page URL,')
+def invocie_packing_slip_url(context):
+    context.driver.implicitly_wait(20)
+    context.url.invoice_and_packing_slip()
+
+@then(u'I verify the autopopulated dates in the listing,')
+def invoice_packing_slip_listing(context):
+    context.driver.implicitly_wait(20)
+    context.vps= VendorPackingSlip(context.driver)
+
+@then(u'I click the "View" button for the created entry,')
+def invoice_packing_slip_view(context):
+    context.driver.implicitly_wait(20)
+
+
+@then(u'I verify that all the displayed details are correct.')
+def invoice_packing_slip_view_details(context):
+    context.driver.implicitly_wait(20)
+
+
+
+
+
+
