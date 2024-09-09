@@ -24,6 +24,7 @@ Feature: Vendor packing slip
     Then I add products,
     Then I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,
     Then I click submit button.
+#   Then I navigated to the invoice and packing slip page,
     Then I verify the Invoice & Packing Slip landing page URL,
     Then I verify the autopopulated dates in the listing,
     Then I click the "View" button for the created entry,

@@ -158,7 +158,6 @@ class CreateVendorPackingSlip(BasePage):
     #
     # def unit_price(self, category, unit_price):
     #     actual_text = self.get_element_text("unit_price_xpath", self.unit_price_xpath)
-    #     print("actual_text:", actual_text)
     #     if actual_text == "":
     #         #self.clear_element("unit_price_xpath", self.unit_price_xpath)
     #         self.send_value_to_element("unit_price_xpath", self.unit_price_xpath
@@ -182,7 +181,6 @@ class CreateVendorPackingSlip(BasePage):
         rows = self.mul_elememts(
             "added_products_table_xpath", self.added_products_table_xpath)
         element_count = len(rows)
-        print(element_count)
         for index in range(element_count):
             time.sleep(1)
             # Inward quantity.
@@ -195,7 +193,6 @@ class CreateVendorPackingSlip(BasePage):
             # Damaged quantity.
             damaged_qty = 5
             damaged_qty_cell = rows[index].find_elements(By.TAG_NAME, 'td')[damaged_qty]
-            print(damaged_qty_cell)
             damaged_qty_input = damaged_qty_cell.find_element(By.TAG_NAME, 'input')
             damaged_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, damaged_quantity[index]))
 
