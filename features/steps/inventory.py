@@ -185,6 +185,8 @@ def invocie_packing_slip_url(context):
 @then(u'I verify the autopopulated dates in the listing,')
 def invoice_packing_slip_listing(context):
     context.vps = VendorPackingSlip(context.driver)
+    category = "VALID INPUTS"
+    datas = ["NO01", "SOURCE_TYPE01", "DOC_NO", "WAREHOUSE", "VENDORS", ]
     context.vps.listing()
 
 
@@ -199,10 +201,10 @@ def invoice_packing_slip_view_details(context):
     context.driver.implicitly_wait(20)
     pass
 
-# @then(u'I navigated to the invoice and packing slip page,')
-# def inventory_nav(context):
-#     context.driver.implicitly_wait(20)
-#     context.hn.invoice_and_packingslip()
+@then(u'I navigated to the invoice and packing slip page,')
+def inventory_nav(context):
+    context.driver.implicitly_wait(20)
+    context.hn.invoice_and_packingslip()
 
 
 
