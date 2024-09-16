@@ -188,6 +188,10 @@ def invoice_packing_slip_listing(context):
     category = "VALID INPUTS"
     datas = ["NO01", "SOURCE_TYPE01", "DOC_NO", "WAREHOUSE", "VENDORS", ]
     context.vps.listing()
+    time.sleep(2)
+    context.vps.view()
+    time.sleep(5)
+    context.vps.verify_view_details("VALID INPUTS", "NO01")
 
 
 @then(u'I click the "View" button for the created entry,')
