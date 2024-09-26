@@ -1,7 +1,5 @@
 import time
 from behave import *
-
-from Dummy import test
 from features.pages.create_inbound_inventory import CreateVendorPackingSlip
 from features.pages.inventory import HeaderNavigators
 from features.pages.login import Login

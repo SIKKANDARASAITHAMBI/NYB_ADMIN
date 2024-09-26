@@ -11,10 +11,11 @@ class VendorPackingSlip(BasePage):
         super().__init__(driver)
 
     listing_xpath = "//table[@id='Event']//tbody//tr[1]//td"
-    view_btn_xpath = "//table[@id='Event']//tbody//tr[1]//td[11]//a[2]"
+    view_btn_xpath = "//table[@id='Event']//tbody//tr[1]//td[11]//a[text()='View']"
     no_xpath = "(//h5[@id ='exampleModalLongTitle'])[3]"
     vendor_packing_slip_details_xpath = \
         "(//table[@class='table table-bordered table-striped inward-items-list'])[1]//tbody//tr//td"
+    items_xpath = "(//table[@id='Eventt'])[1]//tbody//tr"
 
     def listing(self):
         listings = self.mul_elememts("listing_xpath",self.listing_xpath)
@@ -44,7 +45,7 @@ class VendorPackingSlip(BasePage):
                       name="Actual PACKING SLIP NO.", attachment_type=allure.attachment_type.TEXT)
         assert actual_no == expected_no
 
-        #Warehouse.
+        #General Details.
         general_details = self.mul_elememts(
             "vendor_packing_slip_details_xpath", self.vendor_packing_slip_details_xpath)
         details_count = len(general_details)
@@ -54,3 +55,11 @@ class VendorPackingSlip(BasePage):
                 actual_details.append(general_details[index].text)
         allure.attach(f"{actual_details}",
                       name="Actual vendor packing slip details.", attachment_type=allure.attachment_type.TEXT)
+
+        # #ITEMS
+        # items = self.mul_elememts("items_xpath", self.items_xpath)
+        # items_count = len(items)
+        # for index in range(items_count-1):
+        #     if index == 0:
+        #         pass
+        #     if index == 1:
