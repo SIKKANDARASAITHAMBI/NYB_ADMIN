@@ -199,3 +199,6 @@ class BasePage:
 
     def scroll(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
+
+    def screen_shot(self, save_location):
+        self.driver.save_screenshot(save_location)

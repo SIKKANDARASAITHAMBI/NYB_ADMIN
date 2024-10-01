@@ -4,7 +4,7 @@ from features.pages.create_inbound_inventory import CreateVendorPackingSlip
 from features.pages.inventory import HeaderNavigators
 from features.pages.login import Login
 from features.pages.url_verification import UrlVerification
-from features.pages.invoice_and_packing_slip import VendorPackingSlip
+from features.pages.invoice_and_packing_slip import VendorPackingSlip, VendorInvoice, Page
 from features.utilities import ConfigReader
 
 
@@ -182,15 +182,14 @@ def invocie_packing_slip_url(context):
 
 @then(u'I verify the autopopulated dates in the listing,')
 def invoice_packing_slip_listing(context):
-    context.vps = VendorPackingSlip(context.driver)
+    context.page = Page(context.driver)
+    context.page.filters("document_no")
+    context.vps = VendorInvoice(context.driver)
     category = "VALID INPUTS"
     datas = ["NO01", "SOURCE_TYPE01", "DOC_NO", "WAREHOUSE", "VENDORS", ]
     context.vps.listing()
     time.sleep(2)
-    context.vps.view()
-    time.sleep(5)
-    context.vps.verify_view_details("VALID INPUTS", "NO01")
-
+    context.vps.view_update_vendor_invoice()
 
 @then(u'I click the "View" button for the created entry,')
 def invoice_packing_slip_view(context):
@@ -207,6 +206,7 @@ def invoice_packing_slip_view_details(context):
 def inventory_nav(context):
     context.driver.implicitly_wait(20)
     context.hn.invoice_and_packingslip()
+
 
 
 
