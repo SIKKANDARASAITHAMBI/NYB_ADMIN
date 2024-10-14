@@ -3,7 +3,6 @@ from datetime import datetime
 from features.pages.base_page import BasePage
 from features.utilities import ConfigReader
 import allure
-import selenium.webdriver as webdriver
 
 
 class Page(BasePage):
@@ -17,7 +16,7 @@ class Page(BasePage):
     def get_success_message(self):
         success_message = self.get_element_text("success_message_xpath", self.success_message_xpath)
         success_message = success_message.split()
-        self.doc_number = success_message[5]
+        self.doc_number = success_message[6]
 
     def filters(self, args):
         value = args
@@ -28,13 +27,19 @@ class Page(BasePage):
         elif value == "vendors":
             pass
         elif value == "document_no":
-            self.get_success_message()
+            success_txt = self.get_success_message()
             self.send_value_to_element("document_no_xpath", self.document_no_xpath, self.doc_number)
 
         self.click_element("submit_btn_id", self.submit_btn_id)
 
+    def take_screen_shot(self, location):
+        loc = location
+        store_snap = self.screen_shot(loc)
+        allure.attach(f"{store_snap}",
+                      name="View Vendor Invoice", attachment_type=allure.attachment_type.PNG)
 
-class VendorInvoice(BasePage):
+
+class VendorPackingSlip(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -59,7 +64,7 @@ class VendorInvoice(BasePage):
                       name="ACTUAL LISTING", attachment_type=allure.attachment_type.TEXT)
         return actual_listings
 
-    def view_update_vendor_invoice(self, args):
+    def view_update_vendor_packing_slip(self, args):
 
         value = args[0]
 
@@ -102,7 +107,7 @@ class VendorInvoice(BasePage):
                     pass
                 if index == 1:
             '''
-            loc = "C:/Users/Dell/LIFO PROJECTS/NYB ADMIN/features/configurations/Snaps/view_vendor_invoice.png"
+            loc = "C:/Users/Dell/LIFO PROJECTS/NYB ADMIN/features/configurations/Snaps/view_vendor_packing_slip.png"
 
             view_invoice = self.screen_shot(loc)
             allure.attach(f"{view_invoice}",
@@ -111,7 +116,7 @@ class VendorInvoice(BasePage):
         elif value == "update_payment":
             pass
 
-class VendorPackingSlip(BasePage):
+class VendorInvoice(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -119,8 +124,8 @@ class VendorPackingSlip(BasePage):
     def listing(self):
         pass
 
-    def view_update_vp_slip(self, args):
-        value = args[0]
+    def view_update_vp_slip(self, value):
+
         if value == "edit":
             pass
         elif value == "view":
@@ -138,8 +143,8 @@ class IntraWareHouseTransfer(BasePage):
     def listing(self):
         pass
 
-    def view_update_intrawarehouse_invoice(self, args):
-        value = args[0]
+    def view_update_intrawarehouse_invoice(self, value):
+
         if value == "edit":
             pass
         elif value == "view":

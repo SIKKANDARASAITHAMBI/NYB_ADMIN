@@ -1,10 +1,12 @@
 import time
+
 from behave import *
 from features.pages.create_inbound_inventory import CreateVendorPackingSlip
+from features.pages.inbound_inventory_report import inbound_inventory_report
 from features.pages.inventory import HeaderNavigators
 from features.pages.login import Login
 from features.pages.url_verification import UrlVerification
-from features.pages.invoice_and_packing_slip import VendorPackingSlip, VendorInvoice, Page
+from features.pages.invoice_and_packing_slip import VendorPackingSlip, Page
 from features.utilities import ConfigReader
 
 
@@ -21,14 +23,14 @@ def login(context):
 def verify_create_order_url(context):
     context.driver.implicitly_wait(20)
     context.url = UrlVerification(context.driver)
-    context.url.create_order_url()
+    context.url.order_urls("create order")
 
 
 @then(u'I navigate to the Inventory module,')
 def inventory_nav(context):
     context.driver.implicitly_wait(20)
     context.hn = HeaderNavigators(context.driver)
-    context.hn.inventory()
+    context.hn.header_navs("inventory")
 
 
 @then(u'I verify the inventory module URL,')
@@ -36,7 +38,7 @@ def verify_create_inbound_inventory_url(context):
     time.sleep(4)
     context.driver.implicitly_wait(20)
     context.url = UrlVerification(context.driver)
-    context.url.create_inbound_inventory_url()
+    context.url.inventory_urls("inventory")
 
 
 @then(u'I choose the document type as "vendor packing slip",')
@@ -178,18 +180,44 @@ def submit(context):
 @then(u'I verify the Invoice & Packing Slip landing page URL,')
 def invocie_packing_slip_url(context):
     context.driver.implicitly_wait(20)
-    context.url.invoice_and_packing_slip()
+    context.url.inventory_urls("invoice and packing slip")
+
+@then (u'I verify that the vendor packing slip is successfully created and displayed on the Vendor Invoice and Packing Slip page,')
+def invocie_packing_slip_creation(context):
+    context.driver.implicitly_wait(20)
+    context.page = Page(context.driver)
+    context.page.filters("document_no")
+    time.sleep(3)
+    context.page.take_screen_shot(ConfigReader.create_inbound_inventory(
+        "VALID INPUTS", "LISTING_SCREEN_SHOT"))
+
+@then (u'I navigate to inbound inventory report page,')
+def inbound_invntory_report_nav(context):
+    context.driver.implicitly_wait(20)
+    context.hn.header_navs("inbound inventory report")
+
+@then (u'I verify the inbound inventory report landing page URL,')
+def inbound_invntory_page_url_verification(context):
+    context.driver.implicitly_wait(20)
+    context.url.inventory_urls("inbound_inventory_report")
+
+@then (u'I verify that the vendor packing slip is successfully created and displayed on the inbound inventory report.')
+def inbound_invntory_page_vendor_packing_slip_ss(context):
+    context.driver.implicitly_wait(20)
+    context.iir = inbound_inventory_report(context.driver)
+    context.iir.take_screen_shot(ConfigReader.create_inbound_inventory(
+        "VALID INPUTS", "LISTING_SCREEN_SHOT_INBOUND_INVENTORY"))
+
 
 @then(u'I verify the autopopulated dates in the listing,')
 def invoice_packing_slip_listing(context):
     context.page = Page(context.driver)
     context.page.filters("document_no")
-    context.vps = VendorInvoice(context.driver)
-    category = "VALID INPUTS"
-    datas = ["NO01", "SOURCE_TYPE01", "DOC_NO", "WAREHOUSE", "VENDORS", ]
+    context.vps = VendorPackingSlip(context.driver)
     context.vps.listing()
     time.sleep(2)
-    context.vps.view_update_vendor_invoice()
+    value = ["view"]
+    context.vps.view_update_vendor_packing_slip(value)
 
 @then(u'I click the "View" button for the created entry,')
 def invoice_packing_slip_view(context):
@@ -202,7 +230,7 @@ def invoice_packing_slip_view_details(context):
     context.driver.implicitly_wait(20)
     pass
 
-@then(u'I navigated to the invoice and packing slip page,')
+@then(u'I navigated to the vendor invoice and packing slip page,')
 def inventory_nav(context):
     context.driver.implicitly_wait(20)
     context.hn.invoice_and_packingslip()

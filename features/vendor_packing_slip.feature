@@ -10,9 +10,7 @@ Feature: Vendor packing slip
     #Damaged Quantity -- DAMAGED_QTY01, DAMAGED_QTY02, DAMAGED_QTY03, DAMAGED_QTY04, DAMAGED_QTY05, DAMAGED_QTY06
     #Unit Price -- UNIT_PRICE01, UNIT_PRICE02, UNIT_PRICE03, UNIT_PRICE04, UNIT_PRICE05, UNIT_PRICE06
 
-  @smoke_test
-  Scenario: To verify whether a user with create access can create a vendor
-  packing slip with valid inputs, by taking products as inward
+  Scenario: Create and verify vendor packing slip in the vendor invoice and packing slip page
     Given I visit the NYB admin website and log in as a user with create, edit, and view access,
     Then I navigate to the Inventory module,
     Then I verify the inventory module URL,
@@ -24,11 +22,27 @@ Feature: Vendor packing slip
     Then I add products,
     Then I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,
     Then I click submit button.
-#    Then I navigated to the invoice and packing slip page,
-#    Then I verify the Invoice & Packing Slip landing page URL,
-    Then I verify the autopopulated dates in the listing,
-    Then I click the "View" button for the created entry,
-    Then I verify that all the displayed details are correct.
+#    Then I navigated to the vendor invoice and packing slip page,
+    Then I verify the Invoice & Packing Slip landing page URL,
+    Then I verify that the vendor packing slip is successfully created and displayed on the Vendor Invoice and Packing Slip page,
+    Then I navigate to inbound inventory report page,
+    Then I verify the inbound inventory report landing page URL,
+    Then I verify that the vendor packing slip is successfully created and displayed on the inbound inventory report.
+
+
+
+
+
+
+
+
+
+
+
+
+#    Then I verify the autopopulated dates in the listing,
+#    Then I click the "View" button for the created entry,
+#    Then I verify that all the displayed details are correct.
 
 
 
