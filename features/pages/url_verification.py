@@ -1,7 +1,5 @@
 import time
 
-from selenium.webdriver.support.wait import WebDriverWait
-
 from features.pages.base_page import BasePage
 from features.utilities import ConfigReader
 

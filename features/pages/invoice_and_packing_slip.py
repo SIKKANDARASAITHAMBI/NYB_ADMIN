@@ -1,7 +1,4 @@
-import time
-from datetime import datetime
 from features.pages.base_page import BasePage
-from features.utilities import ConfigReader
 import allure
 
 

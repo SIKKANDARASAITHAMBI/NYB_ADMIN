@@ -1,12 +1,13 @@
 import time
 
 from behave import *
+
 from features.pages.create_inbound_inventory import CreateVendorPackingSlip
 from features.pages.inbound_inventory_report import inbound_inventory_report
 from features.pages.inventory import HeaderNavigators
+from features.pages.invoice_and_packing_slip import VendorPackingSlip, Page
 from features.pages.login import Login
 from features.pages.url_verification import UrlVerification
-from features.pages.invoice_and_packing_slip import VendorPackingSlip, Page
 from features.utilities import ConfigReader
 
 
@@ -47,6 +48,11 @@ def step_impl(context):
     context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE01")
 
+@then(u'I choose the document type as "Vendor Invoice",')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp = CreateVendorPackingSlip(context.driver)
+    context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE03")
 
 @then(u'I select the warehouse,')
 def step_impl(context):
@@ -95,15 +101,26 @@ def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.no("VALID INPUTS", "NO06")
 
+@then(u'I Enter Vendor Invoice No,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.vendor_invoice_no("VALID INPUTS", "Vendor_Invoice_NO")
 
 @then(u'I upload the packing slip,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.upload_packing_slip()
 
+@then(u'I Upload the Invoice,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.upload_the_invoice()
+
+
 
 @then(u'I add products,')
 def step_impl(context):
+    context.driver.implicitly_wait(20)
     products = ["PRODUCT_NAME01", "PRODUCT_NAME02",
                 "PRODUCT_NAME03", "PRODUCT_NAME04", "PRODUCT_NAME05", "PRODUCT_NAME06"]
     category = "VALID INPUTS"
@@ -171,7 +188,26 @@ def inwardquantity_td01(context):
 
     context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
                                           unit_prices, batch_nos, expiry_dates)
+@then(u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date, for vendor invoice,')
+def inwardquantity_td01(context):
+    context.driver.implicitly_wait(20)
+    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02","INWARD_QTY03",
+                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06" ]
 
+    damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
+                          "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
+
+    unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
+                   "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
+
+    batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
+                 "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
+
+    expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
+                    "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
+
+    context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
+                                          unit_prices, batch_nos, expiry_dates)
 @then(u'I click submit button.')
 def submit(context):
     context.driver.implicitly_wait(20)
