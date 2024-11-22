@@ -1,6 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 driver = webdriver.Edge()
@@ -27,12 +29,11 @@ driver.get("https://omayo.blogspot.com/")
 #
 # print(b)
 
-dd = driver.find_element(By.XPATH, "//*[@class='dropbtn']")
-dd.click()
-wait = WebDriverWait(driver,30)
-flipkart_option = wait.until(expected_conditions.visibility_of_element_located((By.LINK_TEXT,"Flipkart")))
-flipkart_option.click()
+dd = driver.find_element(By.ID, "drop1")
+select = Select(dd)
+options = select.options
+for option in options:
+    txt = option.text
 
-
-
-
+action = ActionChains(driver)
+action.double_click()
