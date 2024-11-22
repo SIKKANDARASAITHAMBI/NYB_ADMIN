@@ -11,113 +11,6 @@ from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
 
 
-@given(u'I visit the NYB admin website and log in as a user with create, edit, and view access,')
-def login(context):
-    context.driver.implicitly_wait(20)
-    context.driver.get(ConfigReader.urls("URL", "BASE_URL"))
-    context.ln = Login(context.driver)
-    context.ln.login_form(
-        "SIGNIN VALID INPUT", "USER_NAME", "PASSWORD")
-
-
-@then(u'I verify the orders module URL,')
-def verify_create_order_url(context):
-    context.driver.implicitly_wait(20)
-    context.url = UrlVerification(context.driver)
-    context.url.order_urls("create order")
-
-
-@then(u'I navigate to the Inventory module,')
-def inventory_nav(context):
-    context.driver.implicitly_wait(20)
-    context.hn = HeaderNavigators(context.driver)
-    context.hn.header_navs("inventory")
-
-
-@then(u'I verify the inventory module URL,')
-def verify_create_inbound_inventory_url(context):
-    time.sleep(4)
-    context.driver.implicitly_wait(20)
-    context.url = UrlVerification(context.driver)
-    context.url.inventory_urls("inventory")
-
-
-@then(u'I choose the document type as "vendor packing slip",')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp = CreateVendorPackingSlip(context.driver)
-    context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE01")
-
-@then(u'I choose the document type as "Vendor Invoice",')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp = CreateVendorPackingSlip(context.driver)
-    context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE03")
-
-@then(u'I select the warehouse,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
-
-
-@then(u'I select the vendor,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.vendors("VALID INPUTS", "VENDORS")
-
-
-@then(u'I enter a valid packing slip number(#Packing slip no -- NO01),')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.no("VALID INPUTS", "NO01")
-
-
-@then(u'I enter a valid packing slip number(#Packing slip no -- NO02),')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.no("VALID INPUTS", "NO02")
-
-
-@then(u'I enter a valid packing slip number(#Packing slip no -- NO03),')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.no("VALID INPUTS", "NO03")
-
-
-@then(u'I enter a valid packing slip number(#Packing slip no -- NO04),')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.no("VALID INPUTS", "NO04")
-
-
-@then(u'I enter a valid packing slip number(#Packing slip no -- NO05),')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.no("VALID INPUTS", "NO05")
-
-
-@then(u'I enter a valid packing slip number(#Packing slip no -- NO06),')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.no("VALID INPUTS", "NO06")
-
-@then(u'I Enter Vendor Invoice No,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.vendor_invoice_no("VALID INPUTS", "Vendor_Invoice_NO")
-
-@then(u'I upload the packing slip,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.upload_packing_slip()
-
-@then(u'I Upload the Invoice,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.upload_the_invoice()
-
-
-
 @then(u'I add products,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
@@ -159,6 +52,8 @@ def step_impl(context):
 def step_impl(context):
     context.cvp.sample_product_flavors_size_weight_variant_name("VALID INPUTS",
                                                                 "NEW_SAMPLE_PRODUCTS_FLAVORS_SIZE_WEIGHT_VARIANT_NAME")
+
+
 @then(u'I enter a valid price,')
 def step_impl(context):
     pass
@@ -168,11 +63,13 @@ def step_impl(context):
 def step_impl(context):
     context.cvp.confirm()
 
-@then(u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
+
+@then(
+    u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
 def inwardquantity_td01(context):
     context.driver.implicitly_wait(20)
-    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02","INWARD_QTY03",
-                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06" ]
+    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
+                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
 
     damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
                           "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
@@ -188,37 +85,124 @@ def inwardquantity_td01(context):
 
     context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
                                           unit_prices, batch_nos, expiry_dates)
-@then(u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date, for vendor invoice,')
-def inwardquantity_td01(context):
-    context.driver.implicitly_wait(20)
-    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02","INWARD_QTY03",
-                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06" ]
 
-    damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
-                          "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
 
-    unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
-                   "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
+# @then(
+#     u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date, for vendor invoice,')
+# def inwardquantity_td01(context):
+#     context.driver.implicitly_wait(20)
+#     inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
+#                          "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
+#
+#     damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
+#                           "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
+#
+#     unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
+#                    "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
+#
+#     batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
+#                  "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
+#
+#     expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
+#                     "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
+#
+#     context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
+#                                           unit_prices, batch_nos, expiry_dates)
 
-    batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
-                 "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
 
-    expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
-                    "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
-
-    context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
-                                          unit_prices, batch_nos, expiry_dates)
 @then(u'I click submit button.')
 def submit(context):
     context.driver.implicitly_wait(20)
     context.cvp.submit()
 
+
+#**************************** Vendor Packing Slip ****************************
+@given(u'I visit the NYB admin website and log in as a user with create, edit, and view access,')
+def login(context):
+    context.driver.implicitly_wait(20)
+    context.driver.get(ConfigReader.urls("URL", "BASE_URL"))
+    context.ln = Login(context.driver)
+    context.ln.login_form(
+        "SIGNIN VALID INPUT", "USER_NAME", "PASSWORD")
+
+
+@then(u'I verify the orders module URL,')
+def verify_create_order_url(context):
+    context.driver.implicitly_wait(20)
+    context.url = UrlVerification(context.driver)
+    context.url.order_urls("create order")
+
+
+@then(u'I navigate to the Inventory module,')
+def inventory_nav(context):
+    context.driver.implicitly_wait(20)
+    context.hn = HeaderNavigators(context.driver)
+    context.hn.header_navs("inventory")
+
+
+@then(u'I verify the inventory module URL,')
+def verify_create_inbound_inventory_url(context):
+    time.sleep(1)
+    context.driver.implicitly_wait(20)
+    context.url = UrlVerification(context.driver)
+    context.url.inventory_urls("inventory")
+
+
+@then(u'I choose the document type as "vendor packing slip",')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp = CreateVendorPackingSlip(context.driver)
+    context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE01")
+
+
+@then(u'I select the warehouse,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
+
+
+@then(u'I select the vendor,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.vendors("VALID INPUTS", "VENDORS")
+
+
+@then(u'I upload the packing slip,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.upload_packing_slip()
+
+
+#**************************** Vendor Invoice ***************************
+
+@then(u'I choose the document type as "Vendor Invoice",')
+def vendor_invoice_source(context):
+    context.driver.implicitly_wait(20)
+    context.cvp = CreateVendorPackingSlip(context.driver)
+    context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE02")
+
+
+@then(u'I Enter Vendor Invoice No,')
+def vendor_invoice_no(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.vendor_invoice_no("VALID INPUTS", "Vendor_Invoice_NO")
+
+
+@then(u'I Upload the Invoice,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.upload_the_invoice()
+
+
+#**************************** Vendor Invoice and packing slip ***************************
+
 @then(u'I verify the Invoice & Packing Slip landing page URL,')
-def invocie_packing_slip_url(context):
+def invoice_packing_slip_url(context):
     context.driver.implicitly_wait(20)
     context.url.inventory_urls("invoice and packing slip")
 
-@then (u'I verify that the vendor packing slip is successfully created and displayed on the Vendor Invoice and Packing Slip page,')
+
+@then(u'I verify that the vendor packing slip is successfully created and displayed on the Vendor Invoice and Packing Slip page,')
 def invocie_packing_slip_creation(context):
     context.driver.implicitly_wait(20)
     context.page = Page(context.driver)
@@ -227,18 +211,21 @@ def invocie_packing_slip_creation(context):
     context.page.take_screen_shot(ConfigReader.create_inbound_inventory(
         "VALID INPUTS", "LISTING_SCREEN_SHOT"))
 
-@then (u'I navigate to inbound inventory report page,')
-def inbound_invntory_report_nav(context):
+
+@then(u'I navigate to inbound inventory report page,')
+def inbound_inventory_report_nav(context):
     context.driver.implicitly_wait(20)
     context.hn.header_navs("inbound inventory report")
 
-@then (u'I verify the inbound inventory report landing page URL,')
-def inbound_invntory_page_url_verification(context):
+
+@then(u'I verify the inbound inventory report landing page URL,')
+def inbound_inventory_page_url_verification(context):
     context.driver.implicitly_wait(20)
     context.url.inventory_urls("inbound_inventory_report")
 
-@then (u'I verify that the vendor packing slip is successfully created and displayed on the inbound inventory report.')
-def inbound_invntory_page_vendor_packing_slip_ss(context):
+
+@then(u'I verify that the vendor packing slip is successfully created and displayed on the inbound inventory report.')
+def inbound_inventory_page_vendor_packing_slip_ss(context):
     context.driver.implicitly_wait(20)
     context.iir = inbound_inventory_report(context.driver)
     context.iir.take_screen_shot(ConfigReader.create_inbound_inventory(
@@ -255,6 +242,7 @@ def invoice_packing_slip_listing(context):
     value = ["view"]
     context.vps.view_update_vendor_packing_slip(value)
 
+
 @then(u'I click the "View" button for the created entry,')
 def invoice_packing_slip_view(context):
     context.driver.implicitly_wait(20)
@@ -266,13 +254,8 @@ def invoice_packing_slip_view_details(context):
     context.driver.implicitly_wait(20)
     pass
 
+
 @then(u'I navigated to the vendor invoice and packing slip page,')
 def inventory_nav(context):
     context.driver.implicitly_wait(20)
     context.hn.invoice_and_packingslip()
-
-
-
-
-
-

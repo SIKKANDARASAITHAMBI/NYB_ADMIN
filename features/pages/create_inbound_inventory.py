@@ -34,7 +34,7 @@ class CreateVendorPackingSlip(BasePage):
     sample_size_weight_variant_name_xpath = "//table//tbody//td//input[@placeholder='Enter Size/Weight']"
     sample_product_price_field_xpath = "//table//tbody//td//input[@placeholder='Enter Price']"
     confirm_btn_id = "confirmButton"
-    added_products_table_xpath = "//table[@id='tblpackingslip']//tbody[@id='packingtbody']//tr"
+    added_products_table_ps_xpath = "//table[@id='tblpackingslip']//tbody[@id='packingtbody']//tr"
     inward_qty_xpath = "td"
     damaged_qty_xpath = "td"
     unit_price_xpath = "td"
@@ -43,6 +43,7 @@ class CreateVendorPackingSlip(BasePage):
     submit_btn_xpath = "//button[text()='Submit']"
     click_random_xpath = "(//*[@class='form-row'])"
     add_product_xpath = "(//*[text()='Add New Product'])[2]"
+    added_products_table_vi_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
 
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
@@ -110,12 +111,12 @@ class CreateVendorPackingSlip(BasePage):
 
     def upload_packing_slip(self):
         file_input = self.driver.find_element(By.ID, 'packing_slip_upload')
-        file_path = " C:/Users/Dell/Downloads/packing-slip-2x (1).png"
+        file_path = "C:/Users/Dell/OneDrive/Documents/Samples/Files/Pdf"
         file_input.send_keys(file_path)
 
     def upload_the_invoice(self):
         file_input = self.driver.find_element(By.ID, 'upload_invoice')
-        file_path = " C:/Users/hp/Desktop/nyb.PNG"
+        file_path = "C:/Users/Dell/OneDrive/Documents/Samples/Files/Pdf"
         file_input.send_keys(file_path)
 
     def add_products(self, *args):
