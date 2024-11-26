@@ -26,8 +26,14 @@ class CreateVendorPackingSlip(BasePage):
     purchase_order_no_id = "purchase_order_no"
     vendor_invoice_no_id = "supplier_invoice_no"
     purchase_order_date_id = "purchase_order_date"
+    payment_receipt_no_id = "supplier_invoice_no"
     packing_slip_upload = "packing_slip_upload"
     upload_invoice = "upload_invoice"
+    upload_transfer_invoice = "transfer_slip_upload"
+    transfer_no_xpath = "(//input[contains(@class,'packing_slip form-control')])[2]"
+    Replacement_for_damaged_items_xpath = "//span[text()='Replacement for Damaged Items']"
+    order_id = "select2-order_id-container"
+    Payment_Reciept = "select2-source_id-container"
     add_product_field_id = "select2-product_id-container"
     add_sample_product_field_id = "select2-product_dropdown-container"
     sample_product_check_box_xpath = "//table//tbody//td//input[@type='checkbox']"
@@ -37,6 +43,7 @@ class CreateVendorPackingSlip(BasePage):
     sample_product_price_field_xpath = "//table//tbody//td//input[@placeholder='Enter Price']"
     confirm_btn_id = "confirmButton"
     added_products_table_ps_xpath = "//table[@id='tblpackingslip']//tbody[@id='packingtbody']//tr"
+    added_products_table_it_xpath = "//table[@id='tbltransferslip']//tbody[@id='transfertbody']//tr"
     inward_qty_xpath = "td"
     damaged_qty_xpath = "td"
     unit_price_xpath = "td"
@@ -46,6 +53,7 @@ class CreateVendorPackingSlip(BasePage):
     click_random_xpath = "(//*[@class='form-row'])"
     add_product_xpath = "(//*[text()='Add New Product'])[2]"
     added_products_table_vi_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
+
 
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
@@ -71,11 +79,22 @@ class CreateVendorPackingSlip(BasePage):
     def from_warehouse(self, category, key):
         self.click_element("from_warehouse_xpath", self.from_warehouse_xpath)
         self.search(category, key)
+
     def to_warehouse(self, category, key):
         self.click_element("to_warehouse_xpath", self.to_warehouse_xpath)
         self.search(category, key)
+
+    def order_ids(self, category, key):
+        self.click_element("order_id", self.order_id)
+        self.search(category, key)
+
+
     def no(self, category, key):
         self.send_value_to_element("packing_slip_no_id", self.packing_slip_no_id,
+                                   ConfigReader.create_inbound_inventory(category, key))
+
+    def intra_ware_house_transfer_no(self, category, key):
+        self.send_value_to_element("transfer_no_xpath", self.transfer_no_xpath,
                                    ConfigReader.create_inbound_inventory(category, key))
 
     def date(self, category, packing_slip_date):
@@ -101,12 +120,21 @@ class CreateVendorPackingSlip(BasePage):
             ConfigReader.create_inbound_inventory(
                 category, vendor_invoice_no))
 
+
+
     def purchase_order_no(self, category, purchase_order_no):
         self.clear_element("purchase_order_no_id", self.purchase_order_no_id)
         self.send_value_to_element(
             "purchase_order_no_id", self.purchase_order_no_id,
             ConfigReader.create_inbound_inventory(
                 category, purchase_order_no))
+
+    def payment_receipt_no(self, category, payment_receipt_no):
+        self.clear_element("payment_receipt_no_id", self.payment_receipt_no_id)
+        self.send_value_to_element(
+            "payment_receipt_no_id", self.payment_receipt_no_id,
+            ConfigReader.create_inbound_inventory(
+                category, payment_receipt_no))
 
     def purchase_order_date(self, category, purchase_order_date):
         self.clear_element("purchase_order_date_id", self.purchase_order_date_id)
@@ -125,6 +153,12 @@ class CreateVendorPackingSlip(BasePage):
         file_input = self.driver.find_element(By.ID, 'upload_invoice')
         file_path = "C:/Users/hp/Desktop/nyb.PNG"
         file_input.send_keys(file_path)
+
+    def upload_transfer_invoice(self):
+        file_input = self.driver.find_element(By.ID, 'transfer_slip_upload')
+        file_path = "C:/Users/hp/Desktop/nyb.PNG"
+        file_input.send_keys(file_path)
+
 
     def add_products(self, *args):
         product_count = len(args[1])
@@ -206,6 +240,9 @@ class CreateVendorPackingSlip(BasePage):
         elif doc_type == "Vendor Invoice":
             rows = self.mul_elememts(
                 "added_products_table_vi_xpath", self.added_products_table_vi_xpath)
+        elif doc_type == "IntrawarehouseTransfer Invoice":
+            rows = self.mul_elememts(
+                "added_products_table_it_xpath", self.added_products_table_it_xpath)
 
         element_count = len(rows)
         for index in range(element_count):
