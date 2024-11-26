@@ -83,8 +83,9 @@ def inwardquantity_td01(context):
     expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
                     "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
 
-    context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
-                                          unit_prices, batch_nos, expiry_dates)
+    doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS","SOURCE_TYPE02")
+    context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
+                                          unit_prices, batch_nos, expiry_dates, doc_type)
 
 
 # @then(
@@ -160,11 +161,24 @@ def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
 
+@then(u'I select the from warehouse')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.from_warehouse("VALID INPUTS", "WAREHOUSE_FROM")
+
+@then(u'I select the to warehouse')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.to_warehouse("VALID INPUTS", "WAREHOUSE_TO")
+
+@then(u'I select the recieving warehouse')
 
 @then(u'I select the vendor,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.vendors("VALID INPUTS", "VENDORS")
+
+@then(u'')
 
 
 @then(u'I upload the packing slip,')

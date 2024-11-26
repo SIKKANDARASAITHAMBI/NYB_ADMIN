@@ -18,6 +18,8 @@ class CreateVendorPackingSlip(BasePage):
     search_field_xpath = "//input[@type='search']"
     warehouse_field_id = "select2-warehouse_id-container"
     vendor_field_id = "select2-supplier_id-container"
+    from_warehouse_xpath = "(//span[@role='textbox'])[2]"
+    to_warehouse_xpath = "(//span[@role='textbox'])[3]"
     packing_slip_no_id = "packing_slip"
     packing_slip_date_id = "packing_slip_date"
     packing_slip_received_date_id = "packing_slip_received_date"
@@ -66,7 +68,12 @@ class CreateVendorPackingSlip(BasePage):
         self.click_element("vendor_field_id", self.vendor_field_id)
         self.search(category, key)
 
-
+    def from_warehouse(self, category, key):
+        self.click_element("from_warehouse_xpath", self.from_warehouse_xpath)
+        self.search(category, key)
+    def to_warehouse(self, category, key):
+        self.click_element("to_warehouse_xpath", self.to_warehouse_xpath)
+        self.search(category, key)
     def no(self, category, key):
         self.send_value_to_element("packing_slip_no_id", self.packing_slip_no_id,
                                    ConfigReader.create_inbound_inventory(category, key))
@@ -111,12 +118,12 @@ class CreateVendorPackingSlip(BasePage):
 
     def upload_packing_slip(self):
         file_input = self.driver.find_element(By.ID, 'packing_slip_upload')
-        file_path = "C:/Users/Dell/OneDrive/Documents/Samples/Files/Pdf"
+        file_path = "C:/Users/hp/Desktop/nyb.PNG"
         file_input.send_keys(file_path)
 
     def upload_the_invoice(self):
         file_input = self.driver.find_element(By.ID, 'upload_invoice')
-        file_path = "C:/Users/Dell/OneDrive/Documents/Samples/Files/Pdf"
+        file_path = "C:/Users/hp/Desktop/nyb.PNG"
         file_input.send_keys(file_path)
 
     def add_products(self, *args):
@@ -190,10 +197,16 @@ class CreateVendorPackingSlip(BasePage):
     #             category, expiry_date))
 
     # Dynamic Code.
-    def vendor_packing_slip_table(self, category, inward_quantity, damaged_quantity, unit_price, batch_number,
-                                  expiry_date):
-        rows = self.mul_elememts(
-            "added_products_table_xpath", self.added_products_table_xpath)
+    def table(self, category, inward_quantity, damaged_quantity, unit_price, batch_number,
+                                  expiry_date, doc_type):
+        rows = None
+        if doc_type == "Vendor Packing Slip":
+            rows = self.mul_elememts(
+                "added_products_table_ps_xpath", self.added_products_table_ps_xpath)
+        elif doc_type == "Vendor Invoice":
+            rows = self.mul_elememts(
+                "added_products_table_vi_xpath", self.added_products_table_vi_xpath)
+
         element_count = len(rows)
         for index in range(element_count):
             time.sleep(1)
