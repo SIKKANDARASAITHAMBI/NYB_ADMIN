@@ -116,6 +116,14 @@ def inwardquantity_td01(context):
 def submit(context):
     context.driver.implicitly_wait(20)
     context.cvp.submit()
+    context.driver.implicitly_wait(20)
+@then(u'I Verify the navigated url is "Vendor Invoices and Packing Slips",')
+def verify(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.verify()
+    context.driver.implicitly_wait(20)
+
+
 
 
 #**************************** Vendor Packing Slip ****************************
@@ -192,10 +200,17 @@ def step_impl(context):
 @then(u'Upload the Transfer Invoice,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.upload_transfer_invoice()
+    context.cvp.upload_transfer_invoices()
 
+@then(u'I enter Document Proof For Discount,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.document_proof_ids()
 
-
+@then(u'I enter notes,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.notes("VALID INPUTS", "NOTES")
 
 @then(u'I upload the packing slip,')
 def step_impl(context):
@@ -245,6 +260,21 @@ def purchase_order_number(context):
     context.driver.implicitly_wait(20)
     context.cvp.purchase_order_no("VALID INPUTS", "PURCHASE_ORDER_NO")
 
+@then(u'I enter discounts,')
+def discounts(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.discounts("VALID INPUTS", "DISCOUNTS")
+
+@then(u'I enter tax,')
+def tax(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.tax("VALID INPUTS", "TAX")
+
+@then(u'I enter other charges,')
+def other_charges(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.other_charges("VALID INPUTS", "OTHER_CHARGES")
+
 
 @then(u'I Upload the Invoice,')
 def step_impl(context):
@@ -255,6 +285,8 @@ def step_impl(context):
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.upload_the_invoice()
+
+
 
 
 #**************************** Vendor Invoice and packing slip ***************************
@@ -345,5 +377,30 @@ def inwardquantity_td01(context):
 
 
     doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS","SOURCE_TYPE03")
+    context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
+                                          unit_prices, batch_nos, expiry_dates, doc_type)
+
+
+@then(
+    u'I enter a valid Payment Receipt inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
+def inwardquantity_td01(context):
+    context.driver.implicitly_wait(20)
+    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
+                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
+
+    damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
+                          "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
+
+    unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
+                   "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
+
+    batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
+                 "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
+
+    expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
+                    "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
+
+
+    doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS","SOURCE_TYPE05")
     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
                                           unit_prices, batch_nos, expiry_dates, doc_type)

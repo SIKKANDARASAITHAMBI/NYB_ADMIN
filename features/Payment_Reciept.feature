@@ -10,3 +10,15 @@ Feature: Vendor Invoice
     Then I enter Payment Receipt No,
     Then I enter Purchase Order No,
     Then I upload the receipt,
+    Then I add products,
+    Then I enter a valid Payment Receipt inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,
+    Then I enter discounts,
+    Then I enter tax,
+    Then I enter other charges,
+    Then I enter Document Proof For Discount,
+    Then I enter notes,
+    Then I click submit button.
+    Then I Verify the navigated url is "Vendor Invoices and Packing Slips",
+
+
+

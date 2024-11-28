@@ -1,4 +1,5 @@
 import time
+from lib2to3.fixes.fix_input import context
 
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
@@ -28,6 +29,11 @@ class CreateVendorPackingSlip(BasePage):
     purchase_order_date_id = "purchase_order_date"
     payment_receipt_no_id = "supplier_invoice_no"
     packing_slip_upload = "packing_slip_upload"
+    discounts_id = "discount"
+    document_proof_id = "document_proof_id"
+    tax_id = "tax"
+    other_charges_id = "other_charges_id"
+    notes_id = "notes"
     upload_invoice = "upload_invoice"
     upload_transfer_invoice = "transfer_slip_upload"
     transfer_no_xpath = "(//input[contains(@class,'packing_slip form-control')])[2]"
@@ -53,11 +59,13 @@ class CreateVendorPackingSlip(BasePage):
     click_random_xpath = "(//*[@class='form-row'])"
     add_product_xpath = "(//*[text()='Add New Product'])[2]"
     added_products_table_vi_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
+    added_products_table_rd_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
+    added_products_table_pr_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
 
 
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
-        time.sleep(1.5)
+        time.sleep(0.5)
         actions = ActionChains(self.driver)
         actions.send_keys_to_element(search, ConfigReader.create_inbound_inventory(
             category, key))
@@ -136,6 +144,36 @@ class CreateVendorPackingSlip(BasePage):
             ConfigReader.create_inbound_inventory(
                 category, payment_receipt_no))
 
+    def discounts(self, category, discounts):
+        self.clear_element("discounts_id", self.discounts_id)
+        self.send_value_to_element(
+            "discounts_id", self.discounts_id,
+            ConfigReader.create_inbound_inventory(
+                category, discounts))
+
+    def tax(self, category, tax):
+        self.clear_element("tax_id", self.tax_id)
+        self.send_value_to_element(
+            "tax_id", self.tax_id,
+            ConfigReader.create_inbound_inventory(
+                category, tax))
+
+
+    def other_charges(self, category, other_charges):
+        self.clear_element("other_charges_id", self.other_charges_id)
+        self.send_value_to_element(
+            "other_charges_id", self.other_charges_id,
+            ConfigReader.create_inbound_inventory(
+                category, other_charges))
+
+    def notes(self, category, notes):
+        self.clear_element("notes_id", self.notes_id)
+        self.send_value_to_element(
+            "notes_id", self.notes_id,
+            ConfigReader.create_inbound_inventory(
+                category, notes))
+
+
     def purchase_order_date(self, category, purchase_order_date):
         self.clear_element("purchase_order_date_id", self.purchase_order_date_id)
         self.send_value_to_element(
@@ -154,8 +192,13 @@ class CreateVendorPackingSlip(BasePage):
         file_path = "C:/Users/hp/Desktop/nyb.PNG"
         file_input.send_keys(file_path)
 
-    def upload_transfer_invoice(self):
+    def upload_transfer_invoices(self):
         file_input = self.driver.find_element(By.ID, 'transfer_slip_upload')
+        file_path = "C:/Users/hp/Desktop/nyb.PNG"
+        file_input.send_keys(file_path)
+
+    def document_proof_ids(self):
+        file_input = self.driver.find_element(By.ID, 'document_proof_id')
         file_path = "C:/Users/hp/Desktop/nyb.PNG"
         file_input.send_keys(file_path)
 
@@ -243,6 +286,13 @@ class CreateVendorPackingSlip(BasePage):
         elif doc_type == "IntrawarehouseTransfer Invoice":
             rows = self.mul_elememts(
                 "added_products_table_it_xpath", self.added_products_table_it_xpath)
+        elif doc_type == "Replacement_for_damaged_items":
+            rows = self.mul_elememts(
+                "added_products_table_rd_xpath", self.added_products_table_rd_xpath)
+        elif doc_type == "Payment Receipt":
+            rows = self.mul_elememts(
+                "added_products_table_pr_xpath", self.added_products_table_pr_xpath)
+
 
         element_count = len(rows)
         for index in range(element_count):
@@ -291,3 +341,8 @@ class CreateVendorPackingSlip(BasePage):
         )
         actions = ActionChains(self.driver)
         actions.move_to_element(submit_btn).click().perform()
+
+    def verify(self):
+
+        print(context.current_url)
+
