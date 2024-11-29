@@ -4,6 +4,7 @@ from lib2to3.fixes.fix_input import context
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from features.pages.base_page import BasePage
@@ -28,6 +29,7 @@ class CreateVendorPackingSlip(BasePage):
     vendor_invoice_no_id = "supplier_invoice_no"
     purchase_order_date_id = "purchase_order_date"
     payment_receipt_no_id = "supplier_invoice_no"
+    # payment_mode_xpath = "//label[@for='company_id']/following-sibling::select[1]/option[2]"
     packing_slip_upload = "packing_slip_upload"
     discounts_id = "discount"
     document_proof_id = "document_proof_id"
@@ -79,6 +81,18 @@ class CreateVendorPackingSlip(BasePage):
     def warehouse(self, category, key):
         self.click_element("warehouse_field_id", self.warehouse_field_id)
         self.search(category, key)
+
+    payment_mode_id = "payment_mode"
+
+    def payment_mode(self,category, key):
+
+        payment_mode_field = (self.locate_element("payment_mode_id", self.payment_mode_id))
+        select = Select(payment_mode_field)
+        payment_mode = ConfigReader.create_inbound_inventory(category, key)
+        if payment_mode == "check":
+            select.select_by_value("check")
+        else:
+            select.select_by_value("credit_card")
 
     def vendors(self, category, key):
         self.click_element("vendor_field_id", self.vendor_field_id)
@@ -172,6 +186,8 @@ class CreateVendorPackingSlip(BasePage):
             "notes_id", self.notes_id,
             ConfigReader.create_inbound_inventory(
                 category, notes))
+
+
 
 
     def purchase_order_date(self, category, purchase_order_date):
@@ -342,7 +358,7 @@ class CreateVendorPackingSlip(BasePage):
         actions = ActionChains(self.driver)
         actions.move_to_element(submit_btn).click().perform()
 
-    def verify(self):
 
-        print(context.current_url)
+
+
 

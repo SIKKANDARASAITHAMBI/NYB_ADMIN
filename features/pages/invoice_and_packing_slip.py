@@ -1,5 +1,11 @@
+import time
+
+from selenium.webdriver import ActionChains, Keys
+
 from features.pages.base_page import BasePage
 import allure
+
+from features.utilities import ConfigReader
 
 
 class Page(BasePage):
@@ -15,10 +21,23 @@ class Page(BasePage):
         success_message = success_message.split()
         self.doc_number = success_message[6]
 
-    def filters(self, args):
-        value = args
+    doc_type_xpath = "//*[@title='Select Document Type']"
+    search_xpath = "//*[@type='search']"
+
+    def search(self, category, key):
+        search = self.locate_element("search_xpath", self.search_xpath)
+        time.sleep(5)
+        actions = ActionChains(self.driver)
+        actions.send_keys_to_element(search, ConfigReader.create_inbound_inventory(
+            category, key))
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+
+    def filters(self, value):
+
         if value == "document_type":
-            pass
+            self.click_element("doc_type_xpath", self.doc_type_xpath)
+            self.search("VALID INPUTS", "SOURCE_TYPE05")
         elif value == "warehouse":
             pass
         elif value == "vendors":
@@ -126,7 +145,9 @@ class VendorInvoice(BasePage):
         if value == "edit":
             pass
         elif value == "view":
-            pass
+            #pass
+            self.click_element("view_btn_xpath", self.view_btn_xpath)
+
         elif value == "update_payment":
             pass
         elif value == "create_invoice":

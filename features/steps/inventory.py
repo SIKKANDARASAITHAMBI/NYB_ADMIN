@@ -117,6 +117,20 @@ def submit(context):
     context.driver.implicitly_wait(20)
     context.cvp.submit()
     context.driver.implicitly_wait(20)
+
+@then(u'I click v&p submit button.')
+def submit(context):
+    context.driver.implicitly_wait(20)
+    context.page.filters("document_no")
+    context.driver.implicitly_wait(20)
+
+@then(u'I click view button,')
+def view(context):
+    context.driver.implicitly_wait(20)
+    context.vps.view_update_vp_slip()
+    context.driver.implicitly_wait(20)
+
+
 @then(u'I Verify the navigated url is "Vendor Invoices and Packing Slips",')
 def verify(context):
     context.driver.implicitly_wait(20)
@@ -149,6 +163,12 @@ def inventory_nav(context):
     context.hn = HeaderNavigators(context.driver)
     context.hn.header_navs("inventory")
 
+@then(u'I navigate to vendor and inovice packing slip page,')
+def inventory_nav(context):
+    context.driver.implicitly_wait(20)
+    context.hn = HeaderNavigators(context.driver)
+    context.hn.header_navs("invoice and packingslip")
+
 
 @then(u'I verify the inventory module URL,')
 def verify_create_inbound_inventory_url(context):
@@ -156,6 +176,13 @@ def verify_create_inbound_inventory_url(context):
     context.driver.implicitly_wait(20)
     context.url = UrlVerification(context.driver)
     context.url.inventory_urls("inventory")
+
+@then(u'I verify the vendor and inovice packing slip page,')
+def verify_create_inbound_inventory_url(context):
+    time.sleep(1)
+    context.driver.implicitly_wait(20)
+    context.url = UrlVerification(context.driver)
+    context.url.inventory_urls("invoice and packingslip")
 
 
 @then(u'I choose the document type as "vendor packing slip",')
@@ -175,6 +202,11 @@ def step_impl(context):
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
+
+@then(u'I Select the Payment Mode,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_mode("VALID INPUTS", "PAYMENT_MODE_CHECK")
 
 @then(u'I select the from warehouse,')
 def step_impl(context):
@@ -232,11 +264,19 @@ def Replacement_for_damaged_items(context):
     context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE04")
 
+@then(u'I choose the document type as vsp "Payment_Reciept",')
+def Payment_Reciepts(context):
+    context.driver.implicitly_wait(20)
+    context.page = Page(context.driver)
+    context.page.filters("document_type")
+
+
 @then(u'I choose the document type as "Payment_Reciept",')
 def Payment_Reciepts(context):
     context.driver.implicitly_wait(20)
     context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE05")
+
 
 
 @then(u'I select the order_id,')
@@ -296,9 +336,8 @@ def invoice_packing_slip_url(context):
     context.driver.implicitly_wait(20)
     context.url.inventory_urls("invoice and packing slip")
 
-
 @then(u'I verify that the vendor packing slip is successfully created and displayed on the Vendor Invoice and Packing Slip page,')
-def invocie_packing_slip_creation(context):
+def invoice_packing_slip_creation(context):
     context.driver.implicitly_wait(20)
     context.page = Page(context.driver)
     context.page.filters("document_no")
@@ -356,6 +395,9 @@ def inventory_nav(context):
     context.hn.invoice_and_packingslip()
 
 
+
+
+
 @then(
     u'I enter a valid Intrawarehouse inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
 def inwardquantity_td01(context):
@@ -404,3 +446,5 @@ def inwardquantity_td01(context):
     doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS","SOURCE_TYPE05")
     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
                                           unit_prices, batch_nos, expiry_dates, doc_type)
+
+
