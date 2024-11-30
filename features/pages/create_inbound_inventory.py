@@ -205,7 +205,7 @@ class CreateVendorPackingSlip(BasePage):
 
     def upload_the_invoice(self):
         file_input = self.driver.find_element(By.ID, 'upload_invoice')
-        file_path = "C:/Users/hp/Desktop/nyb.PNG"
+        file_path = "C:/Users/sikku/Downloads/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf"
         file_input.send_keys(file_path)
 
     def upload_transfer_invoices(self):

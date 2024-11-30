@@ -12,6 +12,7 @@ class Page(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
+
     success_message_xpath = "(//*[@class='success'])[1]"
     document_no_xpath = "(//input[@placeholder='Enter Document No. / No.'])"
     submit_btn_id = "submit-button"
@@ -19,7 +20,7 @@ class Page(BasePage):
     def get_success_message(self):
         success_message = self.get_element_text("success_message_xpath", self.success_message_xpath)
         success_message = success_message.split()
-        self.doc_number = success_message[6]
+        self.doc_number = success_message[5]
 
     doc_type_xpath = "//*[@title='Select Document Type']"
     search_xpath = "//*[@type='search']"
@@ -35,17 +36,16 @@ class Page(BasePage):
 
     def filters(self, value):
 
-        if value == "document_type":
+        if value == "Document type":
             self.click_element("doc_type_xpath", self.doc_type_xpath)
             self.search("VALID INPUTS", "SOURCE_TYPE05")
-        elif value == "warehouse":
+        elif value == "Warehouse":
             pass
-        elif value == "vendors":
+        elif value == "Vendors":
             pass
-        elif value == "document_no":
-            success_txt = self.get_success_message()
+        elif value == "Document No":
+            self.get_success_message()
             self.send_value_to_element("document_no_xpath", self.document_no_xpath, self.doc_number)
-
         self.click_element("submit_btn_id", self.submit_btn_id)
 
     def take_screen_shot(self, location):
@@ -137,8 +137,16 @@ class VendorInvoice(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def listing(self):
-        pass
+    listing_row_xpath = "//table[@id='Event']//tbody//tr"
+
+    def listing(self, step_name):
+
+        listing_rows = self.mul_elememts("listing_row_xpath", self.listing_row_xpath)
+        cell_count = len(listing_rows)
+        timestamp = time.strftime("%Y%m%d-%H%M%S")
+        screenshot_path = f"C:/Users/sikku/PycharmProjects/NYB_ADMIN/features/snaps/{step_name}_{timestamp}.png"
+        self.screen_shot(screenshot_path)
+        assert cell_count == 1
 
     def view_update_vp_slip(self, value):
 

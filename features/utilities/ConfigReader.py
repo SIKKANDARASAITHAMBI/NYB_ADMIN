@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 
+
 def basic_info(category, key):
     try:
         config = ConfigParser()
@@ -7,6 +8,7 @@ def basic_info(category, key):
         return config.get(category, key)
     except:
         print("****************************File not found****************************")
+
 
 def expected_outcome(category, key):
     try:
@@ -16,6 +18,7 @@ def expected_outcome(category, key):
     except:
         print("****************************File not found****************************")
 
+
 def login(category, key):
     try:
         config = ConfigParser()
@@ -23,6 +26,7 @@ def login(category, key):
         return config.get(category, key)
     except:
         print("****************************File not found****************************")
+
 
 def urls(category, key):
     try:
@@ -32,10 +36,20 @@ def urls(category, key):
     except:
         print("****************************File not found****************************")
 
+
 def create_inbound_inventory(category, key):
     try:
         config = ConfigParser()
         config.read("features/configurations/create_inbound_inventory.ini")
+        return config.get(category, key)
+    except:
+        print("****************************File not found****************************")
+
+
+def vendor_invoices_and_packing_slips(category, key):
+    try:
+        config = ConfigParser()
+        config.read("features/configurations/vendor invoice & packing slips.ini")
         return config.get(category, key)
     except:
         print("****************************File not found****************************")
