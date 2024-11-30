@@ -45,6 +45,18 @@ def step_impl(context):
     context.cvp.vendors("VALID INPUTS", "VENDORS")
 
 
+@when(u'I select the new vendor,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.vendors("VALID INPUTS", "VENDORS_01")
+
+
+@when(u'I Enter vendor name,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.vendor_name("VALID INPUTS", "VENDOR_NAME")
+
+
 @when(u'I add products,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
@@ -144,7 +156,7 @@ def inwardquantity_td01(context):
 #     context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
 #                                           unit_prices, batch_nos, expiry_dates)
 
-@then(u'I enter Purchase Order No,')
+@when(u'I enter Purchase Order No,')
 def purchase_order_number(context):
     context.driver.implicitly_wait(20)
     context.cvp.purchase_order_no("VALID INPUTS", "PURCHASE_ORDER_NO")
@@ -302,38 +314,64 @@ def step_impl(context):
 # **************************** Payment Receipts ****************************
 
 
-@then(u'I choose the document type as "Payment_Reciept",')
+@when(u'I choose the document type as "Payment_Reciept",')
 def Payment_Reciepts(context):
     context.driver.implicitly_wait(20)
     context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE05")
 
 
-@then(u'I enter Payment Receipt No,')
+@when(u'I enter Payment Receipt No,')
 def payment_receipt_number(context):
     context.driver.implicitly_wait(20)
     context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO")
 
 
-@then(u'I Select the Payment Mode,')
+@when(u'I enter Payment Receipt No1,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_01")
+
+
+@when(u'I enter Payment Receipt No2,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_02")
+
+@when(u'I enter Payment Receipt No3,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_03")
+
+@when(u'I enter Payment Receipt No4,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_04")
+
+
+@when(u'I upload the receipt,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.payment_mode("VALID INPUTS", "PAYMENT_MODE_CHECK")
+    context.cvp =CreateVendorPackingSlip(context.driver)
+    context.cvp.upload_invoicee(
+        "C:/Users/sikku/Downloads"
+        "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
 
 
-@then(u'I enter Document Proof For Discount,')
+@when(u'I upload Document Proof For Discount,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.document_proof_ids()
+    context.cvp.document_proof_ids("C:/Users/sikku/Downloads"
+                                   "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
 
 
-@then(u'I enter notes,')
+@when(u'I enter notes,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.notes("VALID INPUTS", "NOTES")
 
 
-@then(u'I upload the receipt,')
+@when(u'I Select the Payment Mode,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.upload_the_invoice()
+    context.cvp.payment_mode("VALID INPUTS", "PAYMENT_MODE_CHECK")
