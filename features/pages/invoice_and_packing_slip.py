@@ -20,8 +20,17 @@ class Page(BasePage):
     def get_success_message(self):
         doc_number_position = None
         success_message = self.get_element_text("success_message_xpath", self.success_message_xpath)
-        success_message = success_message.split()
-        self.doc_number = success_message[doc_number_position]
+        if "vendor packing slip" in success_message:
+            doc_number_position = 6
+        elif "vendor invoice" or "purchase receipt" in success_message:
+            doc_number_position = 5
+        elif "intra-warehouse" in success_message:
+            doc_number_position = 5
+        else:
+            raise ValueError("The success message does not contain any of the mentioned type")
+
+        success_message_split = success_message.split()
+        self.doc_number = success_message_split[doc_number_position]
 
     doc_type_xpath = "//*[@title='Select Document Type']"
     search_xpath = "//*[@type='search']"
