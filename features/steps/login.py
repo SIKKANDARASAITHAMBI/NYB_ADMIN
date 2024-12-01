@@ -1,3 +1,4 @@
+import allure
 from behave import *
 
 from features.pages.login import Login
@@ -13,3 +14,4 @@ def login(context):
     context.ln = Login(context.driver)
     context.ln.login_form(
         "SIGNIN VALID INPUT", "USER_NAME", "PASSWORD")
+    allure.attach(context.driver.get_screenshot_as_png(), name="login", attachment_type=allure.attachment_type.PNG)

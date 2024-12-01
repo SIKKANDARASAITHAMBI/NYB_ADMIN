@@ -1,6 +1,7 @@
 import configparser
 import time
 
+import allure
 from behave import *
 
 from features.pages.create_inbound_inventory import CreateVendorPackingSlip
@@ -19,6 +20,7 @@ def inventory_nav(context):
     context.driver.implicitly_wait(20)
     context.hn = HeaderNavigators(context.driver)
     context.hn.header_navs("inventory")
+    allure.attach(context.driver.get_screenshot_as_png(), name="Inventory_module", attachment_type=allure.attachment_type.PNG)
 
 
 # **************************** CIBI URL verification ****************************
@@ -64,6 +66,7 @@ def step_impl(context):
                 "PRODUCT_NAME03", "PRODUCT_NAME04", "PRODUCT_NAME05", "PRODUCT_NAME06"]
     category = "VALID INPUTS"
     context.cvp.add_products(category, products)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Products", attachment_type=allure.attachment_type.PNG)
 
 
 @then(u'I click add sample product option,')
@@ -136,6 +139,7 @@ def inward_quantity(context):
     inward_quantities, damaged_quantities, unit_prices, batch_nos, expiry_dates = test_datas()
     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
                       unit_prices, batch_nos, expiry_dates)
+    allure.attach(context.driver.get_screenshot_as_png(), name="pdt_details", attachment_type=allure.attachment_type.PNG)
 
 
 @when(u'I enter Purchase Order No,')
@@ -149,6 +153,7 @@ def submit(context):
     context.driver.implicitly_wait(20)
     context.cvp.submit()
     context.driver.implicitly_wait(20)
+    allure.attach(context.driver.get_screenshot_as_png(), name="submit", attachment_type=allure.attachment_type.PNG)
 
 
 # **************************** Vendor Packing Slip ****************************
@@ -281,24 +286,27 @@ def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE03")
+    allure.attach(context.driver.get_screenshot_as_png(), name="Doc_type", attachment_type=allure.attachment_type.PNG)
 
 
 @when(u'I select the from warehouse,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.from_warehouse("VALID INPUTS", "WAREHOUSE_FROM")
-
+    allure.attach(context.driver.get_screenshot_as_png(), name="From_warehouse", attachment_type=allure.attachment_type.PNG)
 
 @when(u'I select the to warehouse,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.to_warehouse("VALID INPUTS", "WAREHOUSE_TO")
+    allure.attach(context.driver.get_screenshot_as_png(), name="To_warehouse", attachment_type=allure.attachment_type.PNG)
 
 
 @when(u'I enter the number,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.intra_ware_house_transfer_no("VALID INPUTS", "NO")
+    allure.attach(context.driver.get_screenshot_as_png(), name="Number", attachment_type=allure.attachment_type.PNG)
 
 
 @when(u'Upload the Transfer Invoice,')
@@ -306,6 +314,7 @@ def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.upload_transfer_invoices("C:/Users/sikku/Downloads"
         "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
+    allure.attach(context.driver.get_screenshot_as_png(), name="Doc_upload", attachment_type=allure.attachment_type.PNG)
 
 
 # **************************** Payment Receipts ****************************

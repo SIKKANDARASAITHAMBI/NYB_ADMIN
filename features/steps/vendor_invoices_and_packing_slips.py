@@ -1,3 +1,4 @@
+import allure
 from behave import *
 
 from features.pages.invoice_and_packing_slip import Page, VendorInvoice
@@ -20,6 +21,7 @@ def doc_no_filter(context):
     filter_value = ConfigReader.vendor_invoices_and_packing_slips(
         "VALID INPUTS", "FILTER_04")
     context.page.filters(filter_value)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Filter", attachment_type=allure.attachment_type.PNG)
 
 #**************************** Listing ***************************
 
@@ -29,6 +31,7 @@ def entry(context):
     context.vi = VendorInvoice(context.driver)
     step_name = "created document"
     context.vi.listing(step_name)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Listing", attachment_type=allure.attachment_type.PNG)
 
 
 @then(u'I navigated to the vendor invoice and packing slip page,')
