@@ -18,9 +18,10 @@ class Page(BasePage):
     submit_btn_id = "submit-button"
 
     def get_success_message(self):
+        doc_number_position = None
         success_message = self.get_element_text("success_message_xpath", self.success_message_xpath)
         success_message = success_message.split()
-        self.doc_number = success_message[5]
+        self.doc_number = success_message[doc_number_position]
 
     doc_type_xpath = "//*[@title='Select Document Type']"
     search_xpath = "//*[@type='search']"

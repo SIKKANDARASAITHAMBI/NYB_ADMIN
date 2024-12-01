@@ -18,6 +18,7 @@ class CreateVendorPackingSlip(BasePage):
         super().__init__(driver)
 
     document_type_id = "select2-source_id-container"
+    document_type_xpath = "//*[@id='select2-source_id-container']"
     search_field_xpath = "//input[@type='search']"
     warehouse_field_id = "select2-warehouse_id-container"
     vendor_field_id = "select2-supplier_id-container"
@@ -112,7 +113,7 @@ class CreateVendorPackingSlip(BasePage):
         self.click_element("to_warehouse_xpath", self.to_warehouse_xpath)
         self.search(category, key)
 
-    def no(self, category, key):
+    def pk_no(self, category, key):
         self.send_value_to_element("packing_slip_no_id", self.packing_slip_no_id,
                                    ConfigReader.create_inbound_inventory(category, key))
 
@@ -300,7 +301,8 @@ class CreateVendorPackingSlip(BasePage):
 
     # Dynamic Code.
     def table(self, category, inward_quantity, damaged_quantity, unit_price, batch_number,
-              expiry_date, doc_type):
+              expiry_date):
+        doc_type = self.get_element_text("document_type_xpath", self.document_type_xpath)
         rows = None
         if doc_type == "Vendor Packing Slip":
             rows = self.mul_elememts(
@@ -311,13 +313,11 @@ class CreateVendorPackingSlip(BasePage):
         elif doc_type == "IntrawarehouseTransfer Invoice":
             rows = self.mul_elememts(
                 "added_products_table_it_xpath", self.added_products_table_it_xpath)
-        elif doc_type == "Replacement_for_damaged_items":
-            rows = self.mul_elememts(
-                "added_products_table_rd_xpath", self.added_products_table_rd_xpath)
         elif doc_type == "Payment Receipt":
             rows = self.mul_elememts(
                 "added_products_table_pr_xpath", self.added_products_table_pr_xpath)
-
+        if rows is None:
+            raise ValueError(f"Failed to retrieve rows for document type: {doc_type}")
         element_count = len(rows)
         for index in range(element_count):
             time.sleep(1)

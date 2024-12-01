@@ -109,11 +109,8 @@ def step_impl(context):
 def step_impl(context):
     context.cvp.confirm()
 
+def test_datas():
 
-@when(
-    u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
-def inwardquantity_td01(context):
-    context.driver.implicitly_wait(20)
     inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
                          "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
 
@@ -129,32 +126,16 @@ def inwardquantity_td01(context):
     expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
                     "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
 
-    doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
+    return inward_quantities, damaged_quantities, unit_prices, batch_nos, expiry_dates
+
+@when(u'I enter a valid inward quantity, valid damaged quanity, valid unit price,'
+      u' valid batch number, valid expiry date,')
+def inward_quantity(context):
+    context.driver.implicitly_wait(20)
+    inward_quantities, damaged_quantities, unit_prices, batch_nos, expiry_dates = test_datas()
     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
-                      unit_prices, batch_nos, expiry_dates, doc_type)
+                      unit_prices, batch_nos, expiry_dates)
 
-
-# @then(
-#     u'I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date, for vendor invoice,')
-# def inwardquantity_td01(context):
-#     context.driver.implicitly_wait(20)
-#     inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
-#                          "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
-#
-#     damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
-#                           "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
-#
-#     unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
-#                    "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
-#
-#     batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
-#                  "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
-#
-#     expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
-#                     "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
-#
-#     context.cvp.vendor_packing_slip_table("VALID INPUTS", inward_quantities, damaged_quantities,
-#                                           unit_prices, batch_nos, expiry_dates)
 
 @when(u'I enter Purchase Order No,')
 def purchase_order_number(context):
@@ -178,17 +159,30 @@ def verify_create_order_url(context):
     context.url.order_urls("create order")
 
 
-@then(u'I choose the document type as "vendor packing slip",')
+@when(u'I choose the document type as "vendor packing slip",')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE01")
 
 
-@then(u'I upload the packing slip,')
+@when(u'I Enter packing slip number,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.upload_packing_slip()
+    context.cvp.pk_no("VALID INPUTS", "PKNO01")
+
+
+@when(u'I Enter packing slip number1,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.pk_no("VALID INPUTS", "PKNO02")
+
+
+@when(u'I upload the packing slip,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.upload_packing_slip("C:/Users/sikku/Downloads"
+                                    "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
 
 
 # **************************** Vendor Invoice ***************************
@@ -209,7 +203,8 @@ def vendor_invoice_no(context):
 @when(u'I Upload the Invoice,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.upload_the_invoice()
+    context.cvp.upload_invoicee("C:/Users/sikku/Downloads"
+                                "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
 
 
 @when(u'I enter discount amount,')
@@ -283,7 +278,7 @@ def inwardquantity_td01(context):
 @then(u'I choose the document type as "IntrawarehouseTransfer Invoice",')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp = CreateVendorPackingSlip(context.driver)
+
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE03")
 
 
@@ -338,10 +333,12 @@ def payment_receipt_number(context):
     context.driver.implicitly_wait(20)
     context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_02")
 
+
 @when(u'I enter Payment Receipt No3,')
 def payment_receipt_number(context):
     context.driver.implicitly_wait(20)
     context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_03")
+
 
 @when(u'I enter Payment Receipt No4,')
 def payment_receipt_number(context):
@@ -349,10 +346,34 @@ def payment_receipt_number(context):
     context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_04")
 
 
+@when(u'I enter Payment Receipt No5,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_05")
+
+
+@when(u'I enter Payment Receipt No6,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_06")
+
+
+@when(u'I enter Payment Receipt No7,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_07")
+
+
+@when(u'I enter Payment Receipt No8,')
+def payment_receipt_number(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.payment_receipt_no("VALID INPUTS", "PAYMENT_RECEIPT_NO_08")
+
+
 @when(u'I upload the receipt,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp =CreateVendorPackingSlip(context.driver)
+    context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.upload_invoicee(
         "C:/Users/sikku/Downloads"
         "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")

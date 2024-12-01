@@ -11,7 +11,7 @@ Feature: Product inward from new vendor with payment receipt as document type
 
   #Without discount tax, and other charges.
   Scenario: Create a payment receipt without discount, tax, or other charges
-    When I enter Payment Receipt No1,
+    When I enter Payment Receipt No5,
     When I enter Purchase Order No,
     When I upload the receipt,
     When I upload Document Proof For Discount,
@@ -27,7 +27,7 @@ Feature: Product inward from new vendor with payment receipt as document type
 
   #Without tax, and other charges.
   Scenario: Create a vendor invoice with a discount but without tax or other charges
-    When I enter Payment Receipt No2,
+    When I enter Payment Receipt No6,
     When I enter Purchase Order No,
     When I upload the receipt,
     When I upload Document Proof For Discount,
@@ -44,7 +44,7 @@ Feature: Product inward from new vendor with payment receipt as document type
 
   #Without other charges.
   Scenario: Create a vendor invoice with tax and discount but without other charges
-    When I enter Payment Receipt No3,
+    When I enter Payment Receipt No7,
     When I enter Purchase Order No,
     When I upload the receipt,
     When I upload Document Proof For Discount,
@@ -62,7 +62,7 @@ Feature: Product inward from new vendor with payment receipt as document type
 
   #All charges included
   Scenario: Create a vendor invoice with tax, discount and other charges
-    When I enter Payment Receipt No4,
+    When I enter Payment Receipt No8,
     When I enter Purchase Order No,
     When I upload the receipt,
     When I upload Document Proof For Discount,
