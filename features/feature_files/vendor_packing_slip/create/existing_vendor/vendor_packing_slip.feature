@@ -19,9 +19,10 @@ Feature: Product inward from existing vendor with vendor packing slip as documen
     When I upload the packing slip,
     When I add products,
     When I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,
+    When I click submit button.
 
   Scenario: Create a vendor packing slip with all the required details
-    When I click submit button.
+
     Then I verify the Invoice & Packing Slip landing page URL,
     When I filter the document no,
     Then I verify that the document is successfully created and displayed,

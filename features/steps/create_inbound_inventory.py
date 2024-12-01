@@ -109,8 +109,8 @@ def step_impl(context):
 def step_impl(context):
     context.cvp.confirm()
 
-def test_datas():
 
+def test_datas():
     inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
                          "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
 
@@ -127,6 +127,7 @@ def test_datas():
                     "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
 
     return inward_quantities, damaged_quantities, unit_prices, batch_nos, expiry_dates
+
 
 @when(u'I enter a valid inward quantity, valid damaged quanity, valid unit price,'
       u' valid batch number, valid expiry date,')
@@ -275,35 +276,36 @@ def inwardquantity_td01(context):
 
 # **************************** Intrawarehouse transfer ****************************
 
-@then(u'I choose the document type as "IntrawarehouseTransfer Invoice",')
+@when(u'I choose the document type as "IntrawarehouseTransfer Invoice",')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-
+    context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE03")
 
 
-@then(u'I select the from warehouse,')
+@when(u'I select the from warehouse,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.from_warehouse("VALID INPUTS", "WAREHOUSE_FROM")
 
 
-@then(u'I select the to warehouse,')
+@when(u'I select the to warehouse,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.to_warehouse("VALID INPUTS", "WAREHOUSE_TO")
 
 
-@then(u'I enter the number,')
+@when(u'I enter the number,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.intra_ware_house_transfer_no("VALID INPUTS", "NO")
 
 
-@then(u'Upload the Transfer Invoice,')
+@when(u'Upload the Transfer Invoice,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.upload_transfer_invoices()
+    context.cvp.upload_transfer_invoices("C:/Users/sikku/Downloads"
+        "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
 
 
 # **************************** Payment Receipts ****************************

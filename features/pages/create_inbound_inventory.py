@@ -158,14 +158,12 @@ class CreateVendorPackingSlip(BasePage):
             ConfigReader.create_inbound_inventory(
                 category, payment_receipt_no))
 
-
     def discounts(self, category, discounts):
         self.clear_element("discounts_id", self.discounts_id)
         self.send_value_to_element(
             "discounts_id", self.discounts_id,
             ConfigReader.create_inbound_inventory(
                 category, discounts))
-
 
     def tax(self, category, tax):
         self.clear_element("tax_id", self.tax_id)
@@ -174,7 +172,6 @@ class CreateVendorPackingSlip(BasePage):
             ConfigReader.create_inbound_inventory(
                 category, tax))
 
-
     def other_charges(self, category, other_charges):
         self.clear_element("other_charges_id", self.other_charges_id)
         self.send_value_to_element(
@@ -182,14 +179,12 @@ class CreateVendorPackingSlip(BasePage):
             ConfigReader.create_inbound_inventory(
                 category, other_charges))
 
-
     def notes(self, category, notes):
         self.clear_element("notes_id", self.notes_id)
         self.send_value_to_element(
             "notes_id", self.notes_id,
             ConfigReader.create_inbound_inventory(
                 category, notes))
-
 
     def purchase_order_date(self, category, purchase_order_date):
         self.clear_element("purchase_order_date_id", self.purchase_order_date_id)
@@ -199,29 +194,21 @@ class CreateVendorPackingSlip(BasePage):
                 category, purchase_order_date))
         self.click_element("click_random_xpath", self.click_random_xpath)
 
-
     def upload_packing_slip(self, file_path):
         file_input = self.driver.find_element(By.ID, 'packing_slip_upload')
         file_input.send_keys(file_path)
-
 
     def upload_invoicee(self, file_path):
         file_input = self.driver.find_element(By.ID, 'upload_invoice')
         file_input.send_keys(file_path)
 
-
-
-
-    def upload_transfer_invoices(self):
+    def upload_transfer_invoices(self, file_path):
         file_input = self.driver.find_element(By.ID, 'transfer_slip_upload')
-        file_path = "C:/Users/hp/Desktop/nyb.PNG"
         file_input.send_keys(file_path)
-
 
     def document_proof_ids(self, file_path):
         file_input = self.driver.find_element(By.ID, 'document_proof_id')
         file_input.send_keys(file_path)
-
 
     def add_products(self, *args):
         product_count = len(args[1])
@@ -231,17 +218,14 @@ class CreateVendorPackingSlip(BasePage):
             self.click_element("add_product_field_id", self.add_product_field_id)
             self.search(category, product)
 
-
     def add_sample_products(self, category, sample_product):
         # It is statically written, due to search issues for time being this is structured like this.
         self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
         self.click_element("add_product_xpath", self.add_product_xpath)
 
-
     def is_sample_product(self):
         self.click_element(
             "sample_product_check_box_xpath", self.sample_product_check_box_xpath)
-
 
     # NEED TO WORK HERE#
     def sample_product_name(self, category, sample_product_name):
@@ -249,12 +233,10 @@ class CreateVendorPackingSlip(BasePage):
             "sample_product_name_xpath", self.sample_product_name_xpath,
             ConfigReader.create_inbound_inventory(category, sample_product_name))
 
-
     def sample_products_flavor_name(self, category, sample_product_flavor_name):
         self.send_value_to_element(
             "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
             ConfigReader.create_inbound_inventory(category, sample_product_flavor_name))
-
 
     def sample_product_flavors_size_weight_variant_name(self, category,
                                                         sample_product_flavors_size_weight_variant_name):
@@ -262,10 +244,8 @@ class CreateVendorPackingSlip(BasePage):
             "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
             ConfigReader.create_inbound_inventory(category, sample_product_flavors_size_weight_variant_name))
 
-
     def confirm(self):
         self.click_element("confirm_btn_id", self.confirm_btn_id)
-
 
     # Static Code.
 
@@ -352,7 +332,6 @@ class CreateVendorPackingSlip(BasePage):
             expiry_date_cell = rows[index].find_elements(By.TAG_NAME, 'td')[expiry_date_index]
             expiry_date_cell_input = expiry_date_cell.find_element(By.TAG_NAME, 'input')
             expiry_date_cell_input.send_keys(ConfigReader.create_inbound_inventory(category, expiry_date[index]))
-
 
     def submit(self):
         WebDriverWait(self.driver, 20).until(
