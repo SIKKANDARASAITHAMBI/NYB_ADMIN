@@ -41,6 +41,8 @@ def step_impl(context):
     context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
 
 
+
+
 @when(u'I select the vendor,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
@@ -69,9 +71,10 @@ def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Products", attachment_type=allure.attachment_type.PNG)
 
 
-@then(u'I click add sample product option,')
+@when(u'I click add sample product option,')
 def step_impl(context):
-    products = ["SAMPLE_OPTION"]
+    context.driver.implicitly_wait(20)
+    products = "SAMPLE_OPTION"
     category = "VALID INPUTS"
 
     context.cvp.add_products(category, products)
@@ -79,38 +82,57 @@ def step_impl(context):
 
 @then(u'I add new sample product,')
 def step_impl(context):
-    context.cvp.add_sample_products("VALID INPUTS", "NEW_SAMPLE_PRODUCT_OPTION")
+
+    context.driver.implicitly_wait(20)
+    context.cvp.add_sample_products()
+    context.driver.implicitly_wait(20)
+
 
 
 @then(u'I click is sample product,')
 def step_impl(context):
+    context.driver.implicitly_wait(20)
     context.cvp.is_sample_product()
+    context.driver.implicitly_wait(20)
 
 
 @then(u'I enter a valid product name,')
 def step_impl(context):
-    context.cvp.sample_product_name("VALID INPUTS", "NEW_SAMPLE_PRODUCT_NAME")
+    context.driver.implicitly_wait(20)
+    products = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_SAMPLE_PRODUCT_NAME02",
+                "NEW_SAMPLE_PRODUCT_NAME03", "NEW_SAMPLE_PRODUCT_NAME04", "NEW_SAMPLE_PRODUCT_NAME05", "NEW_SAMPLE_PRODUCT_NAME06"]
+    category = "VALID INPUTS"
+    context.cvp.add_sample_products(category, products)
+    allure.attach(context.driver.get_screenshot_as_png(), name="New_Products",
+                  attachment_type=allure.attachment_type.PNG)
 
 
 @then(u'I enter a valid flavor name,')
 def step_impl(context):
+    context.driver.implicitly_wait(20)
     context.cvp.sample_products_flavor_name("VALID INPUTS", "NEW_SAMPLE_PRODUCTS_FLAVOR_NAME")
 
 
 @then(u'I enter a valid size/weight variant,')
 def step_impl(context):
+    context.driver.implicitly_wait(20)
     context.cvp.sample_product_flavors_size_weight_variant_name("VALID INPUTS",
                                                                 "NEW_SAMPLE_PRODUCTS_FLAVORS_SIZE_WEIGHT_VARIANT_NAME")
 
 
 @then(u'I enter a valid price,')
 def step_impl(context):
-    pass
+    context.driver.implicitly_wait(20)
+    context.cvp.sample_product_price("VALID INPUTS", "NEW_VALID_PRICE")
 
 
 @then(u'I click confirm button,')
 def step_impl(context):
+    context.driver.implicitly_wait(20)
     context.cvp.confirm()
+    context.driver.implicitly_wait(20)
+    allure.attach(context.driver.get_screenshot_as_png(), name="confirm", attachment_type=allure.attachment_type.PNG)
+
 
 
 def test_datas():
@@ -209,8 +231,7 @@ def vendor_invoice_no(context):
 @when(u'I Upload the Invoice,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.upload_invoicee("C:/Users/sikku/Downloads"
-                                "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
+    context.cvp.upload_invoicee("C:/Users/hp/Desktop/nyb.PNG")
 
 
 @when(u'I enter discount amount,')
@@ -407,3 +428,14 @@ def step_impl(context):
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.payment_mode("VALID INPUTS", "PAYMENT_MODE_CHECK")
+
+'''
+@when(u'I click add sample product option,')
+def step_impl(context):
+    context.driver.implicitly_wait(20)
+    products = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_PRODUCT_NAME02",
+                "NEW_PRODUCT_NAME03", "NEW_PRODUCT_NAME04", "NEW_PRODUCT_NAME05", "NEW_PRODUCT_NAME06"]
+    category = "VALID INPUTS"
+    context.cvp.add_sample_products(category, products)
+    allure.attach(context.driver.get_screenshot_as_png(), name="New_Products", attachment_type=allure.attachment_type.PNG)
+'''

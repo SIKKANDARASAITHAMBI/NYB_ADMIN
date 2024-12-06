@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import StaleElementReferenceException
 
 from features.pages.base_page import BasePage
 from features.utilities import ConfigReader
@@ -20,6 +21,7 @@ class CreateVendorPackingSlip(BasePage):
     document_type_id = "select2-source_id-container"
     document_type_xpath = "//*[@id='select2-source_id-container']"
     search_field_xpath = "//input[@type='search']"
+    search2_field_xpath = "//input[@role='searchbox']"
     warehouse_field_id = "select2-warehouse_id-container"
     vendor_field_id = "select2-supplier_id-container"
     from_warehouse_xpath = "(//span[@role='textbox'])[2]"
@@ -47,10 +49,11 @@ class CreateVendorPackingSlip(BasePage):
     add_product_field_id = "select2-product_id-container"
     add_sample_product_field_id = "select2-product_dropdown-container"
     sample_product_check_box_xpath = "//table//tbody//td//input[@type='checkbox']"
-    sample_product_name_xpath = "//table//tbody//td//input[@placeholder='Enter Product Name']"
-    sample_flavor_name_xpath = "//table//tbody//td//input[@placeholder='Enter Flavor Name']"
-    sample_size_weight_variant_name_xpath = "//table//tbody//td//input[@placeholder='Enter Size/Weight']"
-    sample_product_price_field_xpath = "//table//tbody//td//input[@placeholder='Enter Price']"
+    sample_product_name_xpath = "(//table[@CLASS='table table-striped table-bordered table-hover table-heading no-border-bottom'])[5]//tbody//tr//td[2]"
+
+    sample_flavor_name_xpath = "(//table[@CLASS='table table-striped table-bordered table-hover table-heading no-border-bottom'])[5]//tbody//tr//td[3]"
+    sample_size_weight_variant_name_xpath = "(//table[@CLASS='table table-striped table-bordered table-hover table-heading no-border-bottom'])[5]//tbody//tr//td[4]"
+    sample_product_price_field_xpath = "(//table[@CLASS='table table-striped table-bordered table-hover table-heading no-border-bottom'])[5]//tbody//tr//td[5]"
     confirm_btn_id = "confirmButton"
     added_products_table_ps_xpath = "//table[@id='tblpackingslip']//tbody[@id='packingtbody']//tr"
     added_products_table_it_xpath = "//table[@id='tbltransferslip']//tbody[@id='transfertbody']//tr"
@@ -65,6 +68,11 @@ class CreateVendorPackingSlip(BasePage):
     added_products_table_vi_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
     added_products_table_rd_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
     added_products_table_pr_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
+    sp1_added_products_table_vi_xpath = "//h5[text()='New Products / New Flavors / Samples / Brand Promo Items (Merchandise, Sippers etc.)']"
+    sp2_added_products_table_vi_xpath = "//span[@id='select2-product_dropdown-container']/following-sibling::span[1]"
+    sp3_added_products_table_vi_xpath = "(//tbody[@id='productTableBody']//label)[2]"
+    sp4_added_products_table_vi_xpath = "(//input[@type='checkbox'])[2]"
+
 
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
@@ -85,6 +93,21 @@ class CreateVendorPackingSlip(BasePage):
 
     payment_mode_id = "payment_mode"
 
+
+
+
+
+    def search2(self, category, key):
+        WebDriverWait(self.driver, 20).until(
+            EC.visibility_of_element_located((By.XPATH, "search2_field_xpath"))
+        )
+
+        search2_btn = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "search2_field_xpath"))
+        )
+        actions = ActionChains(self.driver)
+        actions.move_to_element(search2_btn).click().perform()
+
     def payment_mode(self, category, key):
 
         payment_mode_field = (self.locate_element("payment_mode_id", self.payment_mode_id))
@@ -100,6 +123,8 @@ class CreateVendorPackingSlip(BasePage):
         self.search(category, key)
 
     vendor_name_id = "vendor_name"
+
+
 
     def vendor_name(self, category, key):
         vendor_name = ConfigReader.create_inbound_inventory(category, key)
@@ -210,39 +235,67 @@ class CreateVendorPackingSlip(BasePage):
         file_input = self.driver.find_element(By.ID, 'document_proof_id')
         file_input.send_keys(file_path)
 
-    def add_products(self, *args):
-        product_count = len(args[1])
-        for index in range(product_count):
-            category = args[0]
-            product = args[1][index]
+    def add_products(self, category, products):
             self.click_element("add_product_field_id", self.add_product_field_id)
-            self.search(category, product)
+            self.search(category, products)
 
-    def add_sample_products(self, category, sample_product):
-        # It is statically written, due to search issues for time being this is structured like this.
-        self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-        self.click_element("add_product_xpath", self.add_product_xpath)
+    def add_sample_products(self, *args):
+
+         #It is statically written, due to search issues for time being this is structured like this.
+       self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
+       #self.click_element("add_product_xpath", self.add_product_xpath)
+       self.search("VALID INPUTS", "Product")
+       time.sleep(1)
+
 
     def is_sample_product(self):
         self.click_element(
             "sample_product_check_box_xpath", self.sample_product_check_box_xpath)
 
     # NEED TO WORK HERE#
-    def sample_product_name(self, category, sample_product_name):
-        self.send_value_to_element(
-            "sample_product_name_xpath", self.sample_product_name_xpath,
-            ConfigReader.create_inbound_inventory(category, sample_product_name))
 
-    def sample_products_flavor_name(self, category, sample_product_flavor_name):
-        self.send_value_to_element(
-            "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
-            ConfigReader.create_inbound_inventory(category, sample_product_flavor_name))
+    #def sample_product_name(self, category, sample_product_name):
+        #self.send_value_to_element(
+          #  "sample_product_name_xpath", self.sample_product_name_xpath,
+          #  ConfigReader.create_inbound_inventory(category, sample_product_name))
 
-    def sample_product_flavors_size_weight_variant_name(self, category,
-                                                        sample_product_flavors_size_weight_variant_name):
-        self.send_value_to_element(
-            "sample_flavor_name_xpath", self.sample_flavor_name_xpath,
-            ConfigReader.create_inbound_inventory(category, sample_product_flavors_size_weight_variant_name))
+    get_products_xpath = "//li[@class='select2-results__option select2-results__option--selectable']"
+
+
+
+def sample_product_name(self, category, key):
+    products_list = self.mul_elememts("sample_product_name_xpath", self.sample_product_name_xpath)
+    for product_list in products_list:
+        product_name = product_list.text
+        if product_name == sample_product:
+            product_list.click()
+            break
+            time.sleep(10)
+
+
+    def sample_products_flavor_name(self, category, key):
+        self.click_element("sample_flavor_name_xpath", self.sample_flavor_name_xpath)
+        time.sleep(5)
+        self.search(category, key)
+
+    def sample_product_flavors_size_weight_variant_name(self, category,key):
+        self.click_element("sample_size_weight_variant_name_xpath", self.sample_size_weight_variant_name_xpath)
+        time.sleep(5)
+        self.search(category, key)
+
+    def sample_product_price(self, category, key):
+
+        #self.click_element("sample_product_price_field_xpath", self.sample_product_price_field_xpath)
+        search = self.locate_element("sample_product_price_field_xpath", self.sample_product_price_field_xpath)
+        time.sleep(0.5)
+        actions = ActionChains(self.driver)
+        actions.send_keys_to_element(search, ConfigReader.create_inbound_inventory(
+            category, key))
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+        # time.sleep(1)
+
+
 
     def confirm(self):
         self.click_element("confirm_btn_id", self.confirm_btn_id)
@@ -343,3 +396,7 @@ class CreateVendorPackingSlip(BasePage):
         )
         actions = ActionChains(self.driver)
         actions.move_to_element(submit_btn).click().perform()
+
+
+
+
