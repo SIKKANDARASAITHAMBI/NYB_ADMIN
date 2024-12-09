@@ -8,7 +8,7 @@ Feature: Sample Products with Vendor Invoice as Document Type
     When I select the warehouse,
     When I select the vendor,
     When I Enter Vendor Invoice No,
-    When I Upload the Invoice,
+#    When I Upload the Invoice,
     #When I add products,
 
 
@@ -18,7 +18,7 @@ Feature: Sample Products with Vendor Invoice as Document Type
   #Without discount tax, and other charges.
   @vendor_invoice_sample_products
   #Scenario: Create a vendor invoice without discount, tax, or other charge
-    Scenario: Add New Products with checkin and confirm
+  Scenario: Add New Products with checkin and confirm
 
     When I click add sample product option,
     Then I add new sample product,

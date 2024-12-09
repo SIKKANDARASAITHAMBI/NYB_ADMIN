@@ -441,7 +441,7 @@ class CreateVendorPackingSlip(BasePage):
             product_name_qty_input = product_name_cell.find_element(By.TAG_NAME, 'input')
             product_name_cell.click()
 #           product_name_cell.clear()
-            self.search(category, sample_product)
+            self.search(category, sample_product[index])
             #product_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
             #product_name_cell.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
 
@@ -449,12 +449,14 @@ class CreateVendorPackingSlip(BasePage):
             flavor_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[flavor_name]
             # flavor_name_qty_input = flavor_qty_cell.find_element(By.TAG_NAME, 'input')
             flavor_name_cell.click()
+            self.search(category, Flavor[index])
             # flavor_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Flavor[index]))
 
             size_weight_qty = 3
             size_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[size_weight_qty]
             # size_name_qty_input = size_qty_cell.find_element(By.TAG_NAME, 'input')
             size_name_cell.click()
+            self.search(category, Size_Weight[index])
             #size_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Size_Weight[index]))
 
             price_name_qty = 4
