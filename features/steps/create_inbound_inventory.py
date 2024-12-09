@@ -89,6 +89,7 @@ def step_impl(context):
 
 
 
+
 @then(u'I click is sample product,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
@@ -99,8 +100,8 @@ def step_impl(context):
 @then(u'I enter a valid product name,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    products = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_SAMPLE_PRODUCT_NAME02",
-                "NEW_SAMPLE_PRODUCT_NAME03", "NEW_SAMPLE_PRODUCT_NAME04", "NEW_SAMPLE_PRODUCT_NAME05", "NEW_SAMPLE_PRODUCT_NAME06"]
+    products = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_SAMPLE_PRODUCT_NAME02","NEW_SAMPLE_PRODUCT_NAME03",
+                "NEW_SAMPLE_PRODUCT_NAME04", "NEW_SAMPLE_PRODUCT_NAME05", "NEW_SAMPLE_PRODUCT_NAME06"]
     category = "VALID INPUTS"
     context.cvp.add_sample_products(category, products)
     allure.attach(context.driver.get_screenshot_as_png(), name="New_Products",
@@ -153,8 +154,25 @@ def test_datas():
 
     return inward_quantities, damaged_quantities, unit_prices, batch_nos, expiry_dates
 
+def test_datas2():
+    new_product_name = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_SAMPLE_PRODUCT_NAME02", "NEW_SAMPLE_PRODUCT_NAME03",
+                        "NEW_SAMPLE_PRODUCT_NAME04", "NEW_SAMPLE_PRODUCT_NAME05", "NEW_SAMPLE_PRODUCT_NAME06"]
 
-@when(u'I enter a valid inward quantity, valid damaged quanity, valid unit price,'
+    new_flavor_name = ["NEW_FLAVOR_NAME01", "NEW_FLAVOR_NAME02", "NEW_FLAVOR_NAME03",
+                       "NEW_FLAVOR_NAME04", "NEW_FLAVOR_NAME05", "NEW_FLAVOR_NAME06"]
+
+    new_size_weight = ["NEW_SIZE_WEIGHT01", "NEW_SIZE_WEIGHT02", "NEW_SIZE_WEIGHT03",
+                       "NEW_SIZE_WEIGHT04", "NEW_SIZE_WEIGHT05", "NEW_SIZE_WEIGHT06"]
+
+    new_price = ["NEW_PRICE_01", "NEW_PRICE_02", "NEW_PRICE_03"
+                 "NEW_PRICE_04", "NEW_PRICE_05", "NEW_PRICE_06"]
+
+
+
+    return new_product_name, new_flavor_name, new_size_weight, new_price
+
+
+@when(u'I enter a valid inward quantity, valid damaged quantity, valid unit price,'
       u' valid batch number, valid expiry date,')
 def inward_quantity(context):
     context.driver.implicitly_wait(20)
@@ -162,8 +180,14 @@ def inward_quantity(context):
     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
                       unit_prices, batch_nos, expiry_dates)
     allure.attach(context.driver.get_screenshot_as_png(), name="pdt_details", attachment_type=allure.attachment_type.PNG)
-
-
+'''
+@then(u'I enter a valid product name, flavor name, size weight, and price,')
+def Product(context):
+    context.driver.implicitly_wait(20)
+    new_product_name, new_flavor_name, new_size_weight, new_price = test_datas2()
+    context.cvp.table2("VALID INPUTS", new_product_name, new_flavor_name, new_size_weight, new_price)
+    allure.attach(context.driver.get_screenshot_as_png(), name="pdt_details", attachment_type=allure.attachment_type.PNG)
+'''
 @when(u'I enter Purchase Order No,')
 def purchase_order_number(context):
     context.driver.implicitly_wait(20)
@@ -439,3 +463,17 @@ def step_impl(context):
     context.cvp.add_sample_products(category, products)
     allure.attach(context.driver.get_screenshot_as_png(), name="New_Products", attachment_type=allure.attachment_type.PNG)
 '''
+@then(u'I enter a valid product name, flavor name, size weight, and price,')
+def add_new_product(context):
+    context.driver.implicitly_wait(20)
+    new_product_name = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_SAMPLE_PRODUCT_NAME02"]
+
+    new_flavor_name = ["NEW_FLAVOR_NAME01", "NEW_FLAVOR_NAME02"]
+
+    new_size_weight = ["NEW_SIZE_WEIGHT01", "NEW_SIZE_WEIGHT02"]
+
+    new_price = ["NEW_PRICE_01", "NEW_PRICE_02"]
+
+    #doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
+    # context.cvp = CreateVendorPackingSlip(context.driver)
+    context.cvp.table2("VALID INPUTS", new_product_name,  new_flavor_name, new_size_weight, new_price)

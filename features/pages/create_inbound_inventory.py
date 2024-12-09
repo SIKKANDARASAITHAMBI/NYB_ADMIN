@@ -62,9 +62,17 @@ class CreateVendorPackingSlip(BasePage):
     unit_price_xpath = "td"
     batch_no_xpath = "td"
     expiry_date_xpath = "td"
+    product_name_xpath = "select2-search__field"
+    flavor_xpath = "td"
+    size_weight_xpath = "td"
+    price_xpath = "td"
+
     submit_btn_xpath = "//button[text()='Submit']"
     click_random_xpath = "(//*[@class='form-row'])"
     add_product_xpath = "(//*[text()='Add New Product'])[2]"
+    add_new_product_xpath = "//select//option[text() = 'Add New Product']"
+    add_new_table_pd_xpath = "(//table[contains(@class,'table table-striped')]/following::table)[5]/tbody[1]/tr[1]/td[2]"
+    sample_table_xpath = "(//table[@class='table table-striped table-bordered table-hover table-heading no-border-bottom'])[5]//tbody//tr"
     added_products_table_vi_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
     added_products_table_rd_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
     added_products_table_pr_xpath = "//table[@id='tblproduct']//tbody[@id='tblbody']//tr"
@@ -76,7 +84,7 @@ class CreateVendorPackingSlip(BasePage):
 
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
-        time.sleep(0.5)
+        time.sleep(2)
         actions = ActionChains(self.driver)
         actions.send_keys_to_element(search, ConfigReader.create_inbound_inventory(
             category, key))
@@ -238,14 +246,25 @@ class CreateVendorPackingSlip(BasePage):
     def add_products(self, category, products):
             self.click_element("add_product_field_id", self.add_product_field_id)
             self.search(category, products)
+           # self.search("VALID INPUTS", "")
+
+            time.sleep(1)
 
     def add_sample_products(self, *args):
 
          #It is statically written, due to search issues for time being this is structured like this.
-       self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-       #self.click_element("add_product_xpath", self.add_product_xpath)
-       self.search("VALID INPUTS", "Product")
-       time.sleep(1)
+
+       try:
+           self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
+           # self.click_element("add_product_xpath", self.add_product_xpath)
+           self.search("VALID INPUTS", "Product")
+
+       except StaleElementReferenceException:
+           self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
+           # self.click_element("add_product_xpath", self.add_product_xpath)
+           self.search("VALID INPUTS", "Product")
+
+
 
 
     def is_sample_product(self):
@@ -263,14 +282,14 @@ class CreateVendorPackingSlip(BasePage):
 
 
 
-def sample_product_name(self, category, key):
-    products_list = self.mul_elememts("sample_product_name_xpath", self.sample_product_name_xpath)
-    for product_list in products_list:
-        product_name = product_list.text
-        if product_name == sample_product:
-            product_list.click()
-            break
-            time.sleep(10)
+    def sample_product_name(self, category, key):
+        products_list = self.mul_elememts("sample_product_name_xpath", self.sample_product_name_xpath)
+        for product_list in products_list:
+            product_name = product_list.text
+            if product_name == sample_product:
+                product_list.click()
+                break
+                time.sleep(10)
 
 
     def sample_products_flavor_name(self, category, key):
@@ -399,4 +418,47 @@ def sample_product_name(self, category, key):
 
 
 
+    def table2(self, category, sample_product, Flavor, Size_Weight, Price):
+        add_products = self.get_element_text("add_new_product_xpath", self.add_new_product_xpath)
+        rows = None
+        # product_name_qty = 5
+        if add_products == "Add New Product":
+            # rows = self.mul_elememts(
+            #     "add_new_table_pd_xpath", self.add_new_table_pd_xpath)
+            rows  = self.mul_elememts("sample_table_xpath", self.sample_table_xpath)
+            print(len(rows))
 
+        if rows is None:
+            raise ValueError(f"Failed to retrieve rows for document type: {add_products}")
+
+        element_count = len(rows)
+        for index in range(element_count):
+            time.sleep(5)
+            # product name.
+            product_name = 1
+            product_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[product_name]
+            #product_name_qty_input = product_qty_cell.find_element(By.TAG_NAME, 'input')
+            product_name_qty_input = product_name_cell.find_element(By.TAG_NAME, 'input')
+            product_name_cell.click()
+#           product_name_cell.clear()
+            self.search(category, sample_product)
+            #product_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
+            #product_name_cell.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
+
+            flavor_name = 2
+            flavor_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[flavor_name]
+            # flavor_name_qty_input = flavor_qty_cell.find_element(By.TAG_NAME, 'input')
+            flavor_name_cell.click()
+            # flavor_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Flavor[index]))
+
+            size_weight_qty = 3
+            size_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[size_weight_qty]
+            # size_name_qty_input = size_qty_cell.find_element(By.TAG_NAME, 'input')
+            size_name_cell.click()
+            #size_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Size_Weight[index]))
+
+            price_name_qty = 4
+            price_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[price_name_qty]
+            price_name_qty_input = price_name_cell.find_element(By.TAG_NAME, 'input')
+            price_name_qty_input.clear()
+            price_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Price[index]))

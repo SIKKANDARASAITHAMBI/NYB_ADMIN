@@ -22,11 +22,13 @@ Feature: Sample Products with Vendor Invoice as Document Type
 
     When I click add sample product option,
     Then I add new sample product,
-    Then I click is sample product,
-    Then I enter a valid product name,
-    Then I enter a valid flavor name,
-    Then I enter a valid size/weight variant,
-    Then I enter a valid price,
+    Then I add new sample product,
+#    Then I click is sample product,
+    Then I enter a valid product name, flavor name, size weight, and price,
+#    Then I add new sample product,
+#    Then I enter a valid product name, flavor name, size weight, and price,
+#    Then I add new sample product,
+    #When I enter a valid product name, flavor name, size weight, and price,
     Then I click confirm button,
 
 

@@ -10,7 +10,7 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
     When I Enter Vendor Invoice No,
     When I Upload the Invoice,
     When I add products,
-    When I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,
+    When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
 
   #Without discount tax, and other charges.
   @vendor_invoicee
