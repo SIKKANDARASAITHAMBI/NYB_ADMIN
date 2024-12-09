@@ -466,6 +466,7 @@ def step_impl(context):
 @then(u'I enter a valid product name, flavor name, size weight, and price,')
 def add_new_product(context):
     context.driver.implicitly_wait(20)
+
     new_product_name = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_SAMPLE_PRODUCT_NAME02"]
 
     new_flavor_name = ["NEW_FLAVOR_NAME01", "NEW_FLAVOR_NAME02"]
@@ -473,6 +474,8 @@ def add_new_product(context):
     new_size_weight = ["NEW_SIZE_WEIGHT01", "NEW_SIZE_WEIGHT02"]
 
     new_price = ["NEW_PRICE_01", "NEW_PRICE_02"]
+
+
 
     #doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
     # context.cvp = CreateVendorPackingSlip(context.driver)

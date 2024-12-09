@@ -48,7 +48,7 @@ class CreateVendorPackingSlip(BasePage):
     Payment_Reciept = "select2-source_id-container"
     add_product_field_id = "select2-product_id-container"
     add_sample_product_field_id = "select2-product_dropdown-container"
-    sample_product_check_box_xpath = "//table//tbody//td//input[@type='checkbox']"
+    sample_product_check_box_xpath = "(//table[contains(@class,'table table-striped')]/following::table)[5]/tbody[1]/tr[1]/td[1]/input[1]"
     sample_product_name_xpath = "(//table[@CLASS='table table-striped table-bordered table-hover table-heading no-border-bottom'])[5]//tbody//tr//td[2]"
 
     sample_flavor_name_xpath = "(//table[@CLASS='table table-striped table-bordered table-hover table-heading no-border-bottom'])[5]//tbody//tr//td[3]"
@@ -419,9 +419,12 @@ class CreateVendorPackingSlip(BasePage):
 
 
     def table2(self, category, sample_product, Flavor, Size_Weight, Price):
+
         add_products = self.get_element_text("add_new_product_xpath", self.add_new_product_xpath)
         rows = None
+        #check_box = self.get_element_text("sample_product_check_box_xpath", self.sample_product_check_box_xpath)
         # product_name_qty = 5
+
         if add_products == "Add New Product":
             # rows = self.mul_elememts(
             #     "add_new_table_pd_xpath", self.add_new_table_pd_xpath)
@@ -432,8 +435,26 @@ class CreateVendorPackingSlip(BasePage):
             raise ValueError(f"Failed to retrieve rows for document type: {add_products}")
 
         element_count = len(rows)
+
         for index in range(element_count):
-            time.sleep(5)
+            time.sleep(2)
+            #
+            # checkbox = self.driver.find_elements(By.XPATH, 'sample_product_check_box_xpath')
+            # self.click_element(checkbox)
+            cb_name = 0
+            name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[cb_name]
+           # name_cell = set().cl
+            #name_cell.click()
+            selected_rows = set()
+            if name_cell not in selected_rows:
+              name_cell.click()
+              selected_rows.add(name_cell)
+
+
+            #           product_name_cell.clear()
+            #self.search(category, sample_product[index])
+
+
             # product name.
             product_name = 1
             product_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[product_name]

@@ -8,7 +8,7 @@ Feature: Sample Products with Vendor Invoice as Document Type
     When I select the warehouse,
     When I select the vendor,
     When I Enter Vendor Invoice No,
-#    When I Upload the Invoice,
+    When I Upload the Invoice,
     #When I add products,
 
 
@@ -25,7 +25,7 @@ Feature: Sample Products with Vendor Invoice as Document Type
     Then I add new sample product,
 #    Then I click is sample product,
     Then I enter a valid product name, flavor name, size weight, and price,
-#    Then I add new sample product,
+    #Then I add new sample product,
 #    Then I enter a valid product name, flavor name, size weight, and price,
 #    Then I add new sample product,
     #When I enter a valid product name, flavor name, size weight, and price,
