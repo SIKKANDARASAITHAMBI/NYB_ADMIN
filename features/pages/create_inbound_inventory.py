@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.common.exceptions import ElementClickInterceptedException
 
 from features.pages.base_page import BasePage
@@ -84,13 +84,20 @@ class CreateVendorPackingSlip(BasePage):
     sp4_added_products_table_vi_xpath = "(//input[@type='checkbox'])[2]"
     add_newest_product_xpath = "//input[@placeholder='Enter Product Name']"
 
-
     def search(self, category, key):
         search = self.locate_element("search_field_xpath", self.search_field_xpath)
-        time.sleep(5)
+        time.sleep(0.5)
         actions = ActionChains(self.driver)
         actions.send_keys_to_element(search, ConfigReader.create_inbound_inventory(
             category, key))
+        actions.send_keys(Keys.ENTER)
+        actions.perform()
+
+    def search1(self, value):
+        search = self.locate_element("search_field_xpath", self.search_field_xpath)
+        time.sleep(0.5)
+        actions = ActionChains(self.driver)
+        actions.send_keys_to_element(search, value)
         actions.send_keys(Keys.ENTER)
         actions.perform()
 
@@ -103,10 +110,6 @@ class CreateVendorPackingSlip(BasePage):
         self.search(category, key)
 
     payment_mode_id = "payment_mode"
-
-
-
-
 
     def search2(self, category, key):
         WebDriverWait(self.driver, 20).until(
@@ -134,8 +137,6 @@ class CreateVendorPackingSlip(BasePage):
         self.search(category, key)
 
     vendor_name_id = "vendor_name"
-
-
 
     def vendor_name(self, category, key):
         vendor_name = ConfigReader.create_inbound_inventory(category, key)
@@ -247,39 +248,26 @@ class CreateVendorPackingSlip(BasePage):
         file_input.send_keys(file_path)
 
     def add_products(self, category, products):
-            self.click_element("add_product_field_id", self.add_product_field_id)
-            self.search(category, products)
-           # self.search("VALID INPUTS", "")
+        self.click_element("add_product_field_id", self.add_product_field_id)
+        self.search(category, products)
+        # self.search("VALID INPUTS", "")
 
-            time.sleep(1)
+        time.sleep(1)
 
     product_li_xpath = "//li[@class='select2-results__option select2-results__option--selectable']"
 
-    def add_sample_products(self, *args):
-
-         #It is statically written, due to search issues for time being this is structured like this.
-
-       try:
-           self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-           # self.click_element("add_product_xpath", self.add_product_xpath)
-
-           self.search("VALID INPUTS", "Product")
-
-       except StaleElementReferenceException:
-          #  #wait = WebDriverWait(self.driver, 10)
-          # # element = wait.until(EC.presence_of_element_located((By.ID, 'add_sample_product_field_id')))
-          #  self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-          #  #self.click_element(element)
-          #  # self.click_element("add_product_xpath", self.add_product_xpath)
-          #  self.search("VALID INPUTS", "Product")
-          self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-          list_products = self.mul_elememts("product_li_xpath", self.product_li_xpath)
-          for product in list_products:
-             product_name = product.text
-             if product_name == "Add New Product":
-                 product.click()
-                 break
-
+    def add_sample_products(self, value: list):
+        products_count = len(value)
+        for index in range(products_count):
+            time.sleep(1)
+            self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
+            self.search1(value[index])
+        # list_products = self.mul_elememts("product_li_xpath", self.product_li_xpath)
+        # for product in list_products:
+        #     product_name = product.text
+        #     if product_name == "Add New Product":
+        #         product.click()
+        #         break
 
     def is_sample_product(self):
         self.click_element(
@@ -288,13 +276,11 @@ class CreateVendorPackingSlip(BasePage):
     # NEED TO WORK HERE#
 
     #def sample_product_name(self, category, sample_product_name):
-        #self.send_value_to_element(
-          #  "sample_product_name_xpath", self.sample_product_name_xpath,
-          #  ConfigReader.create_inbound_inventory(category, sample_product_name))
+    #self.send_value_to_element(
+    #  "sample_product_name_xpath", self.sample_product_name_xpath,
+    #  ConfigReader.create_inbound_inventory(category, sample_product_name))
 
     get_products_xpath = "//li[@class='select2-results__option select2-results__option--selectable']"
-
-
 
     def sample_product_name(self, category, key):
         products_list = self.mul_elememts("sample_product_name_xpath", self.sample_product_name_xpath)
@@ -305,13 +291,12 @@ class CreateVendorPackingSlip(BasePage):
                 break
                 time.sleep(10)
 
-
     def sample_products_flavor_name(self, category, key):
         self.click_element("sample_flavor_name_xpath", self.sample_flavor_name_xpath)
         time.sleep(5)
         self.search(category, key)
 
-    def sample_product_flavors_size_weight_variant_name(self, category,key):
+    def sample_product_flavors_size_weight_variant_name(self, category, key):
         self.click_element("sample_size_weight_variant_name_xpath", self.sample_size_weight_variant_name_xpath)
         time.sleep(5)
         self.search(category, key)
@@ -327,8 +312,6 @@ class CreateVendorPackingSlip(BasePage):
         actions.send_keys(Keys.ENTER)
         actions.perform()
         # time.sleep(1)
-
-
 
     def confirm(self):
         self.click_element("confirm_btn_id", self.confirm_btn_id)
@@ -430,22 +413,15 @@ class CreateVendorPackingSlip(BasePage):
         actions = ActionChains(self.driver)
         actions.move_to_element(submit_btn).click().perform()
 
+    def sample_product_table(self, is_sample, product, flavor, quantity, price):
 
-    pdt_list = "//li[@class='select2-results__option select2-results__option--selectable']"
-    def table2(self, category, sample_product, Flavor, Size_Weight, Price):
+        add_products = self.get_element_text(
+            "add_new_product_xpath", self.add_new_product_xpath)
 
-        add_products = self.get_element_text("add_new_product_xpath", self.add_new_product_xpath)
         rows = None
-        #check_box = self.get_element_text("sample_product_check_box_xpath", self.sample_product_check_box_xpath)
-        # product_name_qty = 5
-
         if add_products == "Add New Product":
-            # rows = self.mul_elememts(
-            #     "add_new_table_pd_xpath", self.add_new_table_pd_xpath)
-            rows  = self.mul_elememts("sample_table_xpath", self.sample_table_xpath)
+            rows = self.mul_elememts("sample_table_xpath", self.sample_table_xpath)
             print(len(rows))
-
-
 
         if rows is None:
             raise ValueError(f"Failed to retrieve rows for document type: {add_products}")
@@ -453,95 +429,91 @@ class CreateVendorPackingSlip(BasePage):
         element_count = len(rows)
 
         for index in range(element_count):
-            time.sleep(2)
-            #
-            # checkbox = self.driver.find_elements(By.XPATH, 'sample_product_check_box_xpath')
-            # self.click_element(checkbox)
+            time.sleep(1)
 
-            cb_name = 0
+            # Is Sample Product Check Box
+            if is_sample[index] is True:
+                is_sample_cb_index = 0
+                is_sample_cb_element = rows[index].find_elements(By.TAG_NAME, 'td')[is_sample_cb_index]
+                is_sample_cb_element.click()
 
-           #  name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[cb_name]
-           # # name_cell = set().cl
-           #  name_cell.click()
-           #
-           #
-           #  selected_rows = set()
-           #  if name_cell not in selected_rows:
-           #      name_cell.click()
-           #      selected_rows.add(name_cell)
-           #      name_cell.click()
-
-            #           product_name_cell.clear()
-            #self.search(category, sample_product[index])
-
-
-            # product name.
+            # Add New Product
             product_index = 1
-            product_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[product_index]
-            # product_name_qty_input = product_name_cell.find_element(By.TAG_NAME, 'input')
-            #product_name_input = product_name_cell.find_element(By.TAG_NAME, 'input')
-            # product_name_cell.click()
+            product_element = rows[index].find_elements(By.TAG_NAME, 'td')[product_index]
+            product_element.click()
             try:
-                product_name_cell.click()
-                self.search(category, sample_product[index])
-            except ElementClickInterceptedException:
-                # self.click_element("add_sample_product_field_id", self.add_sample_product_field_id)
-                list_products1 = self.mul_elememts("pdt_list", self.pdt_list)
-                print(len(list_products1))
-                print(list_products1)
-                for product1 in list_products1:
-                    product_name1 = product1.text
-                    if product_name1 == "Add New Product":
-                        product1.click()
-                        break
+                self.search1(product[index])
+            except NoSuchElementException:
+                pass
 
+            if product[index] == "Add New Product":
+                try:
+                    new_product_name = product_element.find_element(By.TAG_NAME, "input")
+                    new_product_name.send_keys("Sample Test product")
+                except NoSuchElementException:
+                    pass
 
-#           product_name_cell.clear()
-            product = category, sample_product[index]
-            if product == "Add New Product":
-                # driver.find_element(By.XPATH,"//input[@placeholder='Enter Product Name']")
-                new_product_name = product_name_cell.find_element(By.TAG_NAME,"input")
-                new_product_name.send_keys("Sample Test product")
+            """
+            If the search field is not working in the dropdown use the following code. 
+            
+            pdt_list = "//li[@class='select2-results__option select2-results__option--selectable']"
+            
+            list_products1 = self.mul_elememts("pdt_list", self.pdt_list)
+            print(len(list_products1))
+            print(list_products1)
+            for product1 in list_products1:
+                product_name1 = product1.text
+                if product_name1 == "Add New Product":
+                    product1.click()
+                    break
+            """
 
-            #product_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
-            #product_name_cell.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
+            # Add New Flavor
+            flavor_index = 2
+            flavor_element = rows[index].find_elements(By.TAG_NAME, 'td')[flavor_index]
+            flavor_element.click()
+            try:
+                self.search1(flavor[index])
+            except NoSuchElementException:
+                pass
 
-            # flavor_name = 2
-            # flavor_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[flavor_name]
-            # #flavor_name_qty_input = flavor_qty_cell.find_element(By.TAG_NAME, 'input')
-            # flavor_name_cell.click()
-            # self.search(category, Flavor[index])
-            # # flavor_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Flavor[index]))
-            #
-            # size_weight_qty = 3
-            # size_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[size_weight_qty]
-            # # size_name_qty_input = size_qty_cell.find_element(By.TAG_NAME, 'input')
-            # size_name_cell.click()
-            # self.search(category, Size_Weight[index])
-            # #size_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Size_Weight[index]))
-            #
-            # price_name_qty = 4
-            # price_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[price_name_qty]
-            # price_name_qty_input = price_name_cell.find_element(By.TAG_NAME, 'input')
-            # price_name_qty_input.clear()
-            # price_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Price[index]))
-            #
+            if flavor[index] == "Add New Flavor":
+                try:
+                    new_flavor_input_field = flavor_element.find_element(By.TAG_NAME, "input")
+                    new_flavor_input_field.send_keys("Sample Test Flavor")
+                except NoSuchElementException:
+                    pass
 
+            # Add New Flavor
+            quantity_index = 3
+            quantity_element = rows[index].find_elements(By.TAG_NAME, 'td')[quantity_index]
+            quantity_element.click()
+            try:
+                self.search1(quantity[index])
+            except NoSuchElementException:
+                pass
 
-    def table3(self, category, sample_product, Flavor, Size_Weight, Price):
+            if quantity[index] == "Add New Size/Weight":
+                try:
+                    new_quantity_input_field = quantity_element.find_element(By.TAG_NAME, "input")
+                    new_quantity_input_field.send_keys("Sample Test quantity")
+                except NoSuchElementException:
+                    pass
 
-        add_products = self.get_element_text("add_new_product_xpath", self.add_new_product_xpath)
+            price_index = 4
+            price_element = rows[index].find_elements(By.TAG_NAME, 'td')[price_index]
+            price_input_field = price_element.find_element(By.TAG_NAME, 'input')
+            price_input_field.send_keys(price[index])
+
+    def sample_product_table_existing_combo(self, is_sample):
+
+        add_products = self.get_element_text(
+            "add_new_product_xpath", self.add_new_product_xpath)
+
         rows = None
-        #check_box = self.get_element_text("sample_product_check_box_xpath", self.sample_product_check_box_xpath)
-        # product_name_qty = 5
-
         if add_products == "Add New Product":
-            # rows = self.mul_elememts(
-            #     "add_new_table_pd_xpath", self.add_new_table_pd_xpath)
-            rows  = self.mul_elememts("sample_table_xpath", self.sample_table_xpath)
+            rows = self.mul_elememts("sample_table_xpath", self.sample_table_xpath)
             print(len(rows))
-
-
 
         if rows is None:
             raise ValueError(f"Failed to retrieve rows for document type: {add_products}")
@@ -549,95 +521,10 @@ class CreateVendorPackingSlip(BasePage):
         element_count = len(rows)
 
         for index in range(element_count):
-            time.sleep(2)
-            #
-            # checkbox = self.driver.find_elements(By.XPATH, 'sample_product_check_box_xpath')
-            # self.click_element(checkbox)
-            '''
-            cb_name = 0
-            name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[cb_name]
-           # name_cell = set().cl
-            name_cell.click()
+            time.sleep(1)
 
-
-            selected_rows = set()
-            if name_cell not in selected_rows:
-                name_cell.click()
-                selected_rows.add(name_cell)
-                name_cell.click()
-
-            #           product_name_cell.clear()
-            #self.search(category, sample_product[index])
-            '''
-
-            # product name.
-            product_name = 1
-            product_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[product_name]
-            #product_name_qty_input = product_qty_cell.find_element(By.TAG_NAME, 'input')
-            product_name_qty_input = product_name_cell.find_element(By.TAG_NAME, 'input')
-            product_name_cell.click()
-
-            self.search(category, sample_product[index])
-          #  add_new_products = self.get_element_text("add_newest_product_xpath", self.add_newest_product_xpath)
-            #add_new_products.send_keys("fivestar")
-
-           # product_name_name_qty_input = product_name_cell.find_element(By.XPATH, 'product_name_name_xpath')
-            # product_name_cell.clear()
-           # product_name_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, sample_product[index]))
-
-            #product_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
-            #product_name_cell.send_keys(ConfigReader.create_inbound_inventory(category, Product[index]))
-
-
-            flavor_name = 2
-            flavor_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[flavor_name]
-            # flavor_name_qty_input = flavor_qty_cell.find_element(By.TAG_NAME, 'input')
-            flavor_name_cell.click()
-            self.search(category, Flavor[index])
-            # flavor_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Flavor[index]))
-
-            size_weight_qty = 3
-            size_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[size_weight_qty]
-            # size_name_qty_input = size_qty_cell.find_element(By.TAG_NAME, 'input')
-            size_name_cell.click()
-            self.search(category, Size_Weight[index])
-            #size_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Size_Weight[index]))
-
-            price_name_qty = 4
-            price_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[price_name_qty]
-            price_name_qty_input = price_name_cell.find_element(By.TAG_NAME, 'input')
-            price_name_qty_input.clear()
-            price_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, Price[index]))
-
-
-           # product_name_name = 5
-          #  product_name_name_cell = rows[index].find_elements(By.TAG_NAME, 'input')[product_name_name]
-           # product_name_name_qty_input = product_name_name_cell.find_element(By.XPATH, 'product_name_name_xpath')
-           # product_name_name_qty_input.clear()
-           # product_name_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, productname[index]))
-
-def enter_items(self, category, entername, enterflavorname, entersizeweight):
-    add_products = self.get_element_text("add_new_product_xpath", self.add_new_product_xpath)
-    rows = None
-    # check_box = self.get_element_text("sample_product_check_box_xpath", self.sample_product_check_box_xpath)
-    # product_name_qty = 5
-
-    #if add_products == "Add New Product":
-        # rows = self.mul_elememts(
-        #     "add_new_table_pd_xpath", self.add_new_table_pd_xpath)
-    rows = self.mul_elememts("sample_table_xpath_enter", self.sample_table_xpath_enter)
-    print(len(rows))
-
-    if rows is None:
-        raise ValueError(f"Failed to retrieve rows for document type: {add_products}")
-
-    element_count1 = len(rows)
-
-    for index in range(element_count1):
-        time.sleep(2)
-
-    enter_name_qty = 1
-    enter_name_cell = rows[index].find_elements(By.TAG_NAME, 'td')[enter_name_qty]
-    enter_name_qty_input = price_name_cell.find_element(By.TAG_NAME, 'input')
-    enter_name_qty_input.clear()
-    enter_name_qty_input.send_keys(ConfigReader.create_inbound_inventory(category, entername[index]))
+            # Is Sample Product Check Box
+            if is_sample[index] is True:
+                is_sample_cb_index = 0
+                is_sample_cb_element = rows[index].find_elements(By.TAG_NAME, 'td')[is_sample_cb_index]
+                is_sample_cb_element.click()

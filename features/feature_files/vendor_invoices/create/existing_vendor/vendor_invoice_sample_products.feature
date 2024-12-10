@@ -1,4 +1,4 @@
-Feature: Sample Products with Vendor Invoice as Document Type
+Feature:  Sample Products Inward from Existing Vendor with Vendor Invoice as Document Type
 
   Background:
     Given I visit the NYB admin website and log in as a user with create, edit, and view access,
@@ -8,62 +8,35 @@ Feature: Sample Products with Vendor Invoice as Document Type
     When I select the warehouse,
     When I select the vendor,
     When I Enter Vendor Invoice No,
-    When I Upload the Invoice,
-    #When I add products,
-
-
-    #When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
+#   When I Upload the Invoice,
 
 
   #Without discount tax, and other charges.
-  @vendor_invoice_sample_products
-  #Scenario: Create a vendor invoice without discount, tax, or other charge
-  Scenario: Add New Products with checkin and confirm
-
+  Scenario: Create a vendor invoice with sample product(new combination) as inward and without discount, tax, or other charges
     When I click add sample product option,
-    Then I add new sample product,
-    Then I add new sample product,
-#    Then I click is sample product,
-    Then I enter a valid product name, flavor name, size weight, and price,
-    #Then I add new sample product,
-#    Then I enter a valid product name, flavor name, size weight, and price,
-#    Then I add new sample product,
-    #When I enter a valid product name, flavor name, size weight, and price,
-    Then I click confirm button,
+    When I add new sample products,
+    When I enter add new product, add new flavor, add new size weight(New combination),
+    When I click confirm button,
+#    When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
 
 
-@vendor_invoice_sample_products2
-    Scenario: Add New Products without checkin and confirm
-
+  #Without discount tax, and other charges.
+  Scenario: Create a vendor invoice with sample product(existing combination) as inward and without discount, tax, or other charges
     When I click add sample product option,
-    Then I add new sample product,
-    #Then I click is sample product,
-    Then I add new sample product,
-    Then I enter a valid product name, flavor name, size weight, and price,
-    Then I click confirm button,
+    When I add new sample products in existing combination,
+    When I enter add new product, add new flavor, add new size weight(existing combination),
+    When I click confirm button,
+#    When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
 
-@vendor_invoice_sample_products3
-    Scenario: Mixed of checkin and checkout in add new products and confirm
-
+  @vendor_invoice_sample_products4
+  #Without discount tax, and other charges.
+  Scenario: Create a vendor invoice with sample product(existing and new combination) as inward and without discount, tax, or other charges
     When I click add sample product option,
-    Then I add new sample product,
-    Then I add new sample product,
-    #Then I click is sample product,
-    Then I enter a valid product name, flavor name, size weight, and price,
-
-    #Then I click is sample product,
-
-
-    Then I click confirm button,
-
-@vendor_invoice_sample_products4
-    Scenario: Add new product inside Add new product
+    When I add new sample products,
+    When I enter add new product, add new flavor, add new size weight(New combination),
+    When I click confirm button,
     When I click add sample product option,
-    Then I add new sample product,
-#    Then I add new sample product,
-    Then I enter add new product, add new flavor, add new size weight,
-
-    #Then I enter productname,
-
-    Then I click confirm button,
-
+    When I add new sample products in existing combination,
+    When I enter add new product, add new flavor, add new size weight(existing combination),
+    When I click confirm button,
+#    When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
