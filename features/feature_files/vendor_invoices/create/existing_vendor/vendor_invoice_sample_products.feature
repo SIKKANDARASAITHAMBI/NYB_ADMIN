@@ -38,10 +38,8 @@ Feature: Sample Products with Vendor Invoice as Document Type
     When I click add sample product option,
     Then I add new sample product,
     #Then I click is sample product,
-    Then I enter a valid product name,
-    Then I enter a valid flavor name,
-    Then I enter a valid size/weight variant,
-    Then I enter a valid price,
+    Then I add new sample product,
+    Then I enter a valid product name, flavor name, size weight, and price,
     Then I click confirm button,
 
 @vendor_invoice_sample_products3
@@ -49,31 +47,23 @@ Feature: Sample Products with Vendor Invoice as Document Type
 
     When I click add sample product option,
     Then I add new sample product,
-    Then I click is sample product,
-    Then I enter a valid product name,
-    Then I enter a valid flavor name,
-    Then I enter a valid size/weight variant,
-    Then I enter a valid price,
     Then I add new sample product,
     #Then I click is sample product,
-    Then I enter a valid product name,
-    Then I enter a valid flavor name,
-    Then I enter a valid size/weight variant,
-    Then I enter a valid price,
+    Then I enter a valid product name, flavor name, size weight, and price,
+
+    #Then I click is sample product,
 
 
+    Then I click confirm button,
+
+@vendor_invoice_sample_products4
+    Scenario: Add new product inside Add new product
+    When I click add sample product option,
     Then I add new sample product,
-    Then I click is sample product,
-    Then I enter a valid product name,
-    Then I enter a valid flavor name,
-    Then I enter a valid size/weight variant,
-    Then I enter a valid price,
+#    Then I add new sample product,
+    Then I enter add new product, add new flavor, add new size weight,
 
-    Then I add new sample product,
-   # Then I click is sample product,
-    Then I enter a valid product name,
-    Then I enter a valid flavor name,
-    Then I enter a valid size/weight variant,
-    Then I enter a valid price,
+    #Then I enter productname,
+
     Then I click confirm button,
 

@@ -477,6 +477,34 @@ def add_new_product(context):
 
 
 
+
     #doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
     # context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.table2("VALID INPUTS", new_product_name,  new_flavor_name, new_size_weight, new_price)
+
+@then('I enter add new product, add new flavor, add new size weight,')
+def add_new_product_product(context):
+    context.driver.implicitly_wait(20)
+
+    new_product_product = ["NEW_SAMPLE_PRODUCT_NAME03", "NEW_SAMPLE_PRODUCT_NAME04"]
+
+    new_flavor_flavor = ["NEW_FLAVOR_NAME03", "NEW_FLAVOR_NAME04"]
+
+    new_size_weight_size_weight = ["NEW_SIZE_WEIGHT03", "NEW_SIZE_WEIGHT04"]
+
+    new_price_price = ["NEW_PRICE_03", "NEW_PRICE_04"]
+
+    '''
+    enter_new_product = ["NEW_PRODUCT_ENTER01"]
+    enter_new_flavor = ["NEW_FLAVOR_ENTER01"]
+    enter_new_size_weight = ["NEW_SIZE_WEIGHT_ENTER01"]
+    '''
+
+    context.cvp.table2("VALID INPUTS", new_product_product, new_flavor_flavor, new_size_weight_size_weight,
+                       new_price_price)
+
+@then('I enter productname,')
+def enter_product_name(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.enter_items("VALID INPUTS", "ENTER_PRODUCT_NAME")
+    context.driver.implicitly_wait(20)
