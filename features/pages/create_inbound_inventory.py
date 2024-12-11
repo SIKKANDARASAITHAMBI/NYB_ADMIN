@@ -32,6 +32,7 @@ class CreateVendorPackingSlip(BasePage):
     packing_slip_received_date_id = "packing_slip_received_date"
     purchase_order_no_id = "purchase_order_no"
     vendor_invoice_no_id = "supplier_invoice_no"
+
     purchase_order_date_id = "purchase_order_date"
     payment_receipt_no_id = "supplier_invoice_no"
     # payment_mode_xpath = "//label[@for='company_id']/following-sibling::select[1]/option[2]"

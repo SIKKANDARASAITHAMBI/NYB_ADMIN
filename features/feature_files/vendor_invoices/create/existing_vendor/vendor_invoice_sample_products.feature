@@ -1,4 +1,4 @@
-Feature:  Sample Products Inward from Existing Vendor with Vendor Invoice as Document Type
+Feature:  Sample Products from Existing Vendor with Vendor Invoice as Document Type
 
   Background:
     Given I visit the NYB admin website and log in as a user with create, edit, and view access,
@@ -71,7 +71,7 @@ Feature:  Sample Products Inward from Existing Vendor with Vendor Invoice as Doc
   @testetst
   Scenario: yesttest
     When I enter tax amount,
-#   When I enter discount amount,
+    When I enter discount amount,
     When I click add sample product option,
     When I add new sample products,
     When I enter add new product, add new flavor, add new size weight(New combination),
@@ -92,6 +92,17 @@ Feature:  Sample Products Inward from Existing Vendor with Vendor Invoice as Doc
   @testetst2
   Scenario: yesttest2
     When I enter discount amount,
+    When I click add sample product option,
+    When I add new sample products,
+    When I enter add new product, add new flavor, add new size weight(New combination),
+    When I click confirm button,
+
+
+    #With other charges.
+
+  @testetst3
+  Scenario: yesttest3
+    When I enter other charges,
     When I click add sample product option,
     When I add new sample products,
     When I enter add new product, add new flavor, add new size weight(New combination),
