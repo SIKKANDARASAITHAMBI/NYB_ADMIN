@@ -24,6 +24,9 @@ def before_scenario(context, driver):
     else:
         raise ValueError("Unsupported browser specified in the configuration file")
 
+    context.driver.implicitly_wait(10)
+
+
 
 def after_scenario(context, driver):
     context.driver.quit()

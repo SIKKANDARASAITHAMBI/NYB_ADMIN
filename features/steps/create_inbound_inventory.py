@@ -5,33 +5,39 @@ import allure
 from behave import *
 
 from features.pages.create_inbound_inventory import CreateVendorPackingSlip
-from features.pages.inbound_inventory_report import inbound_inventory_report
 from features.pages.inventory import HeaderNavigators
-from features.pages.invoice_and_packing_slip import VendorPackingSlip, Page
-from features.pages.login import Login
 from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
 
 
 # **************************** Inventory Header Nav ****************************
 
-@when(u'I navigate to the Inventory module,')
+@when(u'I navigate to the Inventory module and verified the landing page URL')
 def inventory_nav(context):
-    context.driver.implicitly_wait(20)
-    context.hn = HeaderNavigators(context.driver)
-    context.hn.header_navs("inventory")
-    allure.attach(context.driver.get_screenshot_as_png(), name="Inventory_module",
-                  attachment_type=allure.attachment_type.PNG)
+    with allure.step(f"Navigating to the inventory module > Create Inbound Inventory page"):
+        try:
+            context.hn = HeaderNavigators(context.driver)
+            context.hn.header_navs("inventory")
+            allure.attach(context.driver.get_screenshot_as_png(), name="Inventory page navigation successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Inventory page navigation unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error during login: {e}")
 
-
-# **************************** CIBI URL verification ****************************
-
-@then(u'I verify the inventory module URL,')
-def verify_create_inbound_inventory_url(context):
-    time.sleep(1)
-    context.driver.implicitly_wait(20)
-    context.url = UrlVerification(context.driver)
-    context.url.inventory_urls()
+    with allure.step(f"Verify the landing page Url"):
+        try:
+            context.url = UrlVerification(context.driver)
+            expected_url, actual_url = context.url.inventory_urls()
+            allure.attach(f"{expected_url}",
+                          name="Expected Page URL", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_url}",
+                          name="Actual Page URL", attachment_type=allure.attachment_type.TEXT)
+        except Exception as e:
+            allure.attach(f"{expected_url}",
+                          name="Expected Page URL", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_url}",
+                          name="Actual Page URL", attachment_type=allure.attachment_type.TEXT)
 
 
 # **************************** Common ****************************
@@ -494,7 +500,6 @@ def step_impl(context):
 
 @when('I enter add new product, add new flavor, add new size weight(New combination),')
 def add_new_product_product(context):
-
     is_sample_01 = True
     is_sample_02 = False
     is_sample_products = [is_sample_01, is_sample_02, is_sample_01,
@@ -549,24 +554,12 @@ def step_impl(context):
 
 @when('I enter add new product, add new flavor, add new size weight(existing combination),')
 def add_new_product_product(context):
-
     is_sample_01 = True
     is_sample_02 = False
     is_sample_products = [is_sample_01, is_sample_02, is_sample_01,
                           is_sample_02, is_sample_01, is_sample_02]
 
     context.cvp.sample_product_table_existing_combo(is_sample_products)
-
-
-
-
-
-
-
-
-
-
-
 
 
 @then('I enter productname,')

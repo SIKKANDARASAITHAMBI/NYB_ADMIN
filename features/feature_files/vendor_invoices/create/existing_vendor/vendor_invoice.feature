@@ -2,8 +2,7 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
 
   Background:
     Given I visit the NYB admin website and log in as a user with create, edit, and view access,
-    When I navigate to the Inventory module,
-    Then I verify the Inventory module URL,
+    When I navigate to the Inventory module and verified the landing page URL
     When I choose the document type as "Vendor Invoice",
     When I select the warehouse,
     When I select the vendor,

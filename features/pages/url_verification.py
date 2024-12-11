@@ -25,6 +25,7 @@ class UrlVerification(BasePage):
     def inventory_urls(self):
         page = self.page_title()
         actual_url = self.get_page_url()
+        expected_url = None
 
         if page == "Select 1.Create Inbound Inventory to change | NYB DISTRIBUTORS":
             time.sleep(0.5)
@@ -35,3 +36,5 @@ class UrlVerification(BasePage):
             time.sleep(0.5)
             expected_url = ConfigReader.urls("URL", "INVOICE_AND_PACKING_SLIP_URL")
             assert expected_url == actual_url
+
+        return expected_url, actual_url

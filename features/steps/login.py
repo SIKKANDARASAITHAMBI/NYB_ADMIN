@@ -6,15 +6,15 @@ from features.utilities import ConfigReader
 
 # **************************** Login ****************************
 
+admin_url = ConfigReader.urls("URL", "BASE_URL")
 username = ConfigReader.login("SIGNIN VALID INPUT", "USER_NAME")
 password = ConfigReader.login("SIGNIN VALID INPUT", "PASSWORD")
 
 
 @given(u'I visit the NYB admin website and log in as a user with create, edit, and view access,')
 def login(context):
-    with allure.step("Opening NYB Admin Site"):
-        context.driver.implicitly_wait(20)
-        context.driver.get(ConfigReader.urls("URL", "BASE_URL"))
+    with allure.step(f"Navigating to the admin site: {admin_url}"):
+        context.driver.get(admin_url)
 
     with allure.step(f"Login with {username} as username and {password} as password"):
         try:
