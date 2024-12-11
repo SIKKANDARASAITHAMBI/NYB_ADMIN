@@ -12,17 +12,3 @@ features/pages/__pycache__/login.cpython-312.pyc
 features/pages/__pycache__/url_verification.cpython-312.pyc
 features/utilities/__pycache__/__init__.cpython-312.pyc
 features/utilities/__pycache__/ConfigReader.cpython-312.pyc
-.idea/misc.xml
-.idea/misc.xml
-.idea/NYB ADMIN.iml
-features/__pycache__/__init__.cpython-312.pyc
-features/pages/__pycache__/__init__.cpython-312.pyc
-features/pages/__pycache__/base_page.cpython-312.pyc
-features/pages/__pycache__/create_inbound_inventory.cpython-312.pyc
-features/pages/__pycache__/inbound_inventory_report.cpython-312.pyc
-features/pages/__pycache__/inventory.cpython-312.pyc
-features/pages/__pycache__/invoice_and_packing_slip.cpython-312.pyc
-features/pages/__pycache__/login.cpython-312.pyc
-features/pages/__pycache__/url_verification.cpython-312.pyc
-features/utilities/__pycache__/__init__.cpython-312.pyc
-features/utilities/__pycache__/ConfigReader.cpython-312.pyc
