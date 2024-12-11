@@ -4,6 +4,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.edge.service import Service
+
+from features.pages.create_inbound_inventory import CreateVendorPackingSlip
 from features.utilities import ConfigReader
 
 executable_browser = ConfigReader.basic_info("BASIC INFO", "BROWSER_NAME_01")
@@ -25,6 +27,8 @@ def before_scenario(context, driver):
         raise ValueError("Unsupported browser specified in the configuration file")
 
     context.driver.implicitly_wait(10)
+    #Object initializatation
+    context.cvp = CreateVendorPackingSlip(context.driver)
 
 
 

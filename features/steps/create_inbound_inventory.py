@@ -9,10 +9,14 @@ from features.pages.inventory import HeaderNavigators
 from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
 
+doc_type_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE01")
+doc_type_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
+warehouse_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "WAREHOUSE")
+vendor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDORS")
 
 # **************************** Inventory Header Nav ****************************
 
-@when(u'I navigate to the Inventory module and verified the landing page URL')
+@when(u'I navigate to the Inventory module and verified the landing page URL,')
 def inventory_nav(context):
     with allure.step(f"Navigating to the inventory module > Create Inbound Inventory page"):
         try:
@@ -237,11 +241,39 @@ def step_impl(context):
 
 # **************************** Vendor Invoice ***************************
 
-@when(u'I choose the document type as "Vendor Invoice",')
+@when(u'I choose the document type as "Vendor Invoice", select warehouse, and select vendor')
 def vendor_invoice_source(context):
-    context.driver.implicitly_wait(20)
-    context.cvp = CreateVendorPackingSlip(context.driver)
-    context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE02")
+
+    with allure.step(f"{doc_type_02} selected as document type"):
+        try:
+            context.cvp.document_type(doc_type_02)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Document type selection successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Document type selection unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error selecting document type '{doc_type_02}': {e}")
+
+    with allure.step(f"{warehouse_01} selected as warehouse"):
+        try:
+            context.cvp.warehouse(warehouse_01)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Warehouse selection successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Warehouse selection unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error selecting warehouse '{warehouse_01}': {e}")
+
+
+    with allure.step(f"{vendor_01} selected as vendor"):
+        try:
+            context.cvp.vendors(vendor_01)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Vendor selection successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Vendor selection unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error selecting vendor '{vendor_01}': {e}")
 
 
 @when(u'I Enter Vendor Invoice No,')
@@ -368,8 +400,6 @@ def step_impl(context):
 
 @when(u'I choose the document type as "Payment_Reciept",')
 def Payment_Reciepts(context):
-    context.driver.implicitly_wait(20)
-    context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.document_type("VALID INPUTS", "SOURCE_TYPE05")
 
 
@@ -429,8 +459,6 @@ def payment_receipt_number(context):
 
 @when(u'I upload the receipt,')
 def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.upload_invoicee("C:/Users/hp/Desktop/nyb.PNG")
 
 
@@ -477,7 +505,6 @@ def add_new_product(context):
     new_price = ["NEW_PRICE_01", "NEW_PRICE_02"]
 
     # doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
-    # context.cvp = CreateVendorPackingSlip(context.driver)
     context.cvp.table2("VALID INPUTS", new_product_name, new_flavor_name, new_size_weight, new_price)
 
 

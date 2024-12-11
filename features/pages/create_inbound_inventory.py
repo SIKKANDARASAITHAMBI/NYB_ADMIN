@@ -102,13 +102,13 @@ class CreateVendorPackingSlip(BasePage):
         actions.send_keys(Keys.ENTER)
         actions.perform()
 
-    def document_type(self, category, key):
+    def document_type(self, doc_type):
         self.click_element("document_type_id", self.document_type_id)
-        self.search(category, key)
+        self.search1(doc_type)
 
-    def warehouse(self, category, key):
+    def warehouse(self, warehouse):
         self.click_element("warehouse_field_id", self.warehouse_field_id)
-        self.search(category, key)
+        self.search1(warehouse)
 
     payment_mode_id = "payment_mode"
 
@@ -133,9 +133,9 @@ class CreateVendorPackingSlip(BasePage):
         else:
             select.select_by_value("credit_card")
 
-    def vendors(self, category, key):
+    def vendors(self, vendor):
         self.click_element("vendor_field_id", self.vendor_field_id)
-        self.search(category, key)
+        self.search1(vendor)
 
     vendor_name_id = "vendor_name"
 
