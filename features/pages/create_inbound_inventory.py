@@ -429,7 +429,7 @@ class CreateVendorPackingSlip(BasePage):
         element_count = len(rows)
 
         for index in range(element_count):
-            time.sleep(1)
+            time.sleep(3)
 
             # Is Sample Product Check Box
             if is_sample[index] is True:
