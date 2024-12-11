@@ -431,16 +431,13 @@ def payment_receipt_number(context):
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp = CreateVendorPackingSlip(context.driver)
-    context.cvp.upload_invoicee(
-        "C:/Users/sikku/Downloads"
-        "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
+    context.cvp.upload_invoicee("C:/Users/hp/Desktop/nyb.PNG")
 
 
 @when(u'I upload Document Proof For Discount,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.document_proof_ids("C:/Users/sikku/Downloads"
-                                   "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
+    context.cvp.document_proof_ids('C:/Users/hp/Desktop/nyb.PNG')
 
 
 @when(u'I enter notes,')

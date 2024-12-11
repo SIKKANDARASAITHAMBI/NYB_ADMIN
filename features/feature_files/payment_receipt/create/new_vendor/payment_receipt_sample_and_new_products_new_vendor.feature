@@ -77,3 +77,67 @@ Feature: Product inward from new vendor with payment receipt as document type
     Then I verify the Invoice & Packing Slip landing page URL,
     When I filter the document no,
     Then I verify that the document is successfully created and displayed,
+
+     @payment_receipt11
+  #Without discount tax, and other charges.
+  Scenario: Create a payment receipt without discount, tax, or other charges
+    When I enter Payment Receipt No1,
+    When I enter Purchase Order No,
+    When I upload the receipt,
+    When I upload Document Proof For Discount,
+    When I enter notes,
+    When I Select the Payment Mode,
+    When I click add sample product option,
+    When I add new sample products,
+    When I enter add new product, add new flavor, add new size weight(New combination),
+    When I click confirm button,
+
+  @payment_receipt21
+  #Without tax, and other charges.
+  Scenario: Create a vendor invoice with a discount but without tax or other charges
+    When I enter Payment Receipt No2,
+    When I enter Purchase Order No,
+    When I upload the receipt,
+    When I enter discount amount,
+    When I upload Document Proof For Discount,
+    When I enter notes,
+    When I Select the Payment Mode,
+    When I click add sample product option,
+
+    When I add new sample products,
+    When I enter add new product, add new flavor, add new size weight(New combination),
+    When I click confirm button,
+
+  @payment_receipt31
+  #Without other charges.
+  Scenario: Create a vendor invoice with tax and discount but without other charges
+    When I enter Payment Receipt No3,
+    When I enter Purchase Order No,
+    When I upload the receipt,
+    When I enter tax amount,
+    When I enter discount amount,
+    When I upload Document Proof For Discount,
+    When I enter notes,
+    When I Select the Payment Mode,
+    When I click add sample product option,
+    When I add new sample products,
+    When I enter add new product, add new flavor, add new size weight(New combination),
+    When I click confirm button,
+
+  @payment_receipt41
+  #All charges included
+  Scenario: Create a vendor invoice with tax, discount and other charges
+    When I enter Payment Receipt No4,
+    When I enter Purchase Order No,
+    When I upload the receipt,
+    When I enter tax amount,
+    When I enter discount amount,
+    When I enter other charges,
+    When I upload Document Proof For Discount,
+    When I enter notes,
+    When I Select the Payment Mode,
+    When I click submit button.
+    Then I verify the Invoice & Packing Slip landing page URL,
+    When I filter the document no,
+    Then I verify that the document is successfully created and displayed,
+
