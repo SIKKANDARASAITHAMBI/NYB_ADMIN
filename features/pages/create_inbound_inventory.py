@@ -175,12 +175,23 @@ class CreateVendorPackingSlip(BasePage):
                 category, packing_slip_received_date))
         self.click_element("click_random_xpath", self.click_random_xpath)
 
-    def vendor_invoice_no(self, category, vendor_invoice_no):
+    def vendor_invoice_no(self, invoice_num):
         self.clear_element("vendor_invoice_no_id", self.vendor_invoice_no_id)
         self.send_value_to_element(
-            "vendor_invoice_no_id", self.vendor_invoice_no_id,
-            ConfigReader.create_inbound_inventory(
-                category, vendor_invoice_no))
+            "vendor_invoice_no_id", self.vendor_invoice_no_id, invoice_num)
+
+    def upload_invoicee(self, upload_invoice1):
+        file_input = self.driver.find_element(By.ID, 'upload_invoice')
+        file_input.send_keys(upload_invoice1)
+
+    def add_products(self, products):
+        self.click_element("add_product_field_id", self.add_product_field_id)
+        self.search1(products)
+
+        time.sleep(1)
+
+    product_li_xpath = "//li[@class='select2-results__option select2-results__option--selectable']"
+
 
     def purchase_order_no(self, category, purchase_order_no):
         self.clear_element("purchase_order_no_id", self.purchase_order_no_id)
@@ -236,9 +247,7 @@ class CreateVendorPackingSlip(BasePage):
         file_input = self.driver.find_element(By.ID, 'packing_slip_upload')
         file_input.send_keys(file_path)
 
-    def upload_invoicee(self, file_path):
-        file_input = self.driver.find_element(By.ID, 'upload_invoice')
-        file_input.send_keys(file_path)
+
 
     def upload_transfer_invoices(self, file_path):
         file_input = self.driver.find_element(By.ID, 'transfer_slip_upload')

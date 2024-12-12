@@ -13,6 +13,52 @@ doc_type_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE
 doc_type_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
 warehouse_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "WAREHOUSE")
 vendor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDORS")
+invoice_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDOR_INVOICE_NO")
+upload_invoice1 = "C:/Users/hp/Desktop/nyb.PNG"
+exist_product_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME01")
+exist_product_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME02")
+exist_product_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME03")
+exist_product_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME04")
+exist_product_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME05")
+exist_product_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME06")
+
+inward_quantities_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY01")
+inward_quantities_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY02")
+inward_quantities_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY03")
+inward_quantities_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY04")
+inward_quantities_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY05")
+inward_quantities_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY06")
+
+damaged_quantities_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "DAMAGED_QTY01")
+damaged_quantities_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "DAMAGED_QTY02")
+damaged_quantities_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "DAMAGED_QTY03")
+damaged_quantities_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "DAMAGED_QTY04")
+damaged_quantities_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "DAMAGED_QTY05")
+damaged_quantities_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "DAMAGED_QTY06")
+
+unit_prices_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE01")
+unit_prices_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE02")
+unit_prices_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE03")
+unit_prices_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE04")
+unit_prices_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE05")
+unit_prices_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE06")
+
+
+batch_nos_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO01")
+batch_nos_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO02")
+batch_nos_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO03")
+batch_nos_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO04")
+batch_nos_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO05")
+batch_nos_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO06")
+
+
+expiry_dates_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE01")
+expiry_dates_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE02")
+expiry_dates_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE03")
+expiry_dates_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE04")
+expiry_dates_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE05")
+expiry_dates_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE06")
+
 
 # **************************** Inventory Header Nav ****************************
 
@@ -71,13 +117,32 @@ def step_impl(context):
 
 
 @when(u'I add products,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    products = ["PRODUCT_NAME01", "PRODUCT_NAME02",
-                "PRODUCT_NAME03", "PRODUCT_NAME04", "PRODUCT_NAME05", "PRODUCT_NAME06"]
-    category = "VALID INPUTS"
-    context.cvp.add_products(category, products)
-    allure.attach(context.driver.get_screenshot_as_png(), name="Products", attachment_type=allure.attachment_type.PNG)
+def add_products(context):
+    with allure.step(f"added products:"
+                     f"Product1: {exist_product_01}, "
+                     f"Product2: {exist_product_02}, "
+                     f"product3: {exist_product_03}, "
+                     f"product4: {exist_product_04}, "
+                     f"product5: {exist_product_05}, "
+                     f"product6: {exist_product_06}, "
+                     ):
+
+        try:
+            products = [exist_product_01, exist_product_02, exist_product_03, exist_product_04, exist_product_05,
+                        exist_product_06]
+            context.cvp.add_products(products)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error Adding Products: '{
+            f"product1: {exist_product_01}, "
+            f"product2: {exist_product_02}, "
+            f"product3: {exist_product_03}, "
+            f"product4: {exist_product_04}, "
+            f"product5: {exist_product_05}, "
+            f"product6: {exist_product_06}, "}: {e}")
 
 
 @when(u'I click add sample product option,')
@@ -169,16 +234,110 @@ def test_datas2():
     return new_product_name, new_flavor_name, new_size_weight, new_price
 
 
-@when(u'I enter a valid inward quantity, valid damaged quantity, valid unit price,'
-      u' valid batch number, valid expiry date,')
+@when(u'I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,')
 def inward_quantity(context):
+    with allure.step(f"added inward quantity:\n"
+                     f"quantity1: {inward_quantities_01},\n"
+                     f"quantity2: {inward_quantities_02},\n"
+                     f"quantity3: {inward_quantities_03},\n"
+                     f"quantity4: {inward_quantities_04},\n"
+                     f"quantity5: {inward_quantities_05},\n"
+                     f"quantity6: {inward_quantities_06},\n"
+                     f"added damaged quantity:\n"
+                     f"damaged quantity1: {damaged_quantities_01}\n,"
+                     f"damaged quantity2: {damaged_quantities_02}\n,"
+                     f"damaged quantity3: {damaged_quantities_03}\n,"
+                     f"damaged quantity4: {damaged_quantities_04}\n,"
+                     f"damaged quantity5: {damaged_quantities_05}\n,"
+                     f"damaged quantity6: {damaged_quantities_06}\n,"
+                     f"added unit price:\n"
+                     f"unit price01: {unit_prices_01}\n,"
+                     f"unit price02: {unit_prices_02}\n,"
+                     f"unit price03: {unit_prices_03}\n,"
+                     f"unit price04: {unit_prices_04}\n,"
+                     f"unit price05: {unit_prices_05}\n,"
+                     f"unit price06: {unit_prices_06}\n,"
+                     f"added batch_nos:\n"
+                     f"batch_nos01: {batch_nos_01}\n,"
+                     f"batch_nos02: {batch_nos_02}\n,"
+                     f"batch_nos03: {batch_nos_03}\n,"
+                     f"batch_nos04: {batch_nos_04}\n,"
+                     f"batch_nos05: {batch_nos_05}\n,"
+                     f"batch_nos06: {batch_nos_06}\n,"
+                     f"added expiry_dates:\n"
+                     f"expiry_dates01: {expiry_dates_01}\n,"
+                     f"expiry_dates02: {expiry_dates_02}\n,"
+                     f"expiry_dates03: {expiry_dates_03}\n,"
+                     f"expiry_dates04: {expiry_dates_04}\n,"
+                     f"expiry_dates05: {expiry_dates_05}\n,"
+                     f"expiry_dates06: {expiry_dates_06}\n,"
+                    ):
+        try:
+            products = [inward_quantities_01, inward_quantities_02, inward_quantities_03, inward_quantities_04, inward_quantities_05,
+                        inward_quantities_06, damaged_quantities_01, damaged_quantities_02, damaged_quantities_03,
+                        damaged_quantities_04, damaged_quantities_05,damaged_quantities_06,
+                        unit_prices_01, unit_prices_02, unit_prices_03, unit_prices_04, unit_prices_05, unit_prices_06,
+                        batch_nos_01, batch_nos_02, batch_nos_03, batch_nos_04, batch_nos_05, batch_nos_06,
+                        expiry_dates_01, expiry_dates_02, expiry_dates_03, expiry_dates_04, expiry_dates_05, expiry_dates_06]
+
+            context.cvp.add_products(products)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error Adding Products: '{
+            f"product1: {inward_quantities_01}, "
+            f"product2: {inward_quantities_02}, "
+            f"product3: {inward_quantities_03}, "
+            f"product4: {inward_quantities_04}, "
+            f"product5: {inward_quantities_05}, "
+            f"product6: {inward_quantities_06}, "
+            f"product1: {inward_quantities_06}, "
+            f"added damaged quantity:\n"
+                     f"damaged quantity1: {damaged_quantities_01}\n,"
+                     f"damaged quantity2: {damaged_quantities_02}\n,"
+                     f"damaged quantity3: {damaged_quantities_03}\n,"
+                     f"damaged quantity4: {damaged_quantities_04}\n,"
+                     f"damaged quantity5: {damaged_quantities_05}\n,"
+                     f"damaged quantity6: {damaged_quantities_06}\n,"
+                     f"added unit price:\n"
+                     f"unit price01: {unit_prices_01}\n,"
+                     f"unit price02: {unit_prices_02}\n,"
+                     f"unit price03: {unit_prices_03}\n,"
+                     f"unit price04: {unit_prices_04}\n,"
+                     f"unit price05: {unit_prices_05}\n,"
+                     f"unit price06: {unit_prices_06}\n,"
+                     f"added batch_nos:\n"
+                     f"batch_nos01: {batch_nos_01}\n,"
+                     f"batch_nos02: {batch_nos_02}\n,"
+                     f"batch_nos03: {batch_nos_03}\n,"
+                     f"batch_nos04: {batch_nos_04}\n,"
+                     f"batch_nos05: {batch_nos_05}\n,"
+                     f"batch_nos06: {batch_nos_06}\n,"
+                     f"added expiry_dates:\n"
+                     f"expiry_dates01: {expiry_dates_01}\n,"
+                     f"expiry_dates02: {expiry_dates_02}\n,"
+                     f"expiry_dates03: {expiry_dates_03}\n,"
+                     f"expiry_dates04: {expiry_dates_04}\n,"
+                     f"expiry_dates05: {expiry_dates_05}\n,"
+                     f"expiry_dates06: {expiry_dates_06}\n,"}: {e}")
+        pass
+
+
+
+
+    '''
     context.driver.implicitly_wait(20)
     inward_quantities, damaged_quantities, unit_prices, batch_nos, expiry_dates = test_datas()
     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
                       unit_prices, batch_nos, expiry_dates)
     allure.attach(context.driver.get_screenshot_as_png(), name="pdt_details",
-                  attachment_type=allure.attachment_type.PNG)
+                 attachment_type=allure.attachment_type.PNG)
+    '''
 
+    
+    
 
 '''
 @then(u'I enter a valid product name, flavor name, size weight, and price,')
@@ -243,7 +402,6 @@ def step_impl(context):
 
 @when(u'I choose the document type as "Vendor Invoice", select warehouse, and select vendor')
 def vendor_invoice_source(context):
-
     with allure.step(f"{doc_type_02} selected as document type"):
         try:
             context.cvp.document_type(doc_type_02)
@@ -264,7 +422,6 @@ def vendor_invoice_source(context):
                           attachment_type=allure.attachment_type.PNG)
             raise Exception(f"Error selecting warehouse '{warehouse_01}': {e}")
 
-
     with allure.step(f"{vendor_01} selected as vendor"):
         try:
             context.cvp.vendors(vendor_01)
@@ -275,17 +432,50 @@ def vendor_invoice_source(context):
                           attachment_type=allure.attachment_type.PNG)
             raise Exception(f"Error selecting vendor '{vendor_01}': {e}")
 
+    with allure.step(f"added inward quantity:\n"
+                     f"quantity1: {inward_quantities_01},\n"
+                     f"quantity2: {inward_quantities_02},\n"
+                     f"quantity3: {inward_quantities_03},\n"
+                     f"quantity4: {inward_quantities_04},\n"
+                     f"quantity5: {inward_quantities_05},\n"
+                     f"quantity6: {inward_quantities_06},\n"
+                     f"added damaged quantity:\n"
+                     f"damaged quantity1: {inward_quantities_01}\n,"
+                     f"damaged quantity2: {inward_quantities_02}\n,"
+                     f"damaged quantity3: {inward_quantities_03}\n,"
+                     f"damaged quantity4: {inward_quantities_04}\n,"
+                     f"damaged quantity5: {inward_quantities_05}\n,"
+                     f"damaged quantity6: {inward_quantities_06}\n,"
+                     ):
+        pass
+
 
 @when(u'I Enter Vendor Invoice No,')
 def vendor_invoice_no(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.vendor_invoice_no("VALID INPUTS", "VENDOR_INVOICE_NO")
+    with allure.step(f"Invoice No {invoice_no_01} entered "):
+        try:
+            context.driver.implicitly_wait(20)
+            context.cvp.vendor_invoice_no(invoice_no_01)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Entering vendor invoice no. is successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Entering vendor invoice no. is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error entering vendor no: '{invoice_no_01}': {e}")
 
 
 @when(u'I Upload the Invoice,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.upload_invoicee("C:/Users/hp/Desktop/nyb.PNG")
+def upload_invoice(context):
+    with allure.step(f"Uploading Invoice {upload_invoice1} "):
+        try:
+            context.driver.implicitly_wait(20)
+            context.cvp.upload_invoicee(upload_invoice1)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Invoice Upload. is successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Invoice Upload. is not successfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error entering vendor no: '{upload_invoice1}': {e}")
 
 
 @when(u'I enter discount amount,')
