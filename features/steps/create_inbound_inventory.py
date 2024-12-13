@@ -43,14 +43,12 @@ unit_prices_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRI
 unit_prices_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE05")
 unit_prices_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "UNIT_PRICE06")
 
-
 batch_nos_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO01")
 batch_nos_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO02")
 batch_nos_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO03")
 batch_nos_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO04")
 batch_nos_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO05")
 batch_nos_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "BATCH_NO06")
-
 
 expiry_dates_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE01")
 expiry_dates_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE02")
@@ -94,7 +92,6 @@ def inventory_nav(context):
 
 @when(u'I select the warehouse,')
 def step_impl(context):
-
     context.driver.implicitly_wait(20)
     context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
 
@@ -130,7 +127,7 @@ def add_products(context):
 
         try:
             product_data = [exist_product_01, exist_product_02, exist_product_03, exist_product_04, exist_product_05,
-                        exist_product_06]
+                            exist_product_06]
             context.cvp.add_products(product_data)
             allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is successfull",
                           attachment_type=allure.attachment_type.PNG)
@@ -235,7 +232,8 @@ def test_datas2():
     return new_product_name, new_flavor_name, new_size_weight, new_price
 
 
-@when(u'I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,')
+@when(
+    u'I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,')
 def inward_quantity(context):
     with allure.step(f"added inward quantity:\n"
                      f"quantity1: {inward_quantities_01},\n"
@@ -272,14 +270,16 @@ def inward_quantity(context):
                      f"expiry_dates04: {expiry_dates_04}\n,"
                      f"expiry_dates05: {expiry_dates_05}\n,"
                      f"expiry_dates06: {expiry_dates_06}\n,"
-                    ):
+                     ):
         try:
-            products = [inward_quantities_01, inward_quantities_02, inward_quantities_03, inward_quantities_04, inward_quantities_05,
+            products = [inward_quantities_01, inward_quantities_02, inward_quantities_03, inward_quantities_04,
+                        inward_quantities_05,
                         inward_quantities_06, damaged_quantities_01, damaged_quantities_02, damaged_quantities_03,
-                        damaged_quantities_04, damaged_quantities_05,damaged_quantities_06,
+                        damaged_quantities_04, damaged_quantities_05, damaged_quantities_06,
                         unit_prices_01, unit_prices_02, unit_prices_03, unit_prices_04, unit_prices_05, unit_prices_06,
                         batch_nos_01, batch_nos_02, batch_nos_03, batch_nos_04, batch_nos_05, batch_nos_06,
-                        expiry_dates_01, expiry_dates_02, expiry_dates_03, expiry_dates_04, expiry_dates_05, expiry_dates_06]
+                        expiry_dates_01, expiry_dates_02, expiry_dates_03, expiry_dates_04, expiry_dates_05,
+                        expiry_dates_06]
 
             context.cvp.add_products(products)
             allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is successfull",
@@ -296,37 +296,34 @@ def inward_quantity(context):
             f"product6: {inward_quantities_06}, "
             f"product1: {inward_quantities_06}, "
             f"added damaged quantity:\n"
-                     f"damaged quantity1: {damaged_quantities_01}\n,"
-                     f"damaged quantity2: {damaged_quantities_02}\n,"
-                     f"damaged quantity3: {damaged_quantities_03}\n,"
-                     f"damaged quantity4: {damaged_quantities_04}\n,"
-                     f"damaged quantity5: {damaged_quantities_05}\n,"
-                     f"damaged quantity6: {damaged_quantities_06}\n,"
-                     f"added unit price:\n"
-                     f"unit price01: {unit_prices_01}\n,"
-                     f"unit price02: {unit_prices_02}\n,"
-                     f"unit price03: {unit_prices_03}\n,"
-                     f"unit price04: {unit_prices_04}\n,"
-                     f"unit price05: {unit_prices_05}\n,"
-                     f"unit price06: {unit_prices_06}\n,"
-                     f"added batch_nos:\n"
-                     f"batch_nos01: {batch_nos_01}\n,"
-                     f"batch_nos02: {batch_nos_02}\n,"
-                     f"batch_nos03: {batch_nos_03}\n,"
-                     f"batch_nos04: {batch_nos_04}\n,"
-                     f"batch_nos05: {batch_nos_05}\n,"
-                     f"batch_nos06: {batch_nos_06}\n,"
-                     f"added expiry_dates:\n"
-                     f"expiry_dates01: {expiry_dates_01}\n,"
-                     f"expiry_dates02: {expiry_dates_02}\n,"
-                     f"expiry_dates03: {expiry_dates_03}\n,"
-                     f"expiry_dates04: {expiry_dates_04}\n,"
-                     f"expiry_dates05: {expiry_dates_05}\n,"
-                     f"expiry_dates06: {expiry_dates_06}\n,"}: {e}")
+            f"damaged quantity1: {damaged_quantities_01}\n,"
+            f"damaged quantity2: {damaged_quantities_02}\n,"
+            f"damaged quantity3: {damaged_quantities_03}\n,"
+            f"damaged quantity4: {damaged_quantities_04}\n,"
+            f"damaged quantity5: {damaged_quantities_05}\n,"
+            f"damaged quantity6: {damaged_quantities_06}\n,"
+            f"added unit price:\n"
+            f"unit price01: {unit_prices_01}\n,"
+            f"unit price02: {unit_prices_02}\n,"
+            f"unit price03: {unit_prices_03}\n,"
+            f"unit price04: {unit_prices_04}\n,"
+            f"unit price05: {unit_prices_05}\n,"
+            f"unit price06: {unit_prices_06}\n,"
+            f"added batch_nos:\n"
+            f"batch_nos01: {batch_nos_01}\n,"
+            f"batch_nos02: {batch_nos_02}\n,"
+            f"batch_nos03: {batch_nos_03}\n,"
+            f"batch_nos04: {batch_nos_04}\n,"
+            f"batch_nos05: {batch_nos_05}\n,"
+            f"batch_nos06: {batch_nos_06}\n,"
+            f"added expiry_dates:\n"
+            f"expiry_dates01: {expiry_dates_01}\n,"
+            f"expiry_dates02: {expiry_dates_02}\n,"
+            f"expiry_dates03: {expiry_dates_03}\n,"
+            f"expiry_dates04: {expiry_dates_04}\n,"
+            f"expiry_dates05: {expiry_dates_05}\n,"
+            f"expiry_dates06: {expiry_dates_06}\n,"}: {e}")
         pass
-
-
-
 
     '''
     context.driver.implicitly_wait(20)
@@ -337,8 +334,6 @@ def inward_quantity(context):
                  attachment_type=allure.attachment_type.PNG)
     '''
 
-    
-    
 
 '''
 @then(u'I enter a valid product name, flavor name, size weight, and price,')
@@ -368,7 +363,6 @@ def submit(context):
 
 @then(u'I verify the orders module URL,')
 def verify_create_order_url(context):
-
     context.driver.implicitly_wait(20)
     context.url = UrlVerification(context.driver)
     context.url.order_urls("create order")
@@ -454,8 +448,6 @@ def vendor_invoice_source(context):
 
 @when(u'I Enter Vendor Invoice No,')
 def vendor_invoice_no(context):
-
-
     with allure.step(f"Invoice No {invoice_no_01} entered "):
         try:
             context.driver.implicitly_wait(20)
