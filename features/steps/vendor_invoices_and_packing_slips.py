@@ -2,14 +2,29 @@ import allure
 from behave import *
 
 from features.pages.invoice_and_packing_slip import Page, VendorInvoice
+from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
 
 #**************************** VI&PS URL verification ***************************
 
 @then(u'I verify the Invoice & Packing Slip landing page URL,')
 def invoice_packing_slip_url(context):
-    context.driver.implicitly_wait(20)
-    context.url.inventory_urls()
+    #context.driver.implicitly_wait(20)
+   # context.url.inventory_urls()
+    with allure.step(f"Verify the landing page Url"):
+        try:
+            context.url = UrlVerification(context.driver)
+            expected_url, actual_url = context.url.inventory_urls()
+            allure.attach(f"{expected_url}",
+                          name="Expected Page URL", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_url}",
+                          name="Actual Page URL", attachment_type=allure.attachment_type.TEXT)
+        except Exception as e:
+            allure.attach(f"{expected_url}",
+                          name="Expected Page URL", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_url}",
+                          name="Actual Page URL", attachment_type=allure.attachment_type.TEXT)
+
 
 #**************************** Filters ***************************
 

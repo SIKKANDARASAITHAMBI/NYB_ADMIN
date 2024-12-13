@@ -94,6 +94,7 @@ def inventory_nav(context):
 
 @when(u'I select the warehouse,')
 def step_impl(context):
+
     context.driver.implicitly_wait(20)
     context.cvp.warehouse("VALID INPUTS", "WAREHOUSE")
 
@@ -128,9 +129,9 @@ def add_products(context):
                      ):
 
         try:
-            products = [exist_product_01, exist_product_02, exist_product_03, exist_product_04, exist_product_05,
+            product_data = [exist_product_01, exist_product_02, exist_product_03, exist_product_04, exist_product_05,
                         exist_product_06]
-            context.cvp.add_products(products)
+            context.cvp.add_products(product_data)
             allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is successfull",
                           attachment_type=allure.attachment_type.PNG)
         except Exception as e:
@@ -367,6 +368,7 @@ def submit(context):
 
 @then(u'I verify the orders module URL,')
 def verify_create_order_url(context):
+
     context.driver.implicitly_wait(20)
     context.url = UrlVerification(context.driver)
     context.url.order_urls("create order")
@@ -452,6 +454,8 @@ def vendor_invoice_source(context):
 
 @when(u'I Enter Vendor Invoice No,')
 def vendor_invoice_no(context):
+
+
     with allure.step(f"Invoice No {invoice_no_01} entered "):
         try:
             context.driver.implicitly_wait(20)

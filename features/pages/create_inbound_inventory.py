@@ -184,13 +184,24 @@ class CreateVendorPackingSlip(BasePage):
         file_input = self.driver.find_element(By.ID, 'upload_invoice')
         file_input.send_keys(upload_invoice1)
 
-    def add_products(self, products):
-        self.click_element("add_product_field_id", self.add_product_field_id)
-        self.search1(products)
+    def add_products(self, product_list):
 
+        for product in product_list:
+            self.click_element("add_product_field_id", self.add_product_field_id)
+            self.search1(product)
         time.sleep(1)
 
+    # def add_products(self, *args):
+    #     product_count = len(args[1])
+    #     for index in range(product_count):
+    #         category = args[0]
+    #         product = args[1][index]
+    #         self.click_element("add_product_field_id", self.add_product_field_id)
+    #         self.search(category, product)
+
     product_li_xpath = "//li[@class='select2-results__option select2-results__option--selectable']"
+
+
 
 
     def purchase_order_no(self, category, purchase_order_no):
