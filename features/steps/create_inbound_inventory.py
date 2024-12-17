@@ -13,6 +13,8 @@ doc_type_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE
 doc_type_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
 warehouse_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "WAREHOUSE")
 vendor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDORS")
+tax_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "TAX")
+discount = ConfigReader.create_inbound_inventory("VALID INPUTS", "DISCOUNT")
 invoice_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDOR_INVOICE_NO")
 upload_invoice1 = "C:/Users/hp/Desktop/nyb.PNG"
 exist_product_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME01")
@@ -235,53 +237,56 @@ def test_datas2():
 @when(
     u'I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,')
 def inward_quantity(context):
-    with allure.step(f"added inward quantity:\n"
-                     f"quantity1: {inward_quantities_01},\n"
-                     f"quantity2: {inward_quantities_02},\n"
-                     f"quantity3: {inward_quantities_03},\n"
-                     f"quantity4: {inward_quantities_04},\n"
-                     f"quantity5: {inward_quantities_05},\n"
-                     f"quantity6: {inward_quantities_06},\n"
-                     f"added damaged quantity:\n"
-                     f"damaged quantity1: {damaged_quantities_01}\n,"
-                     f"damaged quantity2: {damaged_quantities_02}\n,"
-                     f"damaged quantity3: {damaged_quantities_03}\n,"
-                     f"damaged quantity4: {damaged_quantities_04}\n,"
-                     f"damaged quantity5: {damaged_quantities_05}\n,"
-                     f"damaged quantity6: {damaged_quantities_06}\n,"
-                     f"added unit price:\n"
-                     f"unit price01: {unit_prices_01}\n,"
-                     f"unit price02: {unit_prices_02}\n,"
-                     f"unit price03: {unit_prices_03}\n,"
-                     f"unit price04: {unit_prices_04}\n,"
-                     f"unit price05: {unit_prices_05}\n,"
-                     f"unit price06: {unit_prices_06}\n,"
-                     f"added batch_nos:\n"
-                     f"batch_nos01: {batch_nos_01}\n,"
-                     f"batch_nos02: {batch_nos_02}\n,"
-                     f"batch_nos03: {batch_nos_03}\n,"
-                     f"batch_nos04: {batch_nos_04}\n,"
-                     f"batch_nos05: {batch_nos_05}\n,"
-                     f"batch_nos06: {batch_nos_06}\n,"
-                     f"added expiry_dates:\n"
-                     f"expiry_dates01: {expiry_dates_01}\n,"
-                     f"expiry_dates02: {expiry_dates_02}\n,"
-                     f"expiry_dates03: {expiry_dates_03}\n,"
-                     f"expiry_dates04: {expiry_dates_04}\n,"
-                     f"expiry_dates05: {expiry_dates_05}\n,"
-                     f"expiry_dates06: {expiry_dates_06}\n,"
-                     ):
-        try:
-            products = [inward_quantities_01, inward_quantities_02, inward_quantities_03, inward_quantities_04,
-                        inward_quantities_05,
-                        inward_quantities_06, damaged_quantities_01, damaged_quantities_02, damaged_quantities_03,
-                        damaged_quantities_04, damaged_quantities_05, damaged_quantities_06,
-                        unit_prices_01, unit_prices_02, unit_prices_03, unit_prices_04, unit_prices_05, unit_prices_06,
-                        batch_nos_01, batch_nos_02, batch_nos_03, batch_nos_04, batch_nos_05, batch_nos_06,
-                        expiry_dates_01, expiry_dates_02, expiry_dates_03, expiry_dates_04, expiry_dates_05,
-                        expiry_dates_06]
 
-            context.cvp.add_products(products)
+    with (allure.step(f"added inward quantity:\n"
+                      f"quantity1: {inward_quantities_01},\n"
+                      f"quantity2: {inward_quantities_02},\n"
+                      f"quantity3: {inward_quantities_03},\n"
+                      f"quantity4: {inward_quantities_04},\n"
+                      f"quantity5: {inward_quantities_05},\n"
+                      f"quantity6: {inward_quantities_06},\n"
+                      f"added damaged quantity:\n"
+                      f"damaged quantity1: {damaged_quantities_01}\n,"
+                      f"damaged quantity2: {damaged_quantities_02}\n,"
+                      f"damaged quantity3: {damaged_quantities_03}\n,"
+                      f"damaged quantity4: {damaged_quantities_04}\n,"
+                      f"damaged quantity5: {damaged_quantities_05}\n,"
+                      f"damaged quantity6: {damaged_quantities_06}\n,"
+                      f"added unit price:\n"
+                      f"unit price01: {unit_prices_01}\n,"
+                      f"unit price02: {unit_prices_02}\n,"
+                      f"unit price03: {unit_prices_03}\n,"
+                      f"unit price04: {unit_prices_04}\n,"
+                      f"unit price05: {unit_prices_05}\n,"
+                      f"unit price06: {unit_prices_06}\n,"
+                      f"added batch_nos:\n"
+                      f"batch_nos01: {batch_nos_01}\n,"
+                      f"batch_nos02: {batch_nos_02}\n,"
+                      f"batch_nos03: {batch_nos_03}\n,"
+                      f"batch_nos04: {batch_nos_04}\n,"
+                      f"batch_nos05: {batch_nos_05}\n,"
+                      f"batch_nos06: {batch_nos_06}\n,"
+                      f"added expiry_dates:\n"
+                      f"expiry_dates01: {expiry_dates_01}\n,"
+                      f"expiry_dates02: {expiry_dates_02}\n,"
+                      f"expiry_dates03: {expiry_dates_03}\n,"
+                      f"expiry_dates04: {expiry_dates_04}\n,"
+                      f"expiry_dates05: {expiry_dates_05}\n,"
+                      f"expiry_dates06: {expiry_dates_06}\n,"
+                      )):
+        try:
+            inward_qty = [inward_quantities_01, inward_quantities_02, inward_quantities_03, inward_quantities_04,
+                          inward_quantities_05, inward_quantities_06]
+
+            damaged_qty = [damaged_quantities_01, damaged_quantities_02, damaged_quantities_03,
+                           damaged_quantities_04, damaged_quantities_05, damaged_quantities_06]
+            unit_prices = [unit_prices_01, unit_prices_02, unit_prices_03, unit_prices_04, unit_prices_05,
+                          unit_prices_06]
+            batch_numbers = [batch_nos_01, batch_nos_02, batch_nos_03, batch_nos_04, batch_nos_05, batch_nos_06]
+            expiry_dates = [expiry_dates_01, expiry_dates_02, expiry_dates_03, expiry_dates_04, expiry_dates_05,
+                           expiry_dates_06]
+
+            context.cvp.table(inward_qty, damaged_qty, unit_prices, batch_numbers, expiry_dates)
             allure.attach(context.driver.get_screenshot_as_png(), name="Adding Products. is successfull",
                           attachment_type=allure.attachment_type.PNG)
         except Exception as e:
@@ -476,14 +481,30 @@ def upload_invoice(context):
 
 @when(u'I enter discount amount,')
 def discounts(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.discounts("VALID INPUTS", "DISCOUNT")
-
+    with allure.step(f"discount {discount} entered "):
+        try:
+            context.driver.implicitly_wait(20)
+            context.cvp.discounts(discount)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Entering discount. is successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Entering discount. is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error entering discount : '{discount}': {e}")
 
 @when(u'I enter tax amount,')
 def tax(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.tax("VALID INPUTS", "TAX")
+
+    with allure.step(f"tax No {tax_no_01} entered "):
+        try:
+            context.driver.implicitly_wait(20)
+            context.cvp.tax(tax_no_01)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Entering tax no. is successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Entering tax no. is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error entering tax no: '{tax_no_01}': {e}")
 
 
 @when(u'I enter other charges,')
@@ -492,52 +513,52 @@ def other_charges(context):
     context.cvp.other_charges("VALID INPUTS", "OTHER_CHARGES")
 
 
-@then(
-    u'I enter a valid Intrawarehouse inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
-def inwardquantity_td01(context):
-    context.driver.implicitly_wait(20)
-    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
-                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
+# @then(
+#     u'I enter a valid Intrawarehouse inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
+# def inwardquantity_td01(context):
+#     context.driver.implicitly_wait(20)
+#     inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
+#                          "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
+#
+#     damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
+#                           "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
+#
+#     unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
+#                    "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
+#
+#     batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
+#                  "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
+#
+#     expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
+#                     "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
+#
+#     doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE03")
+#     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
+#                       unit_prices, batch_nos, expiry_dates, doc_type)
 
-    damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
-                          "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
 
-    unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
-                   "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
-
-    batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
-                 "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
-
-    expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
-                    "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
-
-    doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE03")
-    context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
-                      unit_prices, batch_nos, expiry_dates, doc_type)
-
-
-@then(
-    u'I enter a valid Payment Receipt inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
-def inwardquantity_td01(context):
-    context.driver.implicitly_wait(20)
-    inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
-                         "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
-
-    damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
-                          "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
-
-    unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
-                   "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
-
-    batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
-                 "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
-
-    expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
-                    "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
-
-    doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE05")
-    context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
-                      unit_prices, batch_nos, expiry_dates, doc_type)
+# @then(
+#     u'I enter a valid Payment Receipt inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,')
+# def inwardquantity_td01(context):
+#     context.driver.implicitly_wait(20)
+#     inward_quantities = ["INWARD_QTY01", "INWARD_QTY02", "INWARD_QTY03",
+#                          "INWARD_QTY04", "INWARD_QTY05", "INWARD_QTY06"]
+#
+#     damaged_quantities = ["DAMAGED_QTY01", "DAMAGED_QTY02", "DAMAGED_QTY03",
+#                           "DAMAGED_QTY04", "DAMAGED_QTY05", "DAMAGED_QTY06"]
+#
+#     unit_prices = ["UNIT_PRICE01", "UNIT_PRICE02", "UNIT_PRICE03",
+#                    "UNIT_PRICE04", "UNIT_PRICE05", "UNIT_PRICE06"]
+#
+#     batch_nos = ["BATCH_NO01", "BATCH_NO02", "BATCH_NO03",
+#                  "BATCH_NO04", "BATCH_NO05", "BATCH_NO06"]
+#
+#     expiry_dates = ["EXPIRY_DATE01", "EXPIRY_DATE02", "EXPIRY_DATE03",
+#                     "EXPIRY_DATE04", "EXPIRY_DATE05", "EXPIRY_DATE06"]
+#
+#     doc_type = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE05")
+#     context.cvp.table("VALID INPUTS", inward_quantities, damaged_quantities,
+#                       unit_prices, batch_nos, expiry_dates, doc_type)
 
 
 # **************************** Intrawarehouse transfer ****************************
@@ -652,6 +673,13 @@ def step_impl(context):
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.document_proof_ids('C:/Users/hp/Desktop/nyb.PNG')
+
+@when('I add Document Proof For Discount,')
+def add_doc_proof(context):
+    context.driver.implicitly_wait(20)
+    context.cvp.document_proof_for_discount('C:/Users/hp/Desktop/nyb.PNG')
+    context.driver.implicitly_wait(20)
+
 
 
 @when(u'I enter notes,')
@@ -777,3 +805,6 @@ def enter_product_name(context):
     context.driver.implicitly_wait(20)
     context.cvp.enter_items("VALID INPUTS", "ENTER_PRODUCT_NAME")
     context.driver.implicitly_wait(20)
+
+
+

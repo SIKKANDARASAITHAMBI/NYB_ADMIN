@@ -10,6 +10,7 @@ Feature:  Sample Products Inward from Existing Vendor with Vendor Invoice as Doc
     When I Enter Vendor Invoice No,
     When I Upload the Invoice,
 
+  @vendor_invoiceeeeeeee
   #Without discount tax, and other charges.
   Scenario: Create a vendor invoice with sample product(existing and new combination) as inward and without discount, tax, or other charges
     When I click add sample product option,

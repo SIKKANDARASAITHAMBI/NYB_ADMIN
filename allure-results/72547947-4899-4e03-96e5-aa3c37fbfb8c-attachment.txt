@@ -1,0 +1,1 @@
+https://uat.nybdistributor.com:3000/inventory/createinward/

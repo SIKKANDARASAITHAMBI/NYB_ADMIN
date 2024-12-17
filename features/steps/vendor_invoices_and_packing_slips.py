@@ -1,6 +1,7 @@
 import allure
 from behave import *
 
+from features.pages.inventory import HeaderNavigators
 from features.pages.invoice_and_packing_slip import Page, VendorInvoice
 from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
@@ -42,11 +43,15 @@ def doc_no_filter(context):
 
 @then(u'I verify that the document is successfully created and displayed,')
 def entry(context):
+
+
+
     context.driver.implicitly_wait(20)
     context.vi = VendorInvoice(context.driver)
     step_name = "created document"
     context.vi.listing(step_name)
     allure.attach(context.driver.get_screenshot_as_png(), name="Listing", attachment_type=allure.attachment_type.PNG)
+
 
 
 @then(u'I navigated to the vendor invoice and packing slip page,')
