@@ -150,13 +150,10 @@ class VendorInvoice(BasePage):
 
     listing_row_xpath = "//table[@id='Event']//tbody//tr"
 
-    def listing(self, step_name):
+    def listing(self):
 
         listing_rows = self.mul_elememts("listing_row_xpath", self.listing_row_xpath)
         cell_count = len(listing_rows)
-        # timestamp = time.strftime("%Y%m%d-%H%M%S")
-        # screenshot_path = f"C:/Users/sikku/PycharmProjects/NYB_ADMIN/features/snaps/{step_name}_{timestamp}.png"
-        # self.screen_shot(screenshot_path)
         assert cell_count == 1
 
     def view_update_vp_slip(self, value):

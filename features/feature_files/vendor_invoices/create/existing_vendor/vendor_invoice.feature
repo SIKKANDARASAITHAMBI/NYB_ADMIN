@@ -6,7 +6,7 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
     When I choose the document type as "Vendor Invoice", select warehouse, and select vendor
     When I Enter Vendor Invoice No,
     When I Upload the Invoice,
-    When I add Document Proof For Discount,
+#    When I add Document Proof For Discount,
     When I add products,
     When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
 

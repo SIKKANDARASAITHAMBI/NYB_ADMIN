@@ -6,13 +6,15 @@ from features.pages.invoice_and_packing_slip import Page, VendorInvoice
 from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
 
+filter_value = ConfigReader.vendor_invoices_and_packing_slips(
+    "VALID INPUTS", "FILTER_04")
+
+
 #**************************** VI&PS URL verification ***************************
 
 @then(u'I verify the Invoice & Packing Slip landing page URL,')
 def invoice_packing_slip_url(context):
-    #context.driver.implicitly_wait(20)
-   # context.url.inventory_urls()
-    with allure.step(f"Verify the landing page Url"):
+    with allure.step(f" Verify the landing page Url"):
         try:
             context.url = UrlVerification(context.driver)
             expected_url, actual_url = context.url.inventory_urls()
@@ -32,26 +34,31 @@ def invoice_packing_slip_url(context):
 @when(
     u'I filter the document no,')
 def doc_no_filter(context):
-    context.driver.implicitly_wait(20)
-    context.page = Page(context.driver)
-    filter_value = ConfigReader.vendor_invoices_and_packing_slips(
-        "VALID INPUTS", "FILTER_04")
-    context.page.filters(filter_value)
-    allure.attach(context.driver.get_screenshot_as_png(), name="Filter", attachment_type=allure.attachment_type.PNG)
+    with allure.step(f"Use {filter_value} filter"):
+        try:
+            context.page.filters(filter_value)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Filter successfull",
+                          attachment_type=allure.attachment_type.PNG)
+
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Filter unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error filtering '{filter_value}': {e}")
+
 
 #**************************** Listing ***************************
 
 @then(u'I verify that the document is successfully created and displayed,')
 def entry(context):
+    try:
+        context.vi.listing()
+        allure.attach(context.driver.get_screenshot_as_png(), name="Listing verified successfully",
+                      attachment_type=allure.attachment_type.PNG)
 
-
-
-    context.driver.implicitly_wait(20)
-    context.vi = VendorInvoice(context.driver)
-    step_name = "created document"
-    context.vi.listing(step_name)
-    allure.attach(context.driver.get_screenshot_as_png(), name="Listing", attachment_type=allure.attachment_type.PNG)
-
+    except Exception as e:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Listing verified unsuccessfully",
+                      attachment_type=allure.attachment_type.PNG)
+        raise Exception(f"{e}")
 
 
 @then(u'I navigated to the vendor invoice and packing slip page,')
@@ -72,4 +79,3 @@ def verify(context):
     context.driver.implicitly_wait(20)
     context.cvp.verify()
     context.driver.implicitly_wait(20)
-
