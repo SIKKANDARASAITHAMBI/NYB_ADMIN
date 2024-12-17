@@ -18,6 +18,7 @@ tax_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "TAX")
 discount = ConfigReader.create_inbound_inventory("VALID INPUTS", "DISCOUNT")
 invoice_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDOR_INVOICE_NO")
 upload_invoice1 = os.path.abspath("./documents/file-example_PDF_1MB.pdf")
+upload_discount_proof = os.path.abspath("./documents/file-example_PDF_1MB.pdf")
 exist_product_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME01")
 exist_product_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME02")
 exist_product_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME03")
@@ -336,6 +337,67 @@ def submit(context):
                           attachment_type=allure.attachment_type.PNG)
             raise Exception(f"Error in clicking submit button: {e}")
 
+
+@then(u'I verify the choosed document type, warehouse , and vendor,')
+def step_imp(context):
+    with allure.step(f"Verify the choosed document type."):
+        try:
+            actual_doc_type = context.cvp.verify_document_type(doc_type_02)
+            allure.attach(f"{doc_type_02}",
+                          name="Expected document type", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_doc_type}",
+                          name="Actual document type", attachment_type=allure.attachment_type.TEXT)
+
+
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(),
+                          name="Document type selection is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+
+            allure.attach(f"{doc_type_02}",
+                          name="Expected document type", attachment_type=allure.attachment_type.TEXT)
+
+            allure.attach(f"{actual_doc_type}",
+                          name="Actual document type", attachment_type=allure.attachment_type.TEXT)
+            raise Exception(f"Error in choosing document type: {e}")
+
+    with allure.step(f"Verify the choosed warehouse."):
+        try:
+            actual_warehouse = context.cvp.verify_warehouse(warehouse_01)
+            allure.attach(f"{warehouse_01}",
+                          name="Expected warehouse", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_warehouse}",
+                          name="Actual warehouse", attachment_type=allure.attachment_type.TEXT)
+
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(),
+                          name="Warehouse selection is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+
+            allure.attach(f"{warehouse_01}",
+                          name="Expected warehouse", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_warehouse}",
+                          name="Actual warehouse", attachment_type=allure.attachment_type.TEXT)
+            raise Exception(f"Error in choosing warehouse: {e}")
+
+    with allure.step(f"Verify the choosed vendor."):
+        try:
+            actual_vendor = context.cvp.verify_vendor(vendor_01)
+            allure.attach(f"{vendor_01}",
+                          name="Expected vendor", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_vendor}",
+                          name="Actual vendor", attachment_type=allure.attachment_type.TEXT)
+
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(),
+                          name="Vendor selection is unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            allure.attach(f"{vendor_01}",
+                          name="Expected vendor", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(f"{actual_vendor}",
+                          name="Actual vendor", attachment_type=allure.attachment_type.TEXT)
+            raise Exception(f"Error in choosing vendor: {e}")
+
 # **************************** Vendor Packing Slip ****************************
 
 @then(u'I verify the orders module URL,')
@@ -649,10 +711,7 @@ def step_impl(context):
 
 @when('I add Document Proof For Discount,')
 def add_doc_proof(context):
-    context.driver.implicitly_wait(20)
-    context.cvp.document_proof_for_discount('C:/Users/hp/Desktop/nyb.PNG')
-    context.driver.implicitly_wait(20)
-
+    context.cvp.document_proof_for_discount(upload_discount_proof)
 
 @when(u'I enter notes,')
 def step_impl(context):

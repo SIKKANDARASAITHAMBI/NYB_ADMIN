@@ -106,9 +106,20 @@ class CreateVendorPackingSlip(BasePage):
         self.click_element("document_type_id", self.document_type_id)
         self.search1(doc_type)
 
+    def verify_document_type(self, expected_doc_type):
+        actual_doc_type = self.get_element_text("document_type_id", self.document_type_id)
+        assert expected_doc_type == actual_doc_type
+        return actual_doc_type
+
+
     def warehouse(self, warehouse):
         self.click_element("warehouse_field_id", self.warehouse_field_id)
         self.search1(warehouse)
+
+    def verify_warehouse(self, expected_warehouse):
+        actual_warehouse = self.get_element_text("warehouse_field_id", self.warehouse_field_id)
+        assert expected_warehouse == actual_warehouse
+        return actual_warehouse
 
     payment_mode_id = "payment_mode"
 
@@ -136,6 +147,11 @@ class CreateVendorPackingSlip(BasePage):
     def vendors(self, vendor):
         self.click_element("vendor_field_id", self.vendor_field_id)
         self.search1(vendor)
+
+    def verify_vendor(self, expected_vendor):
+        actual_vendor = self.get_element_text("vendor_field_id", self.vendor_field_id)
+        assert expected_vendor == actual_vendor
+        return actual_vendor
 
     vendor_name_id = "vendor_name"
 
