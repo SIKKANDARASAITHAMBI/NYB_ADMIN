@@ -408,10 +408,12 @@ class CreateVendorPackingSlip(BasePage):
             damaged_qty_input.send_keys(damaged_quantity[index])
 
             #Unit price. --> In vendor packing slip no price will be available.
-            unit_price_index = 7
+            if doc_type == "Vendor Packing Slip":
+                unit_price_index = 7
+            else:
+                unit_price_index = 6
             unit_price_cell = rows[index].find_elements(By.TAG_NAME, 'td')[unit_price_index]
             unit_price_input = unit_price_cell.find_element(By.TAG_NAME, 'input')
-            time.sleep(5)
             unit_price_input.send_keys(unit_price[index])
 
             # Batch number.
