@@ -6,12 +6,13 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
     When I choose the document type as "Vendor Invoice", select warehouse, and select vendor
     When I Enter Vendor Invoice No,
     When I Upload the Invoice,
-#    When I add Document Proof For Discount,
+    When I add Document Proof For Discount,
+    When I enter notes,
     When I add products,
     When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
 
   #Without discount tax, and other charges.
-  @vendor_invoiceee
+  #@vendor_invoiceee
   Scenario: Create a vendor invoice without discount, tax, or other charges
     When I click submit button.
     Then I verify the Invoice & Packing Slip landing page URL,
@@ -20,6 +21,7 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
 
 
   #Without tax, and other charges.
+   @vendor_invoiceee
   Scenario: Create a vendor invoice with a discount but without tax or other charges
     When I enter discount amount,
     When I click submit button.

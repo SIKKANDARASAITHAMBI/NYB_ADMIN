@@ -13,7 +13,7 @@ from features.utilities import ConfigReader
 doc_type_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE01")
 doc_type_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
 warehouse_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "WAREHOUSE")
-vendor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDORS")
+vendor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDORS_01")
 tax_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "TAX")
 discount = ConfigReader.create_inbound_inventory("VALID INPUTS", "DISCOUNT")
 invoice_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDOR_INVOICE_NO")
@@ -25,6 +25,7 @@ exist_product_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUC
 exist_product_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME04")
 exist_product_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME05")
 exist_product_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "PRODUCT_NAME06")
+new_pts_fls_samples = ConfigReader.create_inbound_inventory("VALID INPUTS", "SAMPLE_OPTION")
 
 inward_quantities_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY01")
 inward_quantities_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "INWARD_QTY02")
@@ -60,6 +61,45 @@ expiry_dates_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_
 expiry_dates_04 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE04")
 expiry_dates_05 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE05")
 expiry_dates_06 = ConfigReader.create_inbound_inventory("VALID INPUTS", "EXPIRY_DATE06")
+
+is_sample_01 = True
+is_sample_02 = False
+
+product_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                   "NEW_SAMPLE_PRODUCT_NAME01")
+product_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                   "NEW_SAMPLE_PRODUCT_NAME02")
+product_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                   "NEW_SAMPLE_PRODUCT_NAME03")
+product_04 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                   "NEW_SAMPLE_PRODUCT_NAME04")
+
+flavor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                  "NEW_FLAVOR_NAME01")
+flavor_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                  "NEW_FLAVOR_NAME02")
+flavor_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                  "NEW_FLAVOR_NAME03")
+flavor_04 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                  "NEW_FLAVOR_NAME04")
+
+quantity_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                        "NEW_SIZE_WEIGHT01")
+quantity_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                        "NEW_SIZE_WEIGHT02")
+quantity_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                        "NEW_SIZE_WEIGHT03")
+quantity_04 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                        "NEW_SIZE_WEIGHT04")
+
+price_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                     "NEW_PRICE_01")
+price_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                     "NEW_PRICE_02")
+price_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                     "NEW_PRICE_03")
+price_04 = ConfigReader.create_inbound_inventory("VALID INPUTS",
+                                                     "NEW_PRICE_04")
 
 
 # **************************** Inventory Header Nav ****************************
@@ -143,16 +183,13 @@ def add_products(context):
                                 product3: {exist_product_03},
                                 product4: {exist_product_04},
                                 product5: {exist_product_05},
-                                product6: {exist_product_06},: {e}""")
+                                product6: {exist_product_06},:""" f"{e}")
 
 
 @when(u'I click add sample product option,')
 def step_impl(context):
-    context.driver.implicitly_wait(20)
-    products = "SAMPLE_OPTION"
-    category = "VALID INPUTS"
-
-    context.cvp.add_products(category, products)
+    product = [new_pts_fls_samples]
+    context.cvp.add_products(product)
 
 
 @then(u'I click is sample product,')
@@ -296,7 +333,7 @@ def inward_quantity(context):
         except Exception as e:
             allure.attach(context.driver.get_screenshot_as_png(), name="Adding data to the product is unsuccessfull",
                           attachment_type=allure.attachment_type.PNG)
-            raise Exception(f"""Error Adding Products: {e}""")
+            raise Exception(f"""Error Adding Products:""" f"{e}")
 
     '''
     context.driver.implicitly_wait(20)
@@ -397,6 +434,7 @@ def step_imp(context):
             allure.attach(f"{actual_vendor}",
                           name="Actual vendor", attachment_type=allure.attachment_type.TEXT)
             raise Exception(f"Error in choosing vendor: {e}")
+
 
 # **************************** Vendor Packing Slip ****************************
 
@@ -713,6 +751,7 @@ def step_impl(context):
 def add_doc_proof(context):
     context.cvp.document_proof_for_discount(upload_discount_proof)
 
+
 @when(u'I enter notes,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
@@ -723,18 +762,6 @@ def step_impl(context):
 def step_impl(context):
     context.driver.implicitly_wait(20)
     context.cvp.payment_mode("VALID INPUTS", "PAYMENT_MODE_CHECK")
-
-
-'''
-@when(u'I click add sample product option,')
-def step_impl(context):
-    context.driver.implicitly_wait(20)
-    products = ["NEW_SAMPLE_PRODUCT_NAME01", "NEW_PRODUCT_NAME02",
-                "NEW_PRODUCT_NAME03", "NEW_PRODUCT_NAME04", "NEW_PRODUCT_NAME05", "NEW_PRODUCT_NAME06"]
-    category = "VALID INPUTS"
-    context.cvp.add_sample_products(category, products)
-    allure.attach(context.driver.get_screenshot_as_png(), name="New_Products", attachment_type=allure.attachment_type.PNG)
-'''
 
 
 @then(u'I enter a valid product name, flavor name, size weight, and price,')
@@ -763,51 +790,25 @@ def step_impl(context):
     product_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
                                                        "NEW_PRODUCT_03")
 
-    products = [product_03, product_03, product_03, product_03]
+    products = [product_03, product_03, product_03]
     context.cvp.add_sample_products(products)
 
 
 @when('I enter add new product, add new flavor, add new size weight(New combination),')
 def add_new_product_product(context):
-    is_sample_01 = True
-    is_sample_02 = False
     is_sample_products = [is_sample_01, is_sample_02, is_sample_01,
-                          is_sample_02, is_sample_01, is_sample_02]
+                          is_sample_02]
 
-    product_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                       "NEW_SAMPLE_PRODUCT_NAME01")
-    product_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                       "NEW_SAMPLE_PRODUCT_NAME02")
-    product_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                       "NEW_SAMPLE_PRODUCT_NAME03")
+    new_products = [product_01, product_02, product_03, product_04]
 
-    new_products = [product_01, product_02, product_03, product_03]
+    new_flavors = [flavor_01, flavor_02, flavor_03, flavor_04]
 
-    flavor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                      "NEW_FLAVOR_NAME01")
-    flavor_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                      "NEW_FLAVOR_NAME02")
-    flavor_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                      "NEW_FLAVOR_NAME03")
+    new_quantity = [quantity_01, quantity_02, quantity_03, quantity_04]
 
-    new_flavors = [flavor_01, flavor_02, flavor_03, flavor_03]
+    prices = [price_01, price_02, price_03, price_04]
 
-    quantity_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                        "NEW_SIZE_WEIGHT01")
-    quantity_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                        "NEW_SIZE_WEIGHT02")
-    quantity_03 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                        "NEW_SIZE_WEIGHT03")
-    new_quantity = [quantity_01, quantity_02, quantity_03, quantity_03]
-
-    price_01 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                     "NEW_PRICE_01")
-    price_02 = ConfigReader.create_inbound_inventory("VALID INPUTS",
-                                                     "NEW_PRICE_02")
-    prices = [price_01, price_02, price_02, price_02]
-
-    context.cvp.sample_product_table(is_sample_products, new_products, new_flavors, new_quantity, prices)
-
+    context.cvp.sample_product_table(is_sample_products, new_products, new_flavors,
+                                     new_quantity, prices)
 
 @when(u'I add new sample products in existing combination,')
 def step_impl(context):

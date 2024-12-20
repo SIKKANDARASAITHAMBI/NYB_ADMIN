@@ -200,7 +200,11 @@ class CreateVendorPackingSlip(BasePage):
         file_input = self.driver.find_element(By.ID, 'upload_invoice')
         file_input.send_keys(upload_invoice1)
 
-    def add_products(self, product_list):
+    def document_proof_for_discount(self, document_proof1):
+        file_input = self.driver.find_element(By.ID, 'document_proof_id')
+        file_input.send_keys(document_proof1)
+
+    def add_products(self, product_list : list):
         count = len(product_list)
         for index in range(count):
             self.click_element("add_product_field_id", self.add_product_field_id)
@@ -267,11 +271,6 @@ class CreateVendorPackingSlip(BasePage):
     def document_proof_ids(self, file_path):
         file_input = self.driver.find_element(By.ID, 'document_proof_id')
         file_input.send_keys(file_path)
-
-    # def add_products(self, category, products):
-    #     self.click_element("add_product_field_id", self.add_product_field_id)
-    #     self.search(category, products)
-    #     # self.search("VALID INPUTS", "")
 
         time.sleep(1)
 
@@ -371,7 +370,7 @@ class CreateVendorPackingSlip(BasePage):
 
     # Dynamic Code.
     def table(self, inward_quantity, damaged_quantity, unit_price, batch_number, expiry_date):
-        doc_type = self.get_element_text("document_type_xpath", self.document_type_xpath)
+        doc_type = self.get_element_text("document_type_id", self.document_type_id)
         rows = None
         if doc_type == "Vendor Packing Slip":
             rows = self.mul_elememts(
@@ -403,12 +402,12 @@ class CreateVendorPackingSlip(BasePage):
             damaged_qty_input = damaged_qty_cell.find_element(By.TAG_NAME, 'input')
             damaged_qty_input.send_keys(damaged_quantity[index])
 
-            # Unit price. --> In vendor packing slip no price will be available.
-            # unit_price_index = 7
-            # unit_price_cell = rows[index].find_elements(By.TAG_NAME, 'td')[unit_price_index]
-            # unit_price_input = unit_price_cell.find_element(By.TAG_NAME, 'input')
-            # time.sleep(5)
-            # unit_price_input.send_keys(unit_price[index])
+            #Unit price. --> In vendor packing slip no price will be available.
+            unit_price_index = 7
+            unit_price_cell = rows[index].find_elements(By.TAG_NAME, 'td')[unit_price_index]
+            unit_price_input = unit_price_cell.find_element(By.TAG_NAME, 'input')
+            time.sleep(5)
+            unit_price_input.send_keys(unit_price[index])
 
             # Batch number.
             batch_number_index = 8
@@ -527,16 +526,16 @@ class CreateVendorPackingSlip(BasePage):
 
     def sample_product_table_existing_combo(self, is_sample):
 
-        add_products = self.get_element_text(
+        addd_products = self.get_element_text(
             "add_new_product_xpath", self.add_new_product_xpath)
 
         rows = None
-        if add_products == "Add New Product":
+        if addd_products == "Add New Product":
             rows = self.mul_elememts("sample_table_xpath", self.sample_table_xpath)
             print(len(rows))
 
         if rows is None:
-            raise ValueError(f"Failed to retrieve rows for document type: {add_products}")
+            raise ValueError(f"Failed to retrieve rows for document type: {addd_products}")
 
         element_count = len(rows)
 
