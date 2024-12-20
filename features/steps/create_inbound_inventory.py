@@ -12,6 +12,7 @@ from features.utilities import ConfigReader
 
 doc_type_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE01")
 doc_type_02 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE02")
+doc_type_03 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE03")
 warehouse_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "WAREHOUSE")
 vendor_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "VENDORS_01")
 tax_no_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "TAX")
@@ -515,8 +516,7 @@ def step_impl(context):
 @when(u'I upload the packing slip,')
 def step_impl(context):
     context.driver.implicitly_wait(20)
-    context.cvp.upload_packing_slip("C:/Users/sikku/Downloads"
-                                    "/Woodbolt_Distribution_cellucor_Packing_slip_11_27_2024.pdf")
+    context.cvp.upload_packing_slip("C:/Users/hp/Desktop/nyb.PNG")
 
 
 # **************************** Vendor Invoice ***************************
@@ -885,3 +885,36 @@ def enter_product_name(context):
     context.driver.implicitly_wait(20)
     context.cvp.enter_items("VALID INPUTS", "ENTER_PRODUCT_NAME")
     context.driver.implicitly_wait(20)
+
+@then('I choose the document type as "Vendor Packing Slip", select warehouse, and select vendor,')
+
+def vendor_invoice_source(context):
+    with allure.step(f"{doc_type_01} selected as document type"):
+        try:
+            context.cvp.document_type(doc_type_01)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Document type selection successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Document type selection unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error selecting document type '{doc_type_01}': {e}")
+
+    with allure.step(f"{warehouse_01} selected as warehouse"):
+        try:
+            context.cvp.warehouse(warehouse_01)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Warehouse selection successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Warehouse selection unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error selecting warehouse '{warehouse_01}': {e}")
+
+    with allure.step(f"{vendor_01} selected as vendor"):
+        try:
+            context.cvp.vendors(vendor_01)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Vendor selection successfull",
+                          attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Vendor selection unsuccessfull",
+                          attachment_type=allure.attachment_type.PNG)
+            raise Exception(f"Error selecting vendor '{vendor_01}': {e}")

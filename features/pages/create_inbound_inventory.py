@@ -566,21 +566,14 @@ class CreateVendorPackingSlip(BasePage):
 
         else:
             element_count = len(rows)
-            print(element_count)
             for index in range(element_count):
-                print(index)
                 time.sleep(1)
                 # Product.
                 product = 0
                 product_cell = rows[index].find_elements(By.TAG_NAME, 'td')[product]
-                print(f"{product_cell}")
                 product_cell_val = product_cell.find_element(By.TAG_NAME, 'p')
-                print(f"{product_cell}")
                 product_name = product_cell_val.text
-                print(f"{product_cell}")
                 product_title.append(product_name)
-                print(expected_product_title[index])
-                print(product_title[index])
                 assert expected_product_title[index] == product_title[index]
 
                 # Flavor.
@@ -589,8 +582,6 @@ class CreateVendorPackingSlip(BasePage):
                 flavor_cell = flavor_cell.find_element(By.TAG_NAME, 'p')
                 flavor_name = flavor_cell.text
                 flavor_title.append(flavor_name)
-                print(expected_flavor_title[index])
-                print(flavor_title[index])
                 assert expected_flavor_title[index] == flavor_title[index]
 
                 # Quantity (S/W).
@@ -599,8 +590,6 @@ class CreateVendorPackingSlip(BasePage):
                 quantity_cell = quantity_cell.find_element(By.TAG_NAME, 'p')
                 quantity_name = quantity_cell.text
                 quantity_title.append(quantity_name)
-                print(expected_quantity_title[index])
-                print(quantity_title[index])
                 assert expected_quantity_title[index] == quantity_title[index]
 
         return product_title, flavor_title, quantity_title

@@ -10,19 +10,16 @@ Feature: Product inward from existing vendor with vendor packing slip as documen
 
   Background:
     Given I visit the NYB admin website and log in as a user with create, edit, and view access,
-    When I navigate to the Inventory module,
-    Then I verify the Inventory module URL,
-    When I choose the document type as "vendor packing slip",
-    When I select the warehouse,
-    When I select the vendor,
+    When I navigate to the Inventory module and verified the landing page URL,
+    Then I choose the document type as "Vendor Packing Slip", select warehouse, and select vendor,
     When I Enter packing slip number,
     When I upload the packing slip,
     When I add products,
-    When I enter a valid inward quantity, valid damaged quanity, valid unit price, valid batch number, valid expiry date,
-    When I click submit button.
+    When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
 
+  @vendor_packing_slip1
   Scenario: Create a vendor packing slip with all the required details
-
+    When I click submit button.
     Then I verify the Invoice & Packing Slip landing page URL,
     When I filter the document no,
     Then I verify that the document is successfully created and displayed,

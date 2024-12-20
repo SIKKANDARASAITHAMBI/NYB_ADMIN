@@ -5,7 +5,9 @@ from features.pages.inventory import HeaderNavigators
 from features.pages.invoice_and_packing_slip import Page, VendorInvoice
 from features.pages.url_verification import UrlVerification
 from features.utilities import ConfigReader
-
+from features.pages import create_inbound_inventory
+from features.pages.create_inbound_inventory import CreateVendorPackingSlip
+doc_type_01 = ConfigReader.create_inbound_inventory("VALID INPUTS", "SOURCE_TYPE01")
 filter_value = ConfigReader.vendor_invoices_and_packing_slips(
     "VALID INPUTS", "FILTER_04")
 
@@ -79,3 +81,5 @@ def verify(context):
     context.driver.implicitly_wait(20)
     context.cvp.verify()
     context.driver.implicitly_wait(20)
+
+
