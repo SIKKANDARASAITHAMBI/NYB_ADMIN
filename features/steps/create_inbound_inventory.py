@@ -187,7 +187,52 @@ def add_products(context):
 
 @then(u'I verify the added products')
 def verify_added_products(context):
-    pass
+
+    concatenated_list = []
+
+    try:
+
+        prod_06 = exist_product_06.split(" - ")
+        prod_05 = exist_product_05.split(" - ")
+        prod_04 = exist_product_04.split(" - ")
+        prod_03 = exist_product_03.split(" - ")
+        prod_02 = exist_product_02.split(" - ")
+        prod_01 = exist_product_01.split(" - ")
+
+        expected_product_titles = [prod_06[0], prod_05[0], prod_04[0],
+                                   prod_03[0], prod_02[0], prod_01[0]]
+
+        expected_flavor_titles = [prod_06[1], prod_05[1], prod_04[1],
+                                  prod_03[1], prod_02[1], prod_01[1]]
+
+        expected_quantity_titles = [prod_06[2], prod_05[2], prod_04[2],
+                                    prod_03[2], prod_02[2], prod_01[2]]
+
+        product_title, flavor_title, quantity_title = context.cvp.verify_add_products(
+            expected_product_titles, expected_flavor_titles,
+            expected_quantity_titles)
+
+
+        concatenated_list = [
+            f"{product} - {flavor} - {quantity}"
+            for product, flavor, quantity in zip(product_title, flavor_title, quantity_title)
+        ]
+
+        allure.attach(f"Expected Products{[exist_product_06, exist_product_05, exist_product_04, 
+                                           exist_product_03, exist_product_02, exist_product_01]}",
+                      name="Expected products added", attachment_type=allure.attachment_type.TEXT)
+        allure.attach(f"Actual products{concatenated_list}",
+                      name="Actual products added", attachment_type=allure.attachment_type.TEXT)
+
+    except Exception as e:
+        allure.attach(f"Expected Products{[exist_product_06, exist_product_05, exist_product_04,
+                                           exist_product_03, exist_product_02, exist_product_01]}",
+                      name="Expected products added", attachment_type=allure.attachment_type.TEXT)
+        allure.attach(f"Actual products{concatenated_list}",
+                      name="Actual products added", attachment_type=allure.attachment_type.TEXT)
+
+        raise Exception(f"Error in veryfing products: {e}")
+
 
 @when(u'I click add sample product option,')
 def step_impl(context):

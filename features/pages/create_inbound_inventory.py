@@ -111,7 +111,6 @@ class CreateVendorPackingSlip(BasePage):
         assert expected_doc_type == actual_doc_type
         return actual_doc_type
 
-
     def warehouse(self, warehouse):
         self.click_element("warehouse_field_id", self.warehouse_field_id)
         self.search1(warehouse)
@@ -204,16 +203,12 @@ class CreateVendorPackingSlip(BasePage):
         file_input = self.driver.find_element(By.ID, 'document_proof_id')
         file_input.send_keys(document_proof1)
 
-    def add_products(self, product_list : list):
+    def add_products(self, product_list: list):
         count = len(product_list)
         for index in range(count):
             self.click_element("add_product_field_id", self.add_product_field_id)
             self.search1(product_list[index])
         time.sleep(1)
-
-    def verify_add_products(self):
-
-
 
     product_li_xpath = "//li[@class='select2-results__option select2-results__option--selectable']"
 
@@ -557,3 +552,55 @@ class CreateVendorPackingSlip(BasePage):
                 is_sample_cb_index = 0
                 is_sample_cb_element = rows[index].find_elements(By.TAG_NAME, 'td')[is_sample_cb_index]
                 is_sample_cb_element.click()
+
+    def verify_add_products(self, expected_product_title, expected_flavor_title, expected_quantity_title):
+
+        rows, doc_type = self.get_doc_type()
+
+        product_title = []
+        flavor_title = []
+        quantity_title = []
+
+        if rows is None:
+            raise ValueError(f"Failed to retrieve rows for document type: {doc_type}")
+
+        else:
+            element_count = len(rows)
+            print(element_count)
+            for index in range(element_count):
+                print(index)
+                time.sleep(1)
+                # Product.
+                product = 0
+                product_cell = rows[index].find_elements(By.TAG_NAME, 'td')[product]
+                print(f"{product_cell}")
+                product_cell_val = product_cell.find_element(By.TAG_NAME, 'p')
+                print(f"{product_cell}")
+                product_name = product_cell_val.text
+                print(f"{product_cell}")
+                product_title.append(product_name)
+                print(expected_product_title[index])
+                print(product_title[index])
+                assert expected_product_title[index] == product_title[index]
+
+                # Flavor.
+                flavor = 1
+                flavor_cell = rows[index].find_elements(By.TAG_NAME, 'td')[flavor]
+                flavor_cell = flavor_cell.find_element(By.TAG_NAME, 'p')
+                flavor_name = flavor_cell.text
+                flavor_title.append(flavor_name)
+                print(expected_flavor_title[index])
+                print(flavor_title[index])
+                assert expected_flavor_title[index] == flavor_title[index]
+
+                # Quantity (S/W).
+                quantity = 2
+                quantity_cell = rows[index].find_elements(By.TAG_NAME, 'td')[quantity]
+                quantity_cell = quantity_cell.find_element(By.TAG_NAME, 'p')
+                quantity_name = quantity_cell.text
+                quantity_title.append(quantity_name)
+                print(expected_quantity_title[index])
+                print(quantity_title[index])
+                assert expected_quantity_title[index] == quantity_title[index]
+
+        return product_title, flavor_title, quantity_title

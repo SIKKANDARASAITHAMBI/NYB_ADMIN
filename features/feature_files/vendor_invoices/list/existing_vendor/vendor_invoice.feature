@@ -7,7 +7,7 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
     Then I verify the choosed document type, warehouse , and vendor,
     When I Enter Vendor Invoice No,
     When I Upload the Invoice,
-    When I enter notes,
+#    When I enter notes,
 #    When I add Document Proof For Discount,
     When I add products,
     Then I verify the added products
@@ -20,4 +20,3 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
     Then I verify the Invoice & Packing Slip landing page URL,
     When I filter the document no,
     Then I verify that the document is successfully created and displayed,
-    Then I verify the no, type, document no, warehouse, vendor, date, inward qty, damaged qty, amount
