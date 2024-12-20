@@ -211,6 +211,9 @@ class CreateVendorPackingSlip(BasePage):
             self.search1(product_list[index])
         time.sleep(1)
 
+    def verify_add_products(self):
+
+
 
     product_li_xpath = "//li[@class='select2-results__option select2-results__option--selectable']"
 
@@ -369,7 +372,9 @@ class CreateVendorPackingSlip(BasePage):
     #             category, expiry_date))
 
     # Dynamic Code.
-    def table(self, inward_quantity, damaged_quantity, unit_price, batch_number, expiry_date):
+
+    def get_doc_type(self):
+
         doc_type = self.get_element_text("document_type_id", self.document_type_id)
         rows = None
         if doc_type == "Vendor Packing Slip":
@@ -384,6 +389,11 @@ class CreateVendorPackingSlip(BasePage):
         elif doc_type == "Payment Receipt":
             rows = self.mul_elememts(
                 "added_products_table_pr_xpath", self.added_products_table_pr_xpath)
+        return rows, doc_type
+
+    def table(self, inward_quantity, damaged_quantity, unit_price, batch_number, expiry_date):
+
+        rows, doc_type = self.get_doc_type()
         if rows is None:
             raise ValueError(f"Failed to retrieve rows for document type: {doc_type}")
         element_count = len(rows)

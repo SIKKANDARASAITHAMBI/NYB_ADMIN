@@ -185,6 +185,9 @@ def add_products(context):
                                 product5: {exist_product_05},
                                 product6: {exist_product_06},:""" f"{e}")
 
+@then(u'I verify the added products')
+def verify_added_products(context):
+    pass
 
 @when(u'I click add sample product option,')
 def step_impl(context):

@@ -10,6 +10,7 @@ Feature: Product Inward from Existing Vendor with Vendor Invoice as Document Typ
     When I enter notes,
 #    When I add Document Proof For Discount,
     When I add products,
+    Then I verify the added products
     When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
 
   @testtttttt
