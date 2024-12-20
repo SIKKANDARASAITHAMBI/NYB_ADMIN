@@ -524,10 +524,10 @@ class CreateVendorPackingSlip(BasePage):
                 except NoSuchElementException:
                     pass
 
-            price_index = 4
-            price_element = rows[index].find_elements(By.TAG_NAME, 'td')[price_index]
-            price_input_field = price_element.find_element(By.TAG_NAME, 'input')
-            price_input_field.send_keys(price[index])
+            # price_index = 4
+            # price_element = rows[index].find_elements(By.TAG_NAME, 'td')[price_index]
+            # price_input_field = price_element.find_element(By.TAG_NAME, 'input')
+            # price_input_field.send_keys(price[index])
 
     def sample_product_table_existing_combo(self, is_sample):
 

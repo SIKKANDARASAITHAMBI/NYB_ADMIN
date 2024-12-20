@@ -15,8 +15,7 @@ Feature:  Sample Products Inward from Existing Vendor with Vendor Invoice as Doc
   @vendor_invoiceeeeeeee1
   #Without discount tax, and other charges.
   Scenario: Create a vendor invoice with sample product(existing and new combination) as inward and without discount, tax, or other charges
-    When I add products,
-    When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
+#    When I add products,
     When I click add sample product option,
     When I add new sample products,
     When I enter add new product, add new flavor, add new size weight(New combination),
@@ -25,6 +24,9 @@ Feature:  Sample Products Inward from Existing Vendor with Vendor Invoice as Doc
     When I add new sample products in existing combination,
     When I enter add new product, add new flavor, add new size weight(existing combination),
     When I click confirm button,
+    When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
+
+
     #When I add products,
     #When I enter a valid inward quantity, valid damaged quantity, valid unit price, valid batch number, valid expiry date,
     #When I enter notes,
