@@ -53,7 +53,7 @@ def create_inbound_inventory(category, key):
 def vendor_invoices_and_packing_slips(category, key):
     try:
         config = ConfigParser()
-        config.read("features/Inventory/configurations/vendor invoice & packing slips.ini")
+        config.read("features/Inventory/configurations/order module.ini")
         return config.get(category, key)
     except:
         print(Exception)

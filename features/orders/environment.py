@@ -27,7 +27,7 @@ def before_scenario(context, driver):
     context.driver.implicitly_wait(10)
 
     #Object initializatation
-    context.cvp = CreateVendorPackingSlip(context.driver)
+
     context.page = Page(context.driver)
     context.vi = VendorInvoice(context.driver)
 

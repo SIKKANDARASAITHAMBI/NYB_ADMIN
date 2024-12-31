@@ -1,8 +1,8 @@
 import allure
 from behave import *
 
-from features.Inventory.pages.login import Login
-from features.Inventory.utilities import ConfigReader
+from features.orders.pages.login import Login
+from features.orders.utilities import ConfigReader
 
 # **************************** Login ****************************
 

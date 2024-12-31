@@ -519,7 +519,7 @@ def step_impl(context):
 
 # **************************** Vendor Invoice ***************************
 
-@when(u'I choose the document type as "Vendor Invoice", select warehouse, and select vendor')
+@when(u'I choose the document type as "Vendor Invoice", select warehouse, and select vendor,')
 def vendor_invoice_source(context):
     with allure.step(f"{doc_type_02} selected as document type"):
         try:
@@ -916,3 +916,4 @@ def vendor_invoice_source(context):
             allure.attach(context.driver.get_screenshot_as_png(), name="Vendor selection unsuccessfull",
                           attachment_type=allure.attachment_type.PNG)
             raise Exception(f"Error selecting vendor '{vendor_01}': {e}")
+
