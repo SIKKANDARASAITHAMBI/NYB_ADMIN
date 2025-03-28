@@ -16,7 +16,8 @@ class CreateVendorPackingSlip(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    document_type_id = "select2-source_id-container"
+   # document_type_id = "select2-source_id-container"
+    document_type_id = "select2-product_id-container"
     document_type_xpath = "//*[@id='select2-source_id-container']"
     search_field_xpath = "//input[@type='search']"
     search2_field_xpath = "//input[@role='searchbox']"
@@ -166,6 +167,7 @@ class CreateVendorPackingSlip(BasePage):
     def pk_no(self, category, key):
         self.send_value_to_element("packing_slip_no_id", self.packing_slip_no_id,
                                    ConfigReader.create_inbound_inventory(category, key))
+
 
     def intra_ware_house_transfer_no(self, category, key):
         self.send_value_to_element("transfer_no_xpath", self.transfer_no_xpath,

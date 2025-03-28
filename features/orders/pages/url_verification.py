@@ -14,16 +14,20 @@ class UrlVerification(BasePage):
         actual_url = self.get_page_url()
         expected_url = None
 
-        if page == "order" or "create order":
+        if page == "Select Create Order to change | NYB DISTRIBUTORS":
             time.sleep(3)
-            #actual_url = self.get_page_url()
            # print(actual_url)
+            #actual_url = self.get_page_url()
+            actual_url =  self.get_page_url()
             expected_url = ConfigReader.urls("URL", "CREATE_ORDER_URL")
             assert expected_url == actual_url
-        elif page == "Order Received":
+
+        elif page == "Select Order Received to view | NYB DISTRIBUTORS":
             time.sleep(3)
+            actual_url = self.get_page_url()
             expected_url = ConfigReader.urls("URL", "ORDER_RECEIVED")
             assert expected_url == actual_url
+
         return expected_url, actual_url
 
     def inventory_urls(self):
