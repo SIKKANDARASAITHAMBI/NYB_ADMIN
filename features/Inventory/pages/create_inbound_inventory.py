@@ -16,8 +16,8 @@ class CreateVendorPackingSlip(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-   # document_type_id = "select2-source_id-container"
-    document_type_id = "select2-product_id-container"
+    document_type_id = "select2-source_id-container"
+   # document_type_id = "select2-product_id-container"
     document_type_xpath = "//*[@id='select2-source_id-container']"
     search_field_xpath = "//input[@type='search']"
     search2_field_xpath = "//input[@role='searchbox']"
